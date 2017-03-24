@@ -4,11 +4,21 @@ The MYTrafficHack2017 event will focus on solving such problems as traffic conge
 
 ## Mapillary hack ideas
 
-We are always thinking about how to use Mapillary in creative ways, and we present to you some of our hack ideas that you can freely commandeer to make this event a success for you. These ideas include:
+We are always thinking about how to use Mapillary in creative ways, and we present to you some of our hack ideas that you can freely commandeer to make this event a success for you. 
 
-* bla bla
-* bla bla bla
-* bla blaaaaa bla
+To get started, check out Mapillary coverage in and around Kuala Lumpur: https://www.mapillary.com/app/?lat=3.1771211542482547&lng=101.72597628336473&z=10&focus=map
+
+It's extremely limited to just a few major roads. 
+
+However, if you take some time to go out and **capture imagery** (guide here: https://github.com/mapillary/UserGuide/wiki/Capturing), you can generate more Mapillary material to drive your own ideas, or some ideas we've generated for you.
+
+These ideas include:
+
+* **Show photos inside both lowest and highest congestion areas to illustrate visual difference in road shape and size, infrastructure, and other physical attributes--are areas that photos show to contain houses always less congested than areas with apartments? Do 5 lane vs. 4 lane roads make a difference? Do you see sidewalks in congested areas?**
+* **Match high volume traffic against detected street signs in Mapilly, to see if traffic congestion is associated with stop signs, crosswalks, change in speed limits, school zones, or other situations indicated by signs**
+* **Estimate the number of traffic lanes in Mapillary photos, so you can tell exactly how narrow the roads may be**
+* **Inspect roads for infrastructure problems by matching Mapillary photo locations to traffic hotspots**
+* **Enable users in reporting of high traffic congestion, infrastructure problems, or traffic incidents by linking your app to Mapillary and enabling users to upload photos on the spot that are automatically reconstructed to allow for street level navigation in our viewer**
 
 ## Mapillary as a Tool
 
@@ -27,7 +37,8 @@ Mapillary provides a variety of ways for you to harness its power in your hacks:
   * Verify accuracy of traffic GPS points by matching them to photos
   * Get a look at city infrastructure such as bridges and buildings
   * Find intersections, crosswalks, and highway on/off ramps
-  * Verify OSM accuracy
+  * Verify OSM accuracy with photographic evidence
+  * Compare photos of the same location at different times using Mapillary Time Travel
 * **Use the Mapillary API to do deeper analysis:**
   * Search for images or sequences of images within a radius or bounding box
   * Filter photos by date and time, user, camera and compass angle
@@ -59,4 +70,8 @@ You can also borrow freely from any of these sample and example projects, many o
 * MapillaryJS examples: https://github.com/mapillary/mapillary-js#examples
 * Add vector tiles to a Mapbox map: https://www.mapillary.com/developer/tiles-documentation/#mapbox-gl-js
 * Measuring growth of Mapillary coverage over time: 
-* 
+* Comparing photos over time: http://blog.mapillary.com/update/2016/10/21/time-travel.html
+* Compare different maps in the same location: https://mapillary-hacks.github.io/hackathon/malaysia/compare/
+* Compare Mapillary vector tiles with earthquake incident feeds: https://mapillary-hacks.github.io/hackathon/malaysia/earthquake/jp/
+* Show Mapillary images in the context of city green infrastructure: https://cbeddow.github.io/bsas/
+* See the `basic_maps` folder in this repo for examples of adding vector tiles and filtering them: 
