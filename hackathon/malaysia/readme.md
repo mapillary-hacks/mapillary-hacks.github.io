@@ -36,6 +36,7 @@ Mapillary provides a variety of ways for you to harness its power in your hacks:
   * See the locations of Mapillary photo coverage
   * identify major routes which are more likely to have Mapillary photos
   * Give context to the location of photos seen in the viewer or queried in the API
+  * See the GPS coordinates (latitude and longitude) of objects detected in photos, such as traffic signs
 * **Use Mapillary for OSM iD Plugin:**
   * Use photos as a reference to add new objects to the map
   * Use photos to get a look at existing map objects, or confirm their existence
@@ -46,14 +47,16 @@ You can get started with the above capabilities using the following links:
 
 * Capture guide: https://github.com/mapillary/UserGuide/wiki/Capturing
 * Open Source Photo viewer and navigator (MapillaryJS): https://mapillary.github.io/mapillary-js/
-* Using vector tiles: https://www.mapillary.com/developer/tiles-documentation/#coverage
+* Using standard vector tiles: https://www.mapillary.com/developer/tiles-documentation/#coverage
+* Using map object tiles: https://www.mapillary.com/developer/tiles-documentation/#map-objects
 * API Guide: https://www.mapillary.com/developer/api-documentation/
 * OSM iD + Mapillary guide: https://github.com/mapillary/UserGuide/wiki/OSM
 
 ## Mapillary examples
 
-You can also borrow freely from any of these sample and example projects:
+You can also borrow freely from any of these sample and example projects, many of which have code in this repo:
 
 * MapillaryJS examples: https://github.com/mapillary/mapillary-js#examples
 * Add vector tiles to a Mapbox map: https://www.mapillary.com/developer/tiles-documentation/#mapbox-gl-js
-* More...
+* Measuring growth of Mapillary coverage over time: 
+* 
