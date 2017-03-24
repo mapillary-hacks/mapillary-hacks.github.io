@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Mapillary</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="jquery-3.1.1.min.js"></script>
+<style>
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  z-index: -1;
+}
+html, body {
+   position:fixed;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+   background-color: black;
+}
+.map-overlay {
+    font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    position: absolute;
+    width: 25%;
+    top: 0;
+    left: 0;
+    color: "#900";
+
+    font-weight: bold;
+}
+
+.map-overlay .map-overlay-inner {
+    background-color: #a9a9a9;
+    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.map-overlay label {
+    display: block;
+    margin: 0 0 10px;
+}
+
+.map-overlay input {
+    background-color: transparent;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    cursor: ew-resize;
+}
+#menu {
+    position: absolute;
+    background: #a9a9a9;
+    width: 50%;
+    padding: 0px;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow:0;
+}
+input {
+    border: 0px solid;
+    padding: 0px;
+    font-weight: bold;
+}
+.btn:hover {
+  color: #FFF;
+  background: #900;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class='map-overlay top'>
+    <div class='map-overlay-inner'>
+        <label>Mapillary: <span id='slider-value'>1 days before today</span></label>
+        <input id='slider' type='range' min='1' max='120' step='1' value='1' />
+    </div>
+
+<div id='menu' class='map-overlay-inner'>
+    <input id='streets' type='button' name='rtoggle' value='streets' class='btn'>
+    <input id='satellite' type='button' name='rtoggle' value='satellite' class='btn'>
+</div>
+</div>
+<div id='map'></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+var bounds = [
+  [ 12.06298828125,
+          42.01665183556825],
+  [  14.139404296875,
+          43.389081939117496]
+];
+var map = new mapboxgl.Map({
+    container: 'map',
+//      style: 'mapbox://styles/cbeddow/civtqd38b00212jk1egi07z1n', //this is my custom style with no labels
+    style: 'mapbox://styles/mapbox/outdoors-v9', //this is default style with labels
+    center: [  139.63777542114258,
+          35.440812978395144],
+    zoom: 12,
+});
+
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+}
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+
+var slider = document.getElementById('slider');
+var sliderValue = document.getElementById('slider-value');
+
+
+var maxdate = Date.now();
+var mindate = (maxdate-(86400000 * 1)) //set to show Mapillary sequences from last 30 days
+var last30 = (maxdate-(86400000 * 30))
+
+
+map.on('style.load', function () {
+  var mapillarySource = {
+      type: 'vector',
+      tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+      minzoom: 0,
+      maxzoom: 14,
+  };
+
+  map.addSource('mapillary', mapillarySource);
+  map.addLayer({
+      'id': 'mapillary',
+      'type': 'line',
+      'source': 'mapillary',
+      'source-layer': 'mapillary-sequences',
+      'filter': ['all',
+              ['>=', 'captured_at', mindate],
+              ['<=', 'captured_at', maxdate]],
+      'layout': {
+          'line-cap': 'round',
+          'line-join': 'round'
+      },
+      'paint': {
+          'line-opacity': 0.75,
+          'line-color':   'rgb(53, 175, 109)',
+          'line-width':   2
+      }
+  });
+
+  slider.addEventListener('input', function(e) {
+          // Adjust the layers opacity. layer here is arbitrary - this could
+          // be another layer name found in your style or a custom layer
+          // added on the fly using `addSource`.
+          var newDate = (maxdate-(86400000 * e.target.value))
+          map.removeLayer('mapillary');
+          map.addLayer({
+              'id': 'mapillary',
+              'type': 'line',
+              'source': 'mapillary',
+              'source-layer': 'mapillary-sequences',
+              'filter': ['all',
+                      ['>=', 'captured_at', newDate],
+                      ['<=', 'captured_at', maxdate]],
+              'layout': {
+                  'line-cap': 'round',
+                  'line-join': 'round'
+              },
+              'paint': {
+                  'line-opacity': 0.75,
+                  'line-color':   {
+                    property: 'captured_at',
+                    type: 'interval',
+                    stops: [
+                      [0, 'magenta'],
+                      [maxdate-86400000, 'rgb(53, 175, 109)']
+                    ]
+                  },
+                  'line-width':   2
+              }
+          },'zona');
+
+          // Value indicator
+          sliderValue.textContent = e.target.value + ' days before today';
+
+      });
+
+
+  map.addSource('quakes', {
+    'type': 'geojson',
+    'data': 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson' //layer shows worldwide quakes in last 30 days
+  });
+  map.addLayer({
+      'id': 'quakes',
+      'type': 'circle',
+      'source': 'quakes',
+      'source-layer': 'quakes',
+      'paint': {
+          'circle-color': {
+            property: 'time',
+            type: 'exponential',
+            stops: [
+              [last30,"gold"],
+              [(maxdate-(86400000 * 15)), "orange"],
+              [maxdate, "red"]
+            ]
+
+          },
+          'circle-opacity': .5,
+          'circle-radius': {      //sets circle size to depend o quake magnitude
+            property: 'mag',
+            type: 'exponential',
+            stops: [
+                [0, 1],
+                [5,10],
+                [9,18]
+            ]
+          }
+      }
+  });
+});
+
+
+map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['quakes', 'mapillary'] });
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+});
+
+map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['quakes'] });
+    if (!features.length) {
+        return;
+    }
+    var feature = features[0];
+    var d = new Date(feature.properties.time).toUTCString();
+    var popup = new mapboxgl.Popup()
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML("Magnitude: " + feature.properties.mag +"<br>Epicenter: " + feature.properties.place + "<br>Time: " + d)
+        .addTo(map);
+});
+
+map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['mapillary'] });
+    var coords = e.lngLat
+    var lng = JSON.stringify(coords['lng']);
+    var lat = JSON.stringify(coords['lat']);
+    if (!features.length) {
+        return;
+    }
+    var client = 'UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkMWM2YzdjYjQxN2FhM2Vh'
+    url = "https://a.mapillary.com/v2/search/im/close?client_id=" + client + "&lat="+lat+"&limit=1&distance=1000&lon="+lng
+    imagekey = 'KXPQhn74azgtjJYcrGK-Fw';
+    console.log(url);
+    $.ajax({
+      dataType: "json",
+      url: url,
+      success: function (data) {
+          console.log(JSON.stringify(map.unproject(e.point)));
+          var imgkey = data.ims[0].key;
+          var lng = data.ims[0].lon;
+          var lat = data.ims[0].lat;
+          var lnglat = '{\"lng\":' + lng + ', \"lat\":' + lat + '}'
+//          console.log(lnglat);
+          console.log(imgkey);
+//          var feature = features[0];
+          var popup = new mapboxgl.Popup()
+              .setLngLat(map.unproject(e.point))
+//              .setHTML("<iframe width=\"320\" height=\"200\" src=\"https://embed-v1.mapillary.com/embed?version=1&image_key=" +imgkey + "&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkMWM2YzdjYjQxN2FhM2Vh\">/iframe")
+              .setHTML("<iframe width=\"720\" height=\"300\" src=\"https://www.mapillary.com/app/time-travel?focus=photo&menu=false&pKey=" +imgkey + "\">/iframe")
+              .addTo(map);
+      }
+    });
+
+});
+
+
+
+  map.addControl(new mapboxgl.Navigation());
+</script>
+</body>
+</html>

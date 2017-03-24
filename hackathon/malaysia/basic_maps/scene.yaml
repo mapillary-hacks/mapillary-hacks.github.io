@@ -1,0 +1,18 @@
+cameras:
+
+lights:
+
+sources:
+    mapillary:
+        type: MVT
+        url:  http://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt
+        max_zoom: 14
+
+layers:
+    mapillary-sequences:
+        data: { source: mapillary }
+        draw:
+            lines:
+                interactive: false
+                order: 99
+                color: '#343434'

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVT + Leaflet.js example</title>
+    <link href="https://unpkg.com/mapillary-js@1.7.1/dist/mapillary-js.min.css"
+    rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" rel=
+    "stylesheet">
+    <style>
+      #map {
+        position:absolute;
+        top:0;
+        bottom:0;
+        width:100%;
+        height:100%;
+        z-index: 1;
+      }
+      html, body {
+         position:fixed;
+         top:0;
+         bottom:0;
+         left:0;
+         right:0;
+         background-color: black;
+      }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js">
+    </script>
+    <script src=
+    "http://spatialserver.github.io/Leaflet.MapboxVectorTile/dist/Leaflet.MapboxVectorTile.js">
+    </script>
+    <script>
+         var map = L.map('map').setView([43.043905011993246, 141.3374376642122], 12);
+         var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}', {
+          	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          	subdomains: 'abcd',
+          	minZoom: 0,
+          	maxZoom: 20,
+          	ext: 'png'
+          });
+         map.addLayer(Stamen_TonerLite);
+         var mlyVectorLayerConfig = {
+           url: 'http://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt',
+           maxZoom: 14,
+           style: function (feature) {
+           var style = {}
+           style.color = 'rgba(53, 175, 109, 0.7)'
+           style.size = 3
+           return style
+           }
+         };
+         var mvtSource = new L.TileLayer.MVTSource(mlyVectorLayerConfig);
+         map.addLayer(mvtSource);
+    </script>
+</body>
+</html>

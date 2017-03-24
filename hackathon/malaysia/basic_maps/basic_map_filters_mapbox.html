@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Mapillary</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  z-index: 1;
+}
+html, body {
+   position:fixed;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+   background-color: black;
+}
+
+</style>
+</head>
+
+<body>
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [-122.3, 47.6147628],
+    zoom: 11
+});
+var mindate = new Date("01/01/2016").getTime()
+var maxdate = new Date("06/22/2016").getTime()
+map.on('style.load', function () {
+  var mapillarySource = {
+      type: 'vector',
+      tiles: ['http://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+      minzoom: 0,
+      maxzoom: 14
+  };
+
+
+  
+  map.addSource('mapillary', mapillarySource);
+  map.addLayer({
+      'id': 'mapillary',
+      'type': 'line',
+      'source': 'mapillary',
+      'source-layer': 'mapillary-sequences',
+      'layout': {
+          'line-cap': 'round',
+          'line-join': 'round'
+      },
+      'paint': {
+          'line-opacity': 0.6,
+          'line-color':   'rgb(53, 175, 109)',
+          'line-width':   2
+      }
+  });
+});
+
+</script>
+</body>
+</html>

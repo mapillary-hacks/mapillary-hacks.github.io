@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mapillary + Tangram</title>
+    <script src="https://mapzen.com/tangram/tangram.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+    <style>
+    #map {
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:100%;
+      height:100%;
+      z-index: 1;
+    }
+    html, body {
+       position:fixed;
+       top:0;
+       bottom:0;
+       left:0;
+       right:0;
+       background-color: black;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script>
+
+        var map = L.map('map');
+        var layer = Tangram.leafletLayer({
+            scene: 'https://raw.githubusercontent.com/tangrams/tangram-sandbox/gh-pages/styles/crosshatch.yaml',
+            attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a> | <a href="https://mapillary.com/" target="_blank">Mapillary</a>'
+        });
+        var layer2 = Tangram.leafletLayer({
+            scene: 'scene.yaml'
+        });
+        layer.addTo(map);
+        layer2.addTo(map);
+        map.setView([-41.28655113426908, 174.77491456889817], 10);
+    </script>
+
+  </body>
+</html>
