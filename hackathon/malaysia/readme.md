@@ -8,14 +8,18 @@ In order to use Mapillary's API and viewer, you'll need to obtain a client ID. D
 
 Get a client ID: https://www.mapillary.com/app/settings/developers
 
+![client ID retrieval](https://mapillary-hacks.github.io/hackathon/malaysia/get_client_id.gif)
+
 ## Mapillary hack ideas
 
 We are always thinking about how to use Mapillary in creative ways, and we present to you some of our hack ideas that you can freely commandeer to make this event a success for you. 
 
 To get started, check out Mapillary coverage in and around Kuala Lumpur: https://www.mapillary.com/app/?lat=3.1771211542482547&lng=101.72597628336473&z=10&focus=map
+
 ![screenshotof KL coverage](https://mapillary-hacks.github.io/hackathon/malaysia/kuala_lumpur.PNG)
 
 https://www.mapillary.com/app/?lat=3.1504259999999675&lng=101.71169199999997&z=17&focus=photo&pKey=pGrIN_0V78my2G4sK4qLRA
+
 ![suria klcc](https://d1cuyjsrcm0gby.cloudfront.net/pGrIN_0V78my2G4sK4qLRA/thumb-2048.jpg)
 
 It's extremely limited to just a few major roads. However, if you take some time to go out and **capture imagery** (guide here: https://help.mapillary.com/hc/en-us/categories/115000239905-Contributing), you can generate more Mapillary material to drive your own ideas, or some ideas we've generated for you.
