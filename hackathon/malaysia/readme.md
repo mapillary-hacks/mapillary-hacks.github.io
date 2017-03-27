@@ -7,22 +7,24 @@ The MYTrafficHack2017 event will focus on solving such problems as traffic conge
 We are always thinking about how to use Mapillary in creative ways, and we present to you some of our hack ideas that you can freely commandeer to make this event a success for you. 
 
 To get started, check out Mapillary coverage in and around Kuala Lumpur: https://www.mapillary.com/app/?lat=3.1771211542482547&lng=101.72597628336473&z=10&focus=map
+![screenshotof KL coverage)[#]
 
-It's extremely limited to just a few major roads. 
+https://www.mapillary.com/app/?lat=3.1504259999999675&lng=101.71169199999997&z=17&focus=photo&pKey=pGrIN_0V78my2G4sK4qLRA
+![suria klcc](https://d1cuyjsrcm0gby.cloudfront.net/pGrIN_0V78my2G4sK4qLRA/thumb-2048.jpg)
 
-However, if you take some time to go out and **capture imagery** (guide here: https://github.com/mapillary/UserGuide/wiki/Capturing), you can generate more Mapillary material to drive your own ideas, or some ideas we've generated for you.
+It's extremely limited to just a few major roads. However, if you take some time to go out and **capture imagery** (guide here: https://help.mapillary.com/hc/en-us/categories/115000239905-Contributing), you can generate more Mapillary material to drive your own ideas, or some ideas we've generated for you.
 
 These ideas include:
 
 * **Show photos inside both lowest and highest congestion areas to illustrate visual difference in road shape and size, infrastructure, and other physical attributes--are areas that photos show to contain houses always less congested than areas with apartments? Do 5 lane vs. 4 lane roads make a difference? Do you see sidewalks in congested areas?**
-* **Match high volume traffic against detected street signs in Mapilly, to see if traffic congestion is associated with stop signs, crosswalks, change in speed limits, school zones, or other situations indicated by signs**
-* **Estimate the number of traffic lanes in Mapillary photos, so you can tell exactly how narrow the roads may be**
+* **Match high volume traffic against detected street signs in Mapillary, to see if traffic congestion is associated with stop signs, crosswalks, change in speed limits, school zones, or other situations indicated by signs**
+* **Estimate the number of traffic lanes in Mapillary photos, so you can tell exactly how narrow the roads may be** [?????]
 * **Inspect roads for infrastructure problems by matching Mapillary photo locations to traffic hotspots**
-* **Enable users in reporting of high traffic congestion, infrastructure problems, or traffic incidents by linking your app to Mapillary and enabling users to upload photos on the spot that are automatically reconstructed to allow for street level navigation in our viewer**
+* **Enable users to report of high traffic congestion, infrastructure problems, or traffic incidents: link your app to Mapillary so users can upload photos on the spot that are automatically reconstructed into street level imagery in our viewer**
 
 ## Mapillary as a Tool
 
-Mapillary is a collaborative street-level imagery platform powered by computer vision. Making images and data available to improve cities, build the maps of the future, and create safer transportation. 
+Mapillary is a street-level imagery platform powered by collaboration and computer vision. We make images and data available to improve cities, build the maps of the future, and create safer transportation. 
 
 Mapillary provides a variety of ways for you to harness its power in your hacks:
 
@@ -56,7 +58,7 @@ Mapillary provides a variety of ways for you to harness its power in your hacks:
 
 You can get started with the above capabilities using the following links:
 
-* Capture guide: https://github.com/mapillary/UserGuide/wiki/Capturing
+* Capture guide: https://help.mapillary.com/hc/en-us/categories/115000239905-Contributing
 * Open Source Photo viewer and navigator (MapillaryJS): https://mapillary.github.io/mapillary-js/
 * Using standard vector tiles: https://www.mapillary.com/developer/tiles-documentation/#coverage
 * Using map object tiles: https://www.mapillary.com/developer/tiles-documentation/#map-objects
