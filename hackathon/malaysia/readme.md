@@ -13,7 +13,7 @@ Get a client ID: https://www.mapillary.com/app/settings/developers
 We are always thinking about how to use Mapillary in creative ways, and we present to you some of our hack ideas that you can freely commandeer to make this event a success for you. 
 
 To get started, check out Mapillary coverage in and around Kuala Lumpur: https://www.mapillary.com/app/?lat=3.1771211542482547&lng=101.72597628336473&z=10&focus=map
-![screenshotof KL coverage)[https://mapillary-hacks.github.io/hackathon/malaysia/kuala_lumpur.PNG]
+![screenshotof KL coverage](https://mapillary-hacks.github.io/hackathon/malaysia/kuala_lumpur.PNG)
 
 https://www.mapillary.com/app/?lat=3.1504259999999675&lng=101.71169199999997&z=17&focus=photo&pKey=pGrIN_0V78my2G4sK4qLRA
 ![suria klcc](https://d1cuyjsrcm0gby.cloudfront.net/pGrIN_0V78my2G4sK4qLRA/thumb-2048.jpg)
