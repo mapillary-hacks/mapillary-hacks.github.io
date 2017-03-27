@@ -2,12 +2,18 @@
 
 The MYTrafficHack2017 event will focus on solving such problems as traffic congestions monitoring, identifying roadway infrastructure needs, and emergency traffic management using the World Bank's Open Traffic dataset. Much of the data involved will include GPS coordinates and time stamps, as well as estimates of speed, but sometimes this isn't enough to paint the whole picture. In other cases, OpenStreetMap is used to give context to the city that the traffic exists within, but OSM can also be lacking in accuracy and completion. This is where Mapillary can help.
 
+## Mapillary prerequisites
+
+In order to use Mapillary's API and viewer, you'll need to obtain a client ID. Do that by clicking the link below, register an application under the name of your hackathon app, then copy and paste the client ID as required into your code.
+
+Get a client ID: https://www.mapillary.com/app/settings/developers
+
 ## Mapillary hack ideas
 
 We are always thinking about how to use Mapillary in creative ways, and we present to you some of our hack ideas that you can freely commandeer to make this event a success for you. 
 
 To get started, check out Mapillary coverage in and around Kuala Lumpur: https://www.mapillary.com/app/?lat=3.1771211542482547&lng=101.72597628336473&z=10&focus=map
-![screenshotof KL coverage)[#]
+![screenshotof KL coverage)[https://mapillary-hacks.github.io/hackathon/malaysia/kuala_lumpur.PNG]
 
 https://www.mapillary.com/app/?lat=3.1504259999999675&lng=101.71169199999997&z=17&focus=photo&pKey=pGrIN_0V78my2G4sK4qLRA
 ![suria klcc](https://d1cuyjsrcm0gby.cloudfront.net/pGrIN_0V78my2G4sK4qLRA/thumb-2048.jpg)
@@ -18,7 +24,7 @@ These ideas include:
 
 * **Show photos inside both lowest and highest congestion areas to illustrate visual difference in road shape and size, infrastructure, and other physical attributes--are areas that photos show to contain houses always less congested than areas with apartments? Do 5 lane vs. 4 lane roads make a difference? Do you see sidewalks in congested areas?**
 * **Match high volume traffic against detected street signs in Mapillary, to see if traffic congestion is associated with stop signs, crosswalks, change in speed limits, school zones, or other situations indicated by signs**
-* **Estimate the number of traffic lanes in Mapillary photos, so you can tell exactly how narrow the roads may be** [?????]
+* **Estimate the number of traffic lanes in Mapillary photos, to know if traffic congestion occurs in 2 lanes, 4 or even 5
 * **Inspect roads for infrastructure problems by matching Mapillary photo locations to traffic hotspots**
 * **Enable users to report of high traffic congestion, infrastructure problems, or traffic incidents: link your app to Mapillary so users can upload photos on the spot that are automatically reconstructed into street level imagery in our viewer**
 
