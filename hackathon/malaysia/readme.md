@@ -75,3 +75,4 @@ You can also borrow freely from any of these sample and example projects, many o
 * Compare Mapillary vector tiles with earthquake incident feeds: https://mapillary-hacks.github.io/hackathon/malaysia/earthquake/jp/
 * Show Mapillary images in the context of city green infrastructure: https://cbeddow.github.io/bsas/
 * See the `basic_maps` folder in this repo for examples of adding vector tiles and filtering them: 
+ 
