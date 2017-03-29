@@ -10,7 +10,7 @@ In order to use Mapillary's API, data tiles, and viewer, you'll need to obtain a
 
 One of the easiest ways to use Mapillary in your projects is to embed it using an iframe. Instructions can be found here: http://blog.mapillary.com/update/2016/11/30/embed-mapillary.html
 
-![get an embed](https://i.imgur.com/Z7V2E1k.gifv)
+![get an embed](http://i.imgur.com/Z7V2E1k.gifv)
 
 ## Mapillary hack ideas
 
