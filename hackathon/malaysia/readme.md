@@ -4,7 +4,7 @@ The MYTrafficHack2017 event will focus on solving such problems as traffic conge
 
 ## Mapillary prerequisites
 
-In order to use Mapillary's API, data tiles, and viewer, you'll need to obtain a client ID. We've created the following ClientID for you to use for your app, **but be warned that it will expire a week after the hackathon**. Contact us at [hello@mapillary.com](hello@mapillary.com) after the hackathon if you'd like to obtain a long-term client ID.��
+In order to use Mapillary's API, data tiles, and viewer, you'll need to obtain a client ID. We've created the following ClientID for you to use for your app, **but be warned that it will expire a week after the hackathon**. Contact us at [hello@mapillary.com](hello@mapillary.com) after the hackathon if you'd like to obtain a long-term client ID.
 
 **MYTrafficHack2017 special access client ID:** UTZhSnNFdGpxSEFFREUwb01GYzlXZzo3MDFiMzVhOTIxYTZkMzEz
 
