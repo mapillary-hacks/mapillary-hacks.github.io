@@ -6,11 +6,11 @@ The MYTrafficHack2017 event will focus on solving such problems as traffic conge
 
 In order to use Mapillary's API, data tiles, and viewer, you'll need to obtain a client ID. We've created the following ClientID for you to use for your app, **but be warned that it will expire a week after the hackathon**. Contact us at [hello@mapillary.com](hello@mapillary.com) after the hackathon if you'd like to obtain a long-term client ID.��
 
-### **MYTrafficHack2017 special access client ID:** UTZhSnNFdGpxSEFFREUwb01GYzlXZzo3MDFiMzVhOTIxYTZkMzEz
+**MYTrafficHack2017 special access client ID:** UTZhSnNFdGpxSEFFREUwb01GYzlXZzo3MDFiMzVhOTIxYTZkMzEz
 
 One of the easiest ways to use Mapillary in your projects is to embed it using an iframe. Instructions can be found here: http://blog.mapillary.com/update/2016/11/30/embed-mapillary.html
 
-![get an embed](http://i.imgur.com/Z7V2E1k.gifv)
+![get an embed](https://i.imgur.com/Z7V2E1k.gif)
 
 ## Mapillary hack ideas
 
