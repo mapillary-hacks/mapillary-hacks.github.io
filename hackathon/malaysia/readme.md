@@ -83,10 +83,10 @@ You can also borrow freely from any of these sample and example projects, many o
 
 * MapillaryJS examples: https://github.com/mapillary/mapillary-js#examples
 * Add vector tiles to a Mapbox map: https://www.mapillary.com/developer/tiles-documentation/#mapbox-gl-js
-* Measuring growth of Mapillary coverage over time: 
+* Measuring growth of Mapillary coverage over time: https://mapillary-hacks.github.io/hackathon/malaysia/here/
 * Comparing photos over time: http://blog.mapillary.com/update/2016/10/21/time-travel.html
 * Compare different maps in the same location: https://mapillary-hacks.github.io/hackathon/malaysia/compare/
 * Compare Mapillary vector tiles with earthquake incident feeds: https://mapillary-hacks.github.io/hackathon/malaysia/earthquake/jp/
 * Show Mapillary images in the context of city green infrastructure: https://cbeddow.github.io/bsas/
-* See the `basic_maps` folder in this repo for examples of adding vector tiles and filtering them: 
+* See the `basic_maps` folder in this repo for examples of adding vector tiles and filtering them: https://github.com/mapillary-hacks/mapillary-hacks.github.io/tree/master/hackathon/malaysia/basic_maps
  
