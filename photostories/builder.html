@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Mapillary Photo Story Builder</title>
+  <title>Mapillary Photostories Builder</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -96,6 +96,17 @@
       -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
       border-radius: 5px;
+      outline: none !important;
+      border: none;
+      box-shadow: none;
+    }
+    input {
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      outline: none !important;
+      border: none;
+      box-shadow: none;
     }
     .contentTextArea {
       height:200px;
@@ -184,6 +195,8 @@
       </div>
     </div>
     <div class="col-sm-1">
+      <div class="row" style="min-height:330px;">
+      </div>
       <div class="row">
         <div class="col-sm-12" align="right" style="display:table;padding:25;vertical-align:bottom;">
           <button onclick="loadOutput()" type="button" id="load">Load Code</button>
@@ -217,12 +230,9 @@
       <div class="row">
         <div class="col-sm-12" style="padding:10">
           <p> After you've entered the information in each slide, click <b>Load Code</b> to convert your slides to Javascript, which will populate the box at the bottom of this page. Click <b>Save Code</b> to save your Javascript file, then host the saved code online. An easy option is to use <a href="https://www.dropbox.com">Dropbox</a>, but follow <a href="http://www.tricksschool.com/2016/04/how-to-host-css-js-and-image-file-in-the-dropbox-for-your-website.html">these steps</a> to make sure your JavaScript file link can be accessed by Mapillary Photo Story.</p>
-        <p>Load your photo story with the format below:</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12" style="padding:00;">
-          <div width=100% style='color:#5D6671;background-color:#D7DADD;overflow:hidden;border-radius:5px;padding:8px;display:inline-block;' align="left">https://cbeddow.github.io/fotochron/?src=<b><font color="#00BCFF">https://dl.dropboxusercontent.com/s/y25necfm05x0w8k/input.js</font></b></div>
+        <div style='color:#5D6671;background-color:#FFF;overflow:hidden;border-radius:5px;padding:8px;display:inline-block;'>Load your photo story using this format: </div><div width=100% style='color:#5D6671;background-color:#D7DADD;overflow:hidden;border-radius:5px;padding:8px;display:inline-block;' align="left">https://mapillary-hacks.github.io/photostories/?src=<b><font color="#00BCFF">http://www.url.com/path_to_your_input.js</font></b></div>
+        <div style='color:#5D6671;background-color:#FFF;overflow:hidden;border-radius:5px;padding:3px;display:inline-block;'></div>
+        <div style='color:#5D6671;background-color:#FFF;overflow:hidden;border-radius:5px;padding:8px;display:inline-block;'>See an example here: </div><div onclick="window.open('https://mapillary-hacks.github.io/photostories/?src=https://dl.dropboxusercontent.com/s/y25necfm05x0w8k/input.js');" width=100% style='cursor:pointer;color:#5D6671;background-color:#D7DADD;overflow:hidden;border-radius:5px;padding:8px;display:inline-block;' align="left">https://mapillary-hacks.github.io/photostories/?src=<b><font color="#00BCFF">https://dl.dropboxusercontent.com/s/y25necfm05x0w8k/input.js</font></b></div>
         </div>
       </div>
       <div class="row">
@@ -244,22 +254,6 @@
       <div class="col-sm-12" width=100% style="text-align:center;">&copy <a href="https://www.mapillary.com">Mapillary AB</a> 2017</div>
     </div>
   </div>
-</div>
-
-
-        <div class="row">
-          <div class="col-sm-12 bg-black" style="height:50px;padding:0px;">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 bg-green" style="height:325px;">
-            <textarea name="outputext" width=100% height=100% id="outputForm" align="left" style="color:black;" readonly>
-              Your code will appear here! :)
-            </textarea>
-          </div>
-        </div>
-      </div>
-    </div>
 </div>
 
 </body>
