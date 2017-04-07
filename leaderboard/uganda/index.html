@@ -66,6 +66,7 @@ $(document).ready( function() {
               for (var u = 0; u < data.usernames.length; u++) {
                 var user = data.usernames[u]["user"];
                 var team = data.usernames[u]["team"];
+                var len = 0;
                 var userfind = "https://a.mapillary.com/v3/users/?usernames="+ user + "&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzphYTFkMGJiNWVlMmRjMDI5"
                 var userkey;
                 console.log(userfind);
@@ -86,26 +87,29 @@ $(document).ready( function() {
                 }
                 });
                 var dates = ["2017-04-01","2017-04-02","2017-04-03","2017-04-04","2017-04-05","2017-04-06","2017-04-07","2017-04-08","2017-04-09","2017-04-10","2017-04-11","2017-04-12","2017-04-13","2017-04-14","2017-04-15","2017-04-16","2017-04-17","2017-04-18","2017-04-19","2017-04-20","2017-04-21","2017-04-22","2017-04-23","2017-04-24","2017-04-25","2017-04-26","2017-04-27","2017-04-28","2017-04-29","2017-04-30","2017-05-01","2017-05-02","2017-05-03","2017-05-04","2017-05-05","2017-05-06","2017-05-07","2017-05-08","2017-05-09","2017-05-10","2017-05-11","2017-05-12","2017-05-13","2017-05-14","2017-05-15","2017-05-16","2017-05-17","2017-05-18","2017-05-19","2017-05-20","2017-05-21","2017-05-22","2017-05-23","2017-05-24","2017-05-25","2017-05-26","2017-05-27","2017-05-28","2017-05-29","2017-05-30","2017-05-31"];
-                var len = 0;
                 var today = new Date();
-                for ( i = 0; i < 61 && dates[i] !== today ; i++) {
-                  var start = dates[i];
-                  var url = "https://a.mapillary.com/v3/images?client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzphYTFkMGJiNWVlMmRjMDI5&bbox=29.3994140625,-1.3841426927920029,35.00244140625,4.258768357307995&per_page=10000&userkey=" + userkey + "&start_time=" + start + "T00:01" + "&end_time=" + start + "T23:59";
-                  console.log(url);
-                  var daylen;
-                  $.ajax({
-                    type: "get",
-                    dataType: "json",
-                    url: url,
-                    async: false,
-                    success: function(data) {
-                      console.log(userkey, data.features.length);
-                      daylen = data.features.length;
-                      return daylen;
-                    }
-                  });
-                  len = len + daylen;
-                  console.log(len)
+                for ( i = 0; i < 61; i++) {
+                  if (dates[i] == today) {
+                    break;
+                  } else {
+                    var start = dates[i];
+                    var url = "https://a.mapillary.com/v3/images?client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzphYTFkMGJiNWVlMmRjMDI5&bbox=29.3994140625,-1.3841426927920029,35.00244140625,4.258768357307995&per_page=10000&userkey=" + userkey + "&start_time=" + start + "T00:01" + "&end_time=" + start + "T23:59";
+                    console.log(url);
+                    var daylen;
+                    $.ajax({
+                      type: "get",
+                      dataType: "json",
+                      url: url,
+                      async: false,
+                      success: function(data) {
+                        console.log(userkey, data.features.length);
+                        daylen = data.features.length;
+                        return daylen;
+                      }
+                    });
+                    len = len + daylen;
+                    console.log(len)
+                  };
                 }
                 iscores.push({user, len, team});
 
