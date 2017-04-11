@@ -101,6 +101,9 @@ input {
 <body>
 
 <div class='map-overlay top'>
+    <div  id='logo'>
+      <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Flag_of_Uganda.svg/1200px-Flag_of_Uganda.svg.png' width=62% height=62%>
+    </div>
     <div class='map-overlay-inner'>
         <label>Uganda Competition Progress: <br><span id='slider-value'> </span></label>
         <input id='slider' type='range' min='1' max='' step='1' value='1' />
@@ -115,7 +118,7 @@ input {
     </div>
 
     <div id='menu' class='map-overlay-inner'>
-      <div id='' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: light</div>
+      <div id='light' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: light</div>
       <div id='satellite' class='btn'>Basemap: satellite</div>
       <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
     </div>
@@ -316,7 +319,7 @@ map.on('style.load', function () {
       'source': 'exzona',
       'source-layer': 'exzona',
       'paint': {
-          'fill-color': 'black',
+          'fill-color': '#474A4E',
           'fill-opacity': .99
       }
   });
