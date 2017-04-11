@@ -115,7 +115,7 @@ input {
     </div>
 
     <div id='menu' class='map-overlay-inner'>
-      <div id='' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: bright</div>
+      <div id='' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: light</div>
       <div id='satellite' class='btn'>Basemap: satellite</div>
       <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
     </div>
@@ -133,7 +133,7 @@ var bounds = [
 ];
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/bright-v9',
+    style: 'mapbox://styles/mapbox/light-v9',
     center: [32.187,1.291],
     zoom: 7
 });
@@ -189,17 +189,17 @@ function switchLayer(layer) {
     var layerId = layer.target.id;
     map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
     switch (layerId) {
-      case 'bright':
-        bright.style.backgroundColor = "#333333";
-        bright.style.color = "#FFF";
+      case 'light':
+        light.style.backgroundColor = "#333333";
+        light.style.color = "#FFF";
         satellite.style.backgroundColor = "#a9a9a9";
         satellite.style.color = "#000";
         break;
       case 'satellite':
         satellite.style.backgroundColor = "#333333";
         satellite.style.color = "#FFF";
-        bright.style.backgroundColor = "#a9a9a9";
-        bright.style.color = "#000";
+        light.style.backgroundColor = "#a9a9a9";
+        light.style.color = "#000";
         break;
     };
 };
