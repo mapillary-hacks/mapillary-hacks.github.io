@@ -42,6 +42,7 @@ html, body {
     padding: 5px;
     width: 60%;
     margin-bottom: 10px;
+    margin-left: 5px;
 }
 
 .map-overlay label {
@@ -90,10 +91,12 @@ input {
 } */
 #logo {
   padding: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  margin-left:0px;
   border-radius: 3px;
-  background-color: 'white';
+  background: 'white';
 }
+
 </style>
 
 </head>
@@ -101,28 +104,31 @@ input {
 <body>
 
 <div class='map-overlay top'>
-    <div  id='logo'>
-      <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Flag_of_Uganda.svg/1200px-Flag_of_Uganda.svg.png' width=62% height=62%>
-    </div>
-    <div class='map-overlay-inner'>
-        <label>Uganda Competition Progress: <br><span id='slider-value'> </span></label>
-        <input id='slider' type='range' min='1' max='' step='1' value='1' />
-        <script>
-        var days = (Date.now()-1490997600000)/86400000;
-        console.log(Date.now());
-        console.log(days);
-        document.getElementById('slider').max = days;
-        document.getElementById('slider').value = days;
-        document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since April 1st, 2017';
+  <div id='logo'>
+    <img src='http://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=65% style="margin-top:5px;">
+  </div>
+  <div id='logo'>
+    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Flag_of_Uganda.svg/1200px-Flag_of_Uganda.svg.png' width=65% height=62%>
+  </div>
+  <div class='map-overlay-inner'>
+      <label>Uganda Competition Progress: <br><span id='slider-value'> </span></label>
+      <input id='slider' type='range' min='1' max='' step='1' value='1' />
+      <script>
+      var days = (Date.now()-1490997600000)/86400000;
+      console.log(Date.now());
+      console.log(days);
+      document.getElementById('slider').max = days;
+      document.getElementById('slider').value = days;
+      document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since April 1st, 2017';
 
-        </script>
-    </div>
+      </script>
+  </div>
 
-    <div id='menu' class='map-overlay-inner'>
-      <div id='light' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: light</div>
-      <div id='satellite' class='btn'>Basemap: satellite</div>
-      <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
-    </div>
+  <div id='menu' class='map-overlay-inner'>
+    <div id='light' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: light</div>
+    <div id='satellite' class='btn'>Basemap: satellite</div>
+    <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
+  </div>
 </div>
 <div id='map'></div>
 
@@ -176,10 +182,6 @@ $.ajax({
 });
 console.log(users);
 console.log(userkeys);
-userkeys2 = userkeys.map(function(item) { return "'" + item + "'" }).join(',');
-var userkeysstring = userkeys.toString();
-var userkeysstring2 = JSON.stringify(userkeys2);
-var filter = ['in', 'userkey']
 var myfilter = ["in", "userkey",...userkeys]
 console.log(myfilter);
 
