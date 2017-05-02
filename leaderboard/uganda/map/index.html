@@ -6,7 +6,7 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.css' rel='stylesheet' />
-  <script src="jquery-3.1.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <style>
 #map {
   position:absolute;
@@ -114,6 +114,7 @@ input {
         document.getElementById('slider').max = days;
         document.getElementById('slider').value = days;
         document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since April 1st, 2017';
+
         </script>
     </div>
 
@@ -144,6 +145,43 @@ var map = new mapboxgl.Map({
 var layerList = document.getElementById('menu');
 var inputs = layerList.getElementsByClassName('btn');
 var count = 0
+
+var userjson = "usernames.json";
+var url;
+var users = [];
+var userkeys = [];
+$.ajax({
+  type: "get",
+  dataType: "json",
+  url: userjson,
+  async: false,
+  success: function(data) {
+      console.log(JSON.stringify(data));
+      for (var u = 0; u < data.usernames.length; u++) {
+        var user = data.usernames[u]["user"];
+        users.push(user);
+        url = "https://a.mapillary.com/v3/users/?usernames=" + user + "&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzphYTFkMGJiNWVlMmRjMDI5";
+        $.ajax({
+          type: "get",
+          dataType: "json",
+          url: url,
+          async: false,
+          success: function(data) {
+            var key = data[0]["key"];
+            userkeys.push(key);
+          }
+        });
+      }
+  }
+});
+console.log(users);
+console.log(userkeys);
+userkeys2 = userkeys.map(function(item) { return "'" + item + "'" }).join(',');
+var userkeysstring = userkeys.toString();
+var userkeysstring2 = JSON.stringify(userkeys2);
+var filter = ['in', 'userkey']
+var myfilter = ["in", "userkey",...userkeys]
+console.log(myfilter);
 
 function mlyAdd() {
     console.log(count);
@@ -236,7 +274,7 @@ map.on('style.load', function () {
       'source': 'mapillary',
       'source-layer': 'mapillary-sequence-overview',
       'filter': ['all',
-//              ['in', 'userkey', users],
+              myfilter,
               ['>=', 'captured_at', mindate],
               ['<=', 'captured_at', maxdate]],
       'paint': {
@@ -251,7 +289,7 @@ map.on('style.load', function () {
      'source': 'mapillary',
      'source-layer': 'mapillary-sequences',
      'filter': ['all',
-//             ['in', 'userkey', users],
+             myfilter,
              ['>=', 'captured_at', mindate],
              ['<=', 'captured_at', maxdate]],
      'layout': {
