@@ -110,6 +110,9 @@ input {
   <div id='logo'>
     <img src='http://maptime.io/milan/img/maptimemiLogo.png' width=62% height=62%>
   </div>
+  <div id='logo'>
+    <img src='http://www.opendotlab.it/misc/logo/002.png' width=62% height=62%>
+  </div>
   <div class='map-overlay-inner'>
       <label>Milan Progress: <br><span id='slider-value'> </span></label>
       <input id='slider' type='range' min='1' max='' step='1' value='1' />
@@ -247,7 +250,10 @@ function maptimeAdd() {
             'type': 'fill',
             'source': 'maptime',
             'paint': {
-                'fill-color': '#00CCFF',
+                'fill-color' : {
+                  'property': 'fill',
+                  'type': 'identity'
+                },
                 'fill-opacity': .5
             }
         });
