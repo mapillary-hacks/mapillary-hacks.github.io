@@ -228,7 +228,7 @@ function maptimeAdd() {
             'filter': ['all',
                     lowfilter],
             'paint': {
-                'fill-color' : "red",
+                'fill': 'red',
                 'fill-outline-color' : "red",
 //                {
 //                  'property': 'fill',
@@ -244,12 +244,8 @@ function maptimeAdd() {
             'filter': ['all',
                     medfilter],
             'paint': {
-                'fill-color' : "gold",
-                'fill-outline-color' : "gold",
-//                {
-//                  'property': 'fill',
-//                  'type': 'identity'
-//                },
+                'fill': 'gold',
+                'fill-outline-color' : 'gold',
                 'fill-opacity': .10
             }
         });
@@ -260,7 +256,7 @@ function maptimeAdd() {
             'filter': ['all',
                     highfilter],
             'paint': {
-                'fill-color' : "green",
+                'fill': 'green',
                 'fill-outline-color' : "green",
 //                {
 //                  'property': 'fill',
@@ -303,7 +299,7 @@ function switchLayer(layer) {
     var layerId = layer.target.id;
     map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
     switch (layerId) {
-      case 'light':
+      case 'streets':
         light.style.backgroundColor = "#333333";
         light.style.color = "#FFF";
         satellite.style.backgroundColor = "#a9a9a9";
@@ -441,8 +437,9 @@ highfilter = ["in", "Id",...high]
          'line-width':   2
      }
  });
+  maptimeAdd();
   mly.onclick = mlyAdd;
-  maptime.onlcick = maptimeAdd;
+  maptime.onclick = maptimeAdd;
 
   slider.addEventListener('input', function(e) {
           var newDate = (maxdate-(86400000 * e.target.value))
