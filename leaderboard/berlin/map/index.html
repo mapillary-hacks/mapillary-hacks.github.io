@@ -115,7 +115,7 @@ input {
     <img src='null' width=40% height=40%>
   </div>
   <div class='map-overlay-inner' style="width:40%;">
-      <label>Amsterdam Progress: <br><span id='slider-value'> </span></label>
+      <label>Berlin Progress: <br><span id='slider-value'> </span></label>
       <input id='slider' type='range' min='1' max='' step='1' value='180' />
       <script>
       var days = (Date.now()-10368000000)/86400000;
@@ -145,7 +145,7 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/mapbox/light-v9',
     center: [13.397912979125977,
           52.50310889376858],
-    zoom: 14
+    zoom: 13
 });
 
 var layerList = document.getElementById('menu');
@@ -327,7 +327,7 @@ var sliderValue = document.getElementById('slider-value');
 
 
 var maxdate = Date.now();
-var mindate = (maxdate - 86400000) //set to show Mapillary sequences from August 1, 2016 onward
+var mindate = (maxdate - 15552000000) //set to show Mapillary sequences from August 1, 2016 onward
 var last30 = (maxdate-(86400000 * 5))
 
 
