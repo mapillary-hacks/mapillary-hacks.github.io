@@ -109,10 +109,10 @@ input {
     <img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=40% style="margin-top:5px;">
   </div>
   <div id='logo'>
-    <img src='null' width=40% height=40%>
+    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Flag_of_Berlin.svg/2000px-Flag_of_Berlin.svg.png' width=40% height=40%>
   </div>
   <div id='logo'>
-    <img src='null' width=40% height=40%>
+    <img src='https://secure.meetupstatic.com/photos/event/c/e/4/c/global_443272812.jpeg' width=40% height=40%>
   </div>
   <div class='map-overlay-inner' style="width:40%;">
       <label>Berlin Progress: <br><span id='slider-value'> </span></label>
@@ -129,7 +129,7 @@ input {
   </div>
 
   <div id='menu' class='map-overlay-inner'>
-    <div id='light' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: light</div>
+    <div id='streets' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
     <div id='satellite' class='btn'>Basemap: satellite</div>
     <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
     <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show Target Zones</div>
@@ -142,7 +142,7 @@ input {
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/mapbox/streets-v9',
     center: [13.397912979125977,
           52.50310889376858],
     zoom: 13
@@ -229,12 +229,12 @@ function maptimeAdd() {
                     lowfilter],
             'paint': {
                 'fill-color' : "red",
-                'fill-outline-color' : "gray",
+                'fill-outline-color' : "red",
 //                {
 //                  'property': 'fill',
 //                  'type': 'identity'
 //                },
-                'fill-opacity': .5
+                'fill-opacity': .01
             }
         });
         map.addLayer({
@@ -245,12 +245,12 @@ function maptimeAdd() {
                     medfilter],
             'paint': {
                 'fill-color' : "gold",
-                'fill-outline-color' : "gray",
+                'fill-outline-color' : "gold",
 //                {
 //                  'property': 'fill',
 //                  'type': 'identity'
 //                },
-                'fill-opacity': .5
+                'fill-opacity': .01
             }
         });
         map.addLayer({
@@ -261,12 +261,12 @@ function maptimeAdd() {
                     highfilter],
             'paint': {
                 'fill-color' : "green",
-                'fill-outline-color' : "gray",
+                'fill-outline-color' : "green",
 //                {
 //                  'property': 'fill',
 //                  'type': 'identity'
 //                },
-                'fill-opacity': .5
+                'fill-opacity': .01
             }
         });
         map.addLayer({
