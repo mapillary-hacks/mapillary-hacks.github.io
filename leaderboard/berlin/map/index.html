@@ -250,23 +250,13 @@
         var start_date = '2017-05-29';
         var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&bbox=' + bbox;
         console.log(url);
-        //user scores
-        $.ajax({
-          dataType: "json",
-          async: false, // Makes sure to wait for load
-          url: url,
-          success: function (stats) {
-            for (n = 0; n < stats.length; n++) {
-              $('#table').append('<tr><td>' + stats[n]["username"] + '</td><td>' + stats[n]["image_count"] + '</td></tr>');
-            }
-          }
-        });
+
         //tile totals
         var x;
         var y;
         var totals = [];
         var sums = [];
-        var ids = [];
+        var tiles = [];
         $.ajax({
           dataType: "json",
           async: false, // Makes sure to wait for load
@@ -277,24 +267,35 @@
               x = square.features[i]["geometry"]["coordinates"][0][0];
               y = square.features[i]["geometry"]["coordinates"][0][2];
               var bbox2 = x[0]+','+x[1]+','+y[0]+','+y[1];
-              var usernames = [];
+              var myurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&bbox=' + bbox2;
               $.ajax({
                 dataType: "json",
                 async: false, // Makes sure to wait for load
-                url: 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&bbox=' + bbox2,
+                url: myurl,
                 success: function (stats) {
-                  for (n = 0; n < stats.length; n++) {
-                    usernames.push(stats[n]["username"]);
-                  }
+                  console.log(myurl);
+                  tiles.push(stats[0]["username"]);
                 }
               });
-              var sum = images.reduce(add, 0);
-              function add(a, b) {
-                  return a + b;
-              }
-              sums.push(sum);
-              ids.push(square.features[i]["properties"]["Id"]);
-              totals.push('{"' + square.features[i]["properties"]["Id"] + '","' + sum + '"}')
+            }
+          }
+        });
+        console.log("Tiles list is " + tiles);
+        var obj = { };
+        for (var i = 0, j = tiles.length; i < j; i++) {
+           obj[tiles[i]] = (obj[tiles[i]] || 0) + 1;
+        };
+        var test = tiles[3];
+        console.log("The test comes out as " + obj[test]);
+        //user scores
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: url,
+          success: function (stats) {
+            for (n = 0; n < stats.length; n++) {
+              var u = stats[n]["username"];
+              $('#table').append('<tr><td>' + u + '</td><td>' + stats[n]["image_count"] + '</td><td>' + obj[u] + '</td></tr>');
             }
           }
         });
