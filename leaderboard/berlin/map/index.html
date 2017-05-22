@@ -273,7 +273,9 @@
                 url: myurl,
                 success: function (stats) {
                   console.log(myurl);
-                  tiles.push(stats[0]["username"]);
+                  if (stats.length) {
+                    tiles.push(stats[0]["username"]);
+                  }
                 }
               });
             }
