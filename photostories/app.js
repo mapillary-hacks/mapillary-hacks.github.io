@@ -1,6 +1,10 @@
 var client_id = "UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkNTRmOTk5NzQ2N2E3ZDAy";
 var currentImage = images[0];
 
+if (qs["embed"] == 'true') {
+  $(".hide").hide();
+}
+
 function caFind(num) {
     var angles = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
     var curr = angles[0];
@@ -36,20 +40,17 @@ function nextImage() {
   $("#image"+myImage).toggleClass("currImg");
   currentImage = images[myImage];
     var url = "https://a.mapillary.com/v3/images/" + images[myImage] + "?client_id=" + client_id;
+    var lng;
+    var lat;
     $.ajax({
       dataType: "json",
       url: url,
+      async: false,
       success: function (data) {
-        console.log(data.geometry.coordinates);
         lng = data.geometry.coordinates[0];
         lat = data.geometry.coordinates[1];
         ca = data.properties.ca;
-        console.log(ca);
-        map.flyTo({
-            center: [lng, lat],
-            zoom: 15,
-            pitch: 20
-        });
+
         map.removeLayer("point");
         map.removeSource("point");
         var currCa = caFind(ca);
@@ -81,8 +82,14 @@ function nextImage() {
               "icon-image": "cur-ca-{angle}"
           }
         });
+
+
       }
     })
+    map.flyTo({
+        center: [lng, lat],
+        zoom: 15,
+    });
     mly.moveToKey(currentImage);
     $("#place").empty().append("<h3 class='slideTitle'>" + titles[myImage] + "</h3>")
     $("#content").empty().append("<p class='slideContent'>" + content[myImage] + "</p>")
