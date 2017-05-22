@@ -187,15 +187,15 @@
           <img src='https://secure.meetupstatic.com/photos/event/c/e/4/c/global_443272812.jpeg' width=40% height=40%>
         </div>
         <div class='map-overlay-inner' id='menu2' style="width:40%;">
-            <label>Berlin Challenge: <br><span id='slider-value'> </span></label>
-            <input id='slider' type='range' min='1' max='' step='1' value='180' />
+            <label>Berlin Challenge (May 25 - June 15, 2017) <br><span id='slider-value'> </span></label>
+            <input id='slider' type='range' min='1' max='' step='1' value='' />
             <script>
-            var days = (Date.now()-10368000000)/86400000;
+            var days = (Date.now()-1495670400000)/86400000;
             console.log(Date.now());
             console.log(days);
-            document.getElementById('slider').max = 180;
-            document.getElementById('slider').value = 180;
-            document.getElementById('slider-value').innerHTML = '180 days before today';
+            document.getElementById('slider').max = days;
+            document.getElementById('slider').value = days;
+            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since competition start';
 
             </script>
         </div>
@@ -242,13 +242,12 @@
 
 
       var maxdate = Date.now();
-      var mindate = (maxdate - 15552000000) //set to show Mapillary sequences from August 1, 2016 onward
+      var mindate = (1495670400000) //set to show Mapillary sequences from May 25, 2017 onward
       var last30 = (maxdate-(86400000 * 5))
 
       $(document).ready( function() {
         var bbox = '13.376026153564451,52.493912509686346,13.420829772949217,52.51219888266202'; //this takes the first coordinate pair of the first square, and the third coordinate pair of the last square
-        var start_date = '2017-05-29';
-        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&bbox=' + bbox;
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&end_time=2017-06-16&bbox=' + bbox;
         console.log(url);
 
         //tile totals
@@ -267,7 +266,7 @@
               x = square.features[i]["geometry"]["coordinates"][0][0];
               y = square.features[i]["geometry"]["coordinates"][0][2];
               var bbox2 = x[0]+','+x[1]+','+y[0]+','+y[1];
-              var myurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&bbox=' + bbox2;
+              var myurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&end_time=2017-06-16&bbox=' + bbox2;
               $.ajax({
                 dataType: "json",
                 async: false, // Makes sure to wait for load
@@ -576,7 +575,7 @@
                  }, 'exzona');
 
                 // Value indicator
-                sliderValue.textContent = e.target.value + ' days before today';
+                sliderValue.textContent = e.target.value + ' days since competition start';
             });
         });
       </script>
