@@ -1,0 +1,304 @@
+<html>
+<head>
+  <title>Mapillary Photostories</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://unpkg.com/mapillary-js@2.3.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.3.0/dist/mapillary.min.css' rel='stylesheet' />
+  <script src="source.js"></script>
+
+
+  <style>
+  body {
+    color: #5D6671;
+    background-color: white;
+  }
+  .bg-red {
+    background-color: red;
+  }
+  .bg-blue {
+    background-color: blue;
+  }
+  .bg-green {
+    background-color: green;
+  }
+  .bg-yellow {
+    background-color: gold;
+  }
+  .bg-med-green {
+    background-color: #58935a;
+  }
+  .bg-dark-green {
+    background-color: #2b512c;
+  }
+  .tall {
+    min-height:400px;
+  }
+  .short {
+    min-height:250px;
+  }
+  .tall2 {
+    min-height:500px;
+  }
+  .short2 {
+    min-height:200px;
+  }
+  .text {
+    padding: 10px;
+  }
+  .alt-grid [class*="col-"] {
+    padding-left:0;
+    padding-right:0;
+  }
+  .alt-grid .row {
+    margin-left:0;
+    margin-right:0
+  }
+  /* container adjusted */
+  .alt-grid .container {
+    width:100%;
+    max-width:none;
+    padding:10;
+  }
+  div.img {
+      margin: 18 0 18 0;
+      border-radius: 10px;
+      float: left;
+      width: 167px;
+      padding-left: 0;
+  }
+
+  div.img:hover {
+  }
+
+  div.img img {
+      width: 155;
+      height: 100;
+  }
+
+  .slideTitle {
+      padding: 5px;
+      text-align: left;
+  }
+  .slideContent {
+      padding: 5px;
+      text-align: left;
+  }
+  #content {
+    overflow:auto;
+    max-height: 150px;
+    min-height: 150px;
+  }
+  #gallery {
+    overflow:hidden;
+    text-align: left;
+    min-height: 150px;
+    max-height: 150px;
+  }
+  #place {
+    max-height: 100px;
+    min-height: 50px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  #title {
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 2px;
+  }
+  #map {
+    min-height: 400px;
+  }
+  .arrow {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+  .currImg
+  {
+    box-shadow: 0px 0px 15px rgb(53, 175, 109);
+    border: 1px solid rgb(53, 175, 109);
+  }
+  .nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row hide">
+    <div class="col-sm-10" style="min-height:25px;"></div>
+  </div>
+  <div class="row hide">
+    <div class="col-sm-10" width=100% height=100%></div>
+    <div class="col-sm-2"><img src="photostories_logo.png" width=100%/></div>
+  </div>
+  <div class="row hide">
+    <div class="col-sm-12" width=100% id="title" style="text-align:center;"><h1>Title</h1></div>
+  </div>
+  <div class="row hide">
+    <div class="col-sm-12" width=100% id="subtitle" style="text-align:center;"><h4>Subtitle</h4></div>
+  </div>
+  <div id='embed'>
+  <div class="row">
+    <div class="col-sm-12 nopadding multiple-items" width=100% id="gallery" style="text-align:center;padding-left:0;padding-right:0px;">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 tall nopadding" width=100% id="mly">
+      <script>
+        var mly = new Mapillary.Viewer(
+            "mly",
+            "UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkNTRmOTk5NzQ2N2E3ZDAy",
+            currentImage,
+//              "7cICkSuDxGoJGK78xXv4Zw", //This is a test image
+            {
+                component: {
+                    attribution: true,
+                    cover: false,
+                    direction: {
+                        distinguishSequence: true,
+                        maxWidth: 460,
+                        minWidth: 180
+                    },
+                    imagePlane: {
+                        imageTiling: true
+                    },
+                    stats: true
+                },
+                renderMode: Mapillary.RenderMode.Fill
+            }
+        );
+        mly.on('nodechanged', function (node) {
+            var lng = node.latLon.lon;
+            var lat = node.latLon.lat;
+            var ca = node.ca;
+            var currCa = caFind(ca);
+            map.flyTo({
+                center: [lng, lat],
+                pitch: 20
+            });
+            map.removeLayer("point");
+            map.removeSource("point");
+            var currCa = caFind(ca);
+
+            var geojson = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [lng, lat]
+                    },
+                    "properties": {
+                              "angle": currCa
+                    }
+                }]
+            };
+
+             map.addSource('point', {
+            "type": "geojson",
+            "data": geojson
+            });
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-{angle}"
+              }
+            });
+        });
+        mly.on(
+        Mapillary.Viewer.bearingchanged,
+        function(bearing) {
+            console.log('bearing changed:', bearing);
+            map.removeLayer("point");
+
+            var currCa = caFind(bearing);
+            console.log(currCa);
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-" + currCa
+              }
+            });
+        });
+      </script>
+    </div>
+    <div class="col-sm-6" width=100% height=100% id="map">
+      <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'homebrew-streets-v8/homebrew-streets-v8.json',
+            center: [0,0],
+            zoom: 15
+        });
+//            var nav = new mapboxgl.Navigation();
+//            map.addControl(nav, 'top-left');
+        map.on('style.load', function () {
+          var mapillarySource = {
+              type: 'vector',
+              tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+              minzoom: 5,
+              maxzoom: 20
+          };
+          map.addSource('mapillary', mapillarySource);
+          map.addLayer({
+              'id': 'mapillary',
+              'type': 'line',
+              'source': 'mapillary',
+              'source-layer': 'mapillary-sequences',
+              "minzoom": 5,
+              "maxzoom": 20,
+              'layout': {
+                  'line-cap': 'round',
+                  'line-join': 'round'
+              },
+              'paint': {
+                  'line-opacity': 0.6,
+                  'line-color':   'rgb(53, 175, 109)',
+                  'line-width':   2
+              }
+          });
+        });
+      </script>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8" width=100% id="place" style="text-align:left;">Place</div>
+    <div class="col-sm-4" width=100% style="text-align:left;"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-9" width=100% id="content" style="text-align:left;">Content</div>
+    <div class="col-sm-3" width=100% style="text-align:left;display:in-line block;"><button onclick="nextImage()" class="btn btn-default btn-lg" style="color:white;background-color:#36AF6D;text-align:right;"><font style="font-size: 19">Next Photo</font><img src="chevron_right.png" style="height:26px;" /></button></div>
+  </div>
+  </div>
+  <div class="row hide"
+    <div class="col-sm-12" width=100% style="text-align:center;">Created with Mapillary Photostories - <a href="builder.html">Click here</a> to create your own</div>
+    <div class="col-sm-12" width=100% style="text-align:center;">&copy <a href="https://www.mapillary.com">Mapillary AB</a> 2017</div>
+  </div>
+</div>
+
+</body>
+
+</html>
