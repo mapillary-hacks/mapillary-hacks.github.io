@@ -10,7 +10,7 @@ function loadSlides () {
   if (changeValue > 0) {
     for (i = 0; i < changeValue; i++) {
       var x = (currentSlideCount++)+1;
-      $("#slideGallery").append("<div class='square' style='color:#5D6671;background-color:white' id='slide" + (x) + "'><b>Slide " + (x) + "</b><br><form>Photo Key:<br><textarea name='content' id='key" + x + "' class='smallTextArea' width=100% height=25 style='color:#5D6671;background-color:#D7DADD''></textarea><br>Slide Title:<br><textarea name='content' id='title" + x + "' class='smallTextArea' width=100% height=25  style='color:#5D6671;background-color:#D7DADD''></textarea><br>Content:<br><textarea name='content' id='content" + x + "' class='contentTextArea' width=100% height=200  style='color:#5D6671;background-color:#D7DADD''></textarea></form></div>")
+      $("#slideGallery").append("<div class='square' style='color:#5D6671;background-color:white' id='slide" + (x) + "'><b>Slide " + (x) + "</b><br><form>Image Key:<br><textarea name='content' id='key" + x + "' class='smallTextArea' width=100% height=25 style='color:#5D6671;background-color:#D7DADD''></textarea><br>Slide Title:<br><textarea name='content' id='title" + x + "' class='smallTextArea' width=100% height=25  style='color:#5D6671;background-color:#D7DADD''></textarea><br>Content:<br><textarea name='content' id='content" + x + "' class='contentTextArea' width=100% height=200  style='color:#5D6671;background-color:#D7DADD''></textarea></form></div>")
     };
   } else if (changeValue < 0) {
     for ( i = 0; i < changeValue * -1; i++) {
