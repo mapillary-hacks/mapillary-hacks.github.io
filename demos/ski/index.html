@@ -226,6 +226,8 @@ map.on('click', function (e) {
         console.log(url);
         var imgkey = data.features[0]["properties"]["key"];
         var ca = data.features[0]["properties"]["ca"];
+        lng = data.features[0]["geometry"]["coordinates"][0];
+        lat = data.features[0]["geometry"]["coordinates"][1];
         var currCa = caFind(ca);
         console.log("Camera angle " + ca + " converted to " + currCa);
         console.log(imgkey);
@@ -278,8 +280,8 @@ mly.on('nodechanged', function (node) {
     } catch (err) {
         // Do nothing the layers just does not exists
     }
-    var lng = node.latLon.lon;
-    var lat = node.latLon.lat;
+    var lng = node.originalLatLon.lon;
+    var lat = node.originalLatLon.lat;
     var ca = node.ca;
     var currCa = caFind(ca);
     map.flyTo({
