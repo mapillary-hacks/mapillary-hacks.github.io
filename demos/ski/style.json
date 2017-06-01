@@ -5,7 +5,7 @@
         "mapbox:groups": {
             "1452119469254.5605": {
                 "name": "glaciers",
-                "collapsed": true
+                "collapsed": false
             },
             "1452207014560.2407": {
                 "name": "whistler",
@@ -13,7 +13,7 @@
             },
             "1452294613743.9702": {
                 "name": "roads",
-                "collapsed": true
+                "collapsed": false
             },
             "1452119518385.2588": {
                 "name": "relevant POIs",
@@ -21,30 +21,30 @@
             },
             "1452119539441.3816": {
                 "name": "transporation ways",
-                "collapsed": true
+                "collapsed": false
             },
             "1452538953048.7173": {
                 "name": "snow (blue)",
-                "collapsed": true
+                "collapsed": false
             },
             "1452037801360.402": {
                 "name": "contours",
-                "collapsed": true
+                "collapsed": false
             },
             "1452037770388.8564": {
                 "name": "Group"
             },
             "1452116608071.19": {
                 "name": "water",
-                "collapsed": true
+                "collapsed": false
             },
             "1452377264560.7012": {
                 "name": "admin",
-                "collapsed": true
+                "collapsed": false
             },
             "1452377121122.9236": {
                 "name": "graticules",
-                "collapsed": true
+                "collapsed": false
             },
             "1452034963851.8123": {
                 "name": "snow",
@@ -56,7 +56,7 @@
             },
             "1452123103210.5454": {
                 "name": "buildings",
-                "collapsed": true
+                "collapsed": false
             }
         },
         "mapbox:trackposition": false
@@ -82,141 +82,134 @@
             "type": "vector"
         }
     },
-    "sprite": "sprites",
-    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "sprite": "mapbox://sprites/cbeddow/cj34gm08c000t2rpfvi68k13e",
+    "glyphs": "mapbox://fonts/cbeddow/{fontstack}/{range}.pbf",
     "layers": [
         {
             "id": "background",
             "type": "background",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "background-color": "#fff",
                 "background-opacity": 1
-            },
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
             }
         },
         {
-            "interactive": true,
+            "id": "waterway",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452116608071.19"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "waterway",
             "layout": {
                 "visibility": "visible",
                 "line-cap": "round",
                 "line-join": "round"
             },
-            "metadata": {
-                "mapbox:group": "1452116608071.19"
-            },
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "waterway",
             "paint": {
                 "line-width": 2,
                 "line-color": "#62b0f0",
                 "line-blur": 0,
                 "line-opacity": 0.7
-            },
-            "source-layer": "waterway"
+            }
         },
         {
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "water",
+            "type": "fill",
             "metadata": {
                 "mapbox:group": "1452116608071.19"
             },
-            "type": "fill",
             "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "water",
+            "source-layer": "water",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "fill-color": "#62b0f0",
                 "fill-opacity": 0.35,
                 "fill-outline-color": "#62b0f0"
-            },
-            "source-layer": "water",
-            "interactive": true
+            }
         },
         {
-            "layout": {},
+            "id": "water outline",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452116608071.19"
             },
-            "type": "line",
             "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "water outline",
+            "source-layer": "water",
+            "layout": {},
             "paint": {
                 "line-color": "#62b0f0",
                 "line-width": 2,
                 "line-blur": 1
-            },
-            "source-layer": "water",
-            "interactive": true
+            }
         },
         {
+            "id": "water copy",
             "metadata": {
                 "mapbox:group": "1452116608071.19"
             },
-            "id": "water copy",
+            "ref": "water",
             "paint": {
                 "fill-opacity": 0.35,
                 "fill-color": "#fff"
-            },
-            "interactive": true,
-            "ref": "water"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "snow copy",
+            "type": "fill",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "landcover",
             "filter": [
                 "==",
                 "class",
                 "snow"
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "snow copy",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "fill-color": "rgba(255,255,255,1)"
-            },
-            "source-layer": "landcover"
+            }
         },
         {
-            "interactive": true,
+            "id": "snowline copy",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452538953048.7173"
+            },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "landcover",
+            "filter": [
+                "==",
+                "class",
+                "snow"
+            ],
             "layout": {
                 "line-join": "round",
                 "line-cap": "round",
                 "visibility": "visible"
             },
-            "metadata": {
-                "mapbox:group": "1452538953048.7173"
-            },
-            "filter": [
-                "==",
-                "class",
-                "snow"
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "snowline copy",
             "paint": {
                 "line-color": "#fff",
                 "line-blur": 2
-            },
-            "source-layer": "landcover"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "shadow 67 copy 2",
+            "type": "fill",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "hillshade",
             "filter": [
                 "all",
                 [
@@ -230,23 +223,23 @@
                     67
                 ]
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "shadow 67 copy 2",
-            "paint": {
-                "fill-color": "#62b0f0",
-                "fill-opacity": 0.1
-            },
-            "source-layer": "hillshade"
-        },
-        {
-            "interactive": true,
             "layout": {
                 "visibility": "visible"
             },
+            "paint": {
+                "fill-color": "#62b0f0",
+                "fill-opacity": 0.1,
+                "fill-pattern": "paleblue_lines_32"
+            }
+        },
+        {
+            "id": "shadow 56 copy 2",
+            "type": "fill",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "hillshade",
             "filter": [
                 "all",
                 [
@@ -260,23 +253,23 @@
                     56
                 ]
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "shadow 56 copy 2",
-            "paint": {
-                "fill-opacity": 0.2,
-                "fill-color": "#62b0f0"
-            },
-            "source-layer": "hillshade"
-        },
-        {
-            "interactive": true,
             "layout": {
                 "visibility": "visible"
             },
+            "paint": {
+                "fill-opacity": 0.2,
+                "fill-color": "#62b0f0",
+                "fill-pattern": "paleblue_lines_32"
+            }
+        },
+        {
+            "id": "shadow 78 copy 1",
+            "type": "fill",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "hillshade",
             "filter": [
                 "all",
                 [
@@ -290,105 +283,99 @@
                     78
                 ]
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "shadow 78 copy 1",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "fill-color": "rgba(128,128,128,1)",
                 "fill-opacity": 0.2,
-                "fill-pattern": "paleblue-lines-32"
-            },
-            "source-layer": "hillshade"
+                "fill-pattern": "paleblue_lines_32"
+            }
         },
         {
-            "interactive": true,
+            "id": "shadow 78 copy 2",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
-            "id": "shadow 78 copy 2",
+            "ref": "shadow 78 copy 1",
             "paint": {
                 "fill-color": "rgba(255,255,255,1)",
                 "fill-opacity": 0.8,
-                "fill-pattern": "paleblue-lines-32"
-            },
-            "ref": "shadow 78 copy 1"
+                "fill-pattern": "paleblue_lines_32"
+            }
         },
         {
-            "interactive": true,
+            "id": "shadow 78 (texture) copy",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
-            "id": "shadow 78 (texture) copy",
+            "ref": "shadow 78 copy 1",
             "paint": {
                 "fill-color": "rgba(128,128,128,1)",
-                "fill-pattern": "paleblue-lines-32",
+                "fill-pattern": "paleblue_lines_32",
                 "fill-translate": [
                     3,
                     5
                 ],
                 "fill-opacity": 0.15
-            },
-            "ref": "shadow 78 copy 1"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "highlight 89 copy 2",
+            "type": "fill",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "landuse",
             "filter": [
                 "in",
                 "class",
-                "park",
                 "grass",
+                "park",
                 "wood"
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "highlight 89 copy 2",
-            "paint": {
-                "fill-color": "rgba(167,36,237,1)",
-                "fill-pattern": "paleblue-lines-32",
-                "fill-opacity": 0.25
-            },
-            "source-layer": "landuse"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452538953048.7173"
-            },
-            "id": "shadow 67 copy 1",
-            "paint": {
-                "fill-color": "rgba(128,128,128,1)",
-                "fill-opacity": 0.3,
-                "fill-pattern": "paleblue-lines-32"
-            },
-            "ref": "shadow 67 copy 2"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452538953048.7173"
-            },
-            "id": "shadow 56 copy 1",
-            "paint": {
-                "fill-color": "rgba(128,128,128,1)",
-                "fill-pattern": "paleblue-lines-32",
-                "fill-opacity": 0.2
-            },
-            "ref": "shadow 56 copy 2"
-        },
-        {
-            "interactive": true,
             "layout": {
                 "visibility": "visible"
             },
+            "paint": {
+                "fill-color": "rgba(167,36,237,1)",
+                "fill-pattern": "paleblue_lines_32",
+                "fill-opacity": 0.25
+            }
+        },
+        {
+            "id": "shadow 67 copy 1",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
+            "ref": "shadow 67 copy 2",
+            "paint": {
+                "fill-color": "rgba(128,128,128,1)",
+                "fill-opacity": 0.3,
+                "fill-pattern": "paleblue_lines_32"
+            }
+        },
+        {
+            "id": "shadow 56 copy 1",
+            "metadata": {
+                "mapbox:group": "1452538953048.7173"
+            },
+            "ref": "shadow 56 copy 2",
+            "paint": {
+                "fill-color": "rgba(128,128,128,1)",
+                "fill-pattern": "paleblue_lines_32",
+                "fill-opacity": 0.2
+            }
+        },
+        {
+            "id": "highlight 94 copy",
+            "type": "fill",
+            "metadata": {
+                "mapbox:group": "1452538953048.7173"
+            },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "hillshade",
             "filter": [
                 "all",
                 [
@@ -402,35 +389,34 @@
                     94
                 ]
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "highlight 94 copy",
-            "paint": {
-                "fill-color": "rgba(252,252,252,1)",
-                "fill-opacity": 1
-            },
-            "source-layer": "hillshade"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452538953048.7173"
-            },
-            "id": "highlight 89 copy",
-            "paint": {
-                "fill-color": "#fff",
-                "fill-opacity": 0.5
-            },
-            "ref": "highlight 89 copy 2"
-        },
-        {
-            "interactive": true,
             "layout": {
                 "visibility": "visible"
             },
+            "paint": {
+                "fill-color": "rgba(252,252,252,1)",
+                "fill-opacity": 1
+            }
+        },
+        {
+            "id": "highlight 89 copy",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
+            "ref": "highlight 89 copy 2",
+            "paint": {
+                "fill-color": "#fff",
+                "fill-opacity": 0.5,
+                "fill-pattern": "paleblue_lines_32"
+            }
+        },
+        {
+            "id": "highlight 89 copy 1",
+            "type": "fill",
+            "metadata": {
+                "mapbox:group": "1452538953048.7173"
+            },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "hillshade",
             "filter": [
                 "all",
                 [
@@ -444,21 +430,20 @@
                     89
                 ]
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "highlight 89 copy 1",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "fill-color": "rgba(167,36,237,1)",
-                "fill-pattern": "paleblue-lines-32"
-            },
-            "source-layer": "hillshade"
+                "fill-pattern": "paleblue_lines_32"
+            }
         },
         {
-            "interactive": true,
+            "id": "shadow 78 (dotted) copy",
             "metadata": {
                 "mapbox:group": "1452538953048.7173"
             },
-            "id": "shadow 78 (dotted) copy",
+            "ref": "shadow 78 copy 1",
             "paint": {
                 "fill-color": "rgba(128,128,128,1)",
                 "fill-pattern": "13dot-blk16",
@@ -480,25 +465,24 @@
                     3,
                     5
                 ]
-            },
-            "ref": "shadow 78 copy 1"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "glacier bg",
+            "type": "fill",
             "metadata": {
                 "mapbox:group": "1452119469254.5605"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "landuse",
             "filter": [
                 "==",
                 "type",
                 "glacier"
             ],
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "glacier bg",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "fill-color": "#fff",
                 "fill-opacity": {
@@ -519,25 +503,24 @@
                     ]
                 },
                 "fill-outline-color": "#fff"
-            },
-            "source-layer": "landuse"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "glacier outline",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452119469254.5605"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "landuse",
             "filter": [
                 "==",
                 "type",
                 "glacier"
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "glacier outline",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "#62b0f0",
                 "line-width": {
@@ -573,28 +556,26 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "landuse"
+            }
         },
         {
-            "interactive": true,
+            "id": "glacier pattern - blue",
             "metadata": {
                 "mapbox:group": "1452119469254.5605"
             },
-            "id": "glacier pattern - blue",
+            "ref": "glacier bg",
             "paint": {
                 "fill-opacity": 0.6,
                 "fill-pattern": "blue-widept-pattern",
                 "fill-translate-anchor": "map"
-            },
-            "ref": "glacier bg"
+            }
         },
         {
-            "interactive": true,
+            "id": "glacier pattern - blk",
             "metadata": {
                 "mapbox:group": "1452119469254.5605"
             },
-            "id": "glacier pattern - blk",
+            "ref": "glacier bg",
             "paint": {
                 "fill-opacity": 0.25,
                 "fill-pattern": "blk-widept-pattern",
@@ -603,20 +584,19 @@
                     0,
                     0
                 ]
-            },
-            "ref": "glacier bg"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "contours",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452037801360.402"
             },
-            "type": "line",
             "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "contours",
+            "source-layer": "contour",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "#62b0f0",
                 "line-opacity": {
@@ -645,26 +625,25 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "contour"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "index contour ",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452037801360.402"
             },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "contour",
             "filter": [
                 "in",
                 "index",
-                5,
-                10
+                10,
+                5
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "index contour ",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "#62b0f0",
                 "line-opacity": {
@@ -693,11 +672,22 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "contour"
+            }
         },
         {
-            "interactive": true,
+            "id": "contour elevation",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452037801360.402"
+            },
+            "source": "mapbox://mapbox.mapbox-terrain-v2",
+            "source-layer": "contour",
+            "filter": [
+                "in",
+                "index",
+                10,
+                5
+            ],
             "layout": {
                 "text-field": "{ele}",
                 "symbol-placement": "line",
@@ -720,573 +710,522 @@
                     ]
                 }
             },
-            "metadata": {
-                "mapbox:group": "1452037801360.402"
-            },
-            "filter": [
-                "in",
-                "index",
-                5,
-                10
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-terrain-v2",
-            "id": "contour elevation",
             "paint": {
                 "text-color": "#62b0f0",
                 "text-halo-color": "rgba(255,255,255,0.8)",
                 "text-halo-width": 2
-            },
-            "source-layer": "contour"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "filter": [
-                "all",
-                [
-                    "in",
-                    "class",
-                    "street",
-                    "path",
-                    "service",
-                    "street_limited",
-                    "motorway_link"
-                ],
-                [
-                    "!in",
-                    "type",
-                    "piste",
-                    "aerialway"
-                ]
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
             "id": "road minor case",
-            "paint": {
-                "line-color": "rgba(219,219,217,1)",
-                "line-width": {
-                    "base": 1.55,
-                    "stops": [
-                        [
-                            4,
-                            0.05
-                        ],
-                        [
-                            20,
-                            4
-                        ]
-                    ]
-                },
-                "line-gap-width": {
-                    "base": 1.44,
-                    "stops": [
-                        [
-                            4,
-                            0.5
-                        ],
-                        [
-                            20,
-                            20
-                        ]
-                    ]
-                }
-            },
-            "source-layer": "road"
-        },
-        {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452294613743.9702"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road",
             "filter": [
                 "all",
-                [
-                    "in",
-                    "class",
-                    "street",
-                    "path",
-                    "service",
-                    "street_limited",
-                    "motorway_link"
-                ],
                 [
                     "!in",
                     "type",
                     "aerialway",
                     "piste"
-                ]
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "road minor",
-            "paint": {
-                "line-width": {
-                    "base": 1.55,
-                    "stops": [
-                        [
-                            4,
-                            0.25
-                        ],
-                        [
-                            20,
-                            20
-                        ]
-                    ]
-                },
-                "line-color": "#fff"
-            },
-            "source-layer": "road"
-        },
-        {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "filter": [
-                "in",
-                "class",
-                "street",
-                "path",
-                "service",
-                "street_limited",
-                "motorway_link"
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "tunnel minor case",
-            "paint": {
-                "line-color": "rgba(219,219,217,1)",
-                "line-width": {
-                    "base": 1.55,
-                    "stops": [
-                        [
-                            4,
-                            0.05
-                        ],
-                        [
-                            20,
-                            4
-                        ]
-                    ]
-                },
-                "line-gap-width": {
-                    "base": 1.44,
-                    "stops": [
-                        [
-                            4,
-                            0.5
-                        ],
-                        [
-                            20,
-                            20
-                        ]
-                    ]
-                },
-                "line-dasharray": [
-                    2,
-                    2.5
-                ]
-            },
-            "source-layer": "tunnel"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "id": "tunnel minor",
-            "paint": {
-                "line-width": {
-                    "base": 1.55,
-                    "stops": [
-                        [
-                            4,
-                            0.25
-                        ],
-                        [
-                            20,
-                            20
-                        ]
-                    ]
-                },
-                "line-color": "#fff",
-                "line-opacity": 0.6
-            },
-            "ref": "tunnel minor case"
-        },
-        {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "filter": [
-                "in",
-                "class",
-                "street",
-                "path",
-                "service",
-                "street_limited",
-                "motorway_link"
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "bridge minor case",
-            "paint": {
-                "line-color": "rgba(219,219,217,1)",
-                "line-width": {
-                    "base": 1.55,
-                    "stops": [
-                        [
-                            4,
-                            0.05
-                        ],
-                        [
-                            20,
-                            4
-                        ]
-                    ]
-                },
-                "line-gap-width": {
-                    "base": 1.44,
-                    "stops": [
-                        [
-                            4,
-                            0.5
-                        ],
-                        [
-                            20,
-                            20
-                        ]
-                    ]
-                }
-            },
-            "source-layer": "bridge"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "id": "bridge minor",
-            "paint": {
-                "line-width": {
-                    "base": 1.55,
-                    "stops": [
-                        [
-                            4,
-                            0.25
-                        ],
-                        [
-                            20,
-                            20
-                        ]
-                    ]
-                },
-                "line-color": "#fff"
-            },
-            "ref": "bridge minor case"
-        },
-        {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "filter": [
-                "in",
-                "class",
-                "motorway",
-                "main",
-                "major_rail",
-                "motorway_link"
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "tunnel major case",
-            "paint": {
-                "line-gap-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            0.5
-                        ],
-                        [
-                            20,
-                            25
-                        ]
-                    ]
-                },
-                "line-color": "rgba(219,219,217,1)",
-                "line-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            1
-                        ],
-                        [
-                            22,
-                            2
-                        ]
-                    ]
-                },
-                "line-dasharray": [
-                    2,
-                    2.5
-                ]
-            },
-            "source-layer": "tunnel"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "id": "tunnel major",
-            "paint": {
-                "line-color": "#fff",
-                "line-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            0.5
-                        ],
-                        [
-                            20,
-                            25
-                        ]
-                    ]
-                },
-                "line-opacity": 0.6
-            },
-            "ref": "tunnel major case"
-        },
-        {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "filter": [
-                "in",
-                "class",
-                "motorway",
-                "main",
-                "major_rail",
-                "motorway_link"
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "bridge major case",
-            "paint": {
-                "line-gap-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            0.5
-                        ],
-                        [
-                            20,
-                            25
-                        ]
-                    ]
-                },
-                "line-color": "rgba(219,219,217,1)",
-                "line-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            1
-                        ],
-                        [
-                            22,
-                            2
-                        ]
-                    ]
-                }
-            },
-            "source-layer": "bridge"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "id": "bridge major",
-            "paint": {
-                "line-color": "#fff",
-                "line-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            0.5
-                        ],
-                        [
-                            20,
-                            25
-                        ]
-                    ]
-                }
-            },
-            "ref": "bridge major case"
-        },
-        {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "filter": [
-                "in",
-                "class",
-                "motorway",
-                "main",
-                "major_rail",
-                "motorway_link"
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "road major case",
-            "paint": {
-                "line-gap-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            0.5
-                        ],
-                        [
-                            20,
-                            25
-                        ]
-                    ]
-                },
-                "line-color": "rgba(219,219,217,1)",
-                "line-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            1
-                        ],
-                        [
-                            22,
-                            2
-                        ]
-                    ]
-                }
-            },
-            "source-layer": "road"
-        },
-        {
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452294613743.9702"
-            },
-            "id": "road major",
-            "paint": {
-                "line-color": "#fff",
-                "line-width": {
-                    "base": 1.4,
-                    "stops": [
-                        [
-                            6,
-                            0.5
-                        ],
-                        [
-                            20,
-                            25
-                        ]
-                    ]
-                }
-            },
-            "ref": "road major case"
-        },
-        {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
-            "metadata": {
-                "mapbox:group": "1452119539441.3816"
-            },
-            "filter": [
-                "all",
+                ],
                 [
                     "in",
                     "class",
+                    "motorway_link",
+                    "path",
                     "service",
-                    "street_limited",
-                    "driveway",
-                    "path"
-                ],
+                    "street",
+                    "street_limited"
+                ]
+            ],
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-color": "rgba(219,219,217,1)",
+                "line-width": {
+                    "base": 1.55,
+                    "stops": [
+                        [
+                            4,
+                            0.05
+                        ],
+                        [
+                            20,
+                            4
+                        ]
+                    ]
+                },
+                "line-gap-width": {
+                    "base": 1.44,
+                    "stops": [
+                        [
+                            4,
+                            0.5
+                        ],
+                        [
+                            20,
+                            20
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "road minor",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "ref": "road minor case",
+            "paint": {
+                "line-width": {
+                    "base": 1.55,
+                    "stops": [
+                        [
+                            4,
+                            0.25
+                        ],
+                        [
+                            20,
+                            20
+                        ]
+                    ]
+                },
+                "line-color": "#fff"
+            }
+        },
+        {
+            "id": "tunnel minor case",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "tunnel",
+            "filter": [
+                "in",
+                "class",
+                "motorway_link",
+                "path",
+                "service",
+                "street",
+                "street_limited"
+            ],
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-color": "rgba(219,219,217,1)",
+                "line-width": {
+                    "base": 1.55,
+                    "stops": [
+                        [
+                            4,
+                            0.05
+                        ],
+                        [
+                            20,
+                            4
+                        ]
+                    ]
+                },
+                "line-gap-width": {
+                    "base": 1.44,
+                    "stops": [
+                        [
+                            4,
+                            0.5
+                        ],
+                        [
+                            20,
+                            20
+                        ]
+                    ]
+                },
+                "line-dasharray": [
+                    2,
+                    2.5
+                ]
+            }
+        },
+        {
+            "id": "tunnel minor",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "ref": "tunnel minor case",
+            "paint": {
+                "line-width": {
+                    "base": 1.55,
+                    "stops": [
+                        [
+                            4,
+                            0.25
+                        ],
+                        [
+                            20,
+                            20
+                        ]
+                    ]
+                },
+                "line-color": "#fff",
+                "line-opacity": 0.6
+            }
+        },
+        {
+            "id": "bridge minor case",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "bridge",
+            "filter": [
+                "in",
+                "class",
+                "motorway_link",
+                "path",
+                "service",
+                "street",
+                "street_limited"
+            ],
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-color": "rgba(219,219,217,1)",
+                "line-width": {
+                    "base": 1.55,
+                    "stops": [
+                        [
+                            4,
+                            0.05
+                        ],
+                        [
+                            20,
+                            4
+                        ]
+                    ]
+                },
+                "line-gap-width": {
+                    "base": 1.44,
+                    "stops": [
+                        [
+                            4,
+                            0.5
+                        ],
+                        [
+                            20,
+                            20
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "bridge minor",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "ref": "bridge minor case",
+            "paint": {
+                "line-width": {
+                    "base": 1.55,
+                    "stops": [
+                        [
+                            4,
+                            0.25
+                        ],
+                        [
+                            20,
+                            20
+                        ]
+                    ]
+                },
+                "line-color": "#fff"
+            }
+        },
+        {
+            "id": "tunnel major case",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "tunnel",
+            "filter": [
+                "in",
+                "class",
+                "main",
+                "major_rail",
+                "motorway",
+                "motorway_link"
+            ],
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-gap-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            25
+                        ]
+                    ]
+                },
+                "line-color": "rgba(219,219,217,1)",
+                "line-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            1
+                        ],
+                        [
+                            22,
+                            2
+                        ]
+                    ]
+                },
+                "line-dasharray": [
+                    2,
+                    2.5
+                ]
+            }
+        },
+        {
+            "id": "tunnel major",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "ref": "tunnel major case",
+            "paint": {
+                "line-color": "#fff",
+                "line-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            25
+                        ]
+                    ]
+                },
+                "line-opacity": 0.6
+            }
+        },
+        {
+            "id": "bridge major case",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "bridge",
+            "filter": [
+                "in",
+                "class",
+                "main",
+                "major_rail",
+                "motorway",
+                "motorway_link"
+            ],
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-gap-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            25
+                        ]
+                    ]
+                },
+                "line-color": "rgba(219,219,217,1)",
+                "line-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            1
+                        ],
+                        [
+                            22,
+                            2
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "bridge major",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "ref": "bridge major case",
+            "paint": {
+                "line-color": "#fff",
+                "line-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            25
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "road major case",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road",
+            "filter": [
+                "in",
+                "class",
+                "main",
+                "major_rail",
+                "motorway",
+                "motorway_link"
+            ],
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-gap-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            25
+                        ]
+                    ]
+                },
+                "line-color": "rgba(219,219,217,1)",
+                "line-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            1
+                        ],
+                        [
+                            22,
+                            2
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "road major",
+            "metadata": {
+                "mapbox:group": "1452294613743.9702"
+            },
+            "ref": "road major case",
+            "paint": {
+                "line-color": "#fff",
+                "line-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            25
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "minor streets",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452119539441.3816"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road",
+            "filter": [
+                "all",
                 [
                     "!in",
                     "type",
-                    "piste",
-                    "footway",
+                    "aerialway",
                     "cycleway",
-                    "aerialway"
+                    "footway",
+                    "piste"
+                ],
+                [
+                    "in",
+                    "class",
+                    "driveway",
+                    "path",
+                    "service",
+                    "street_limited"
                 ]
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "minor streets",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "rgba(201,197,197,1)",
                 "line-opacity": 1,
                 "line-width": 0.5
-            },
-            "source-layer": "road"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "footway",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452119539441.3816"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road",
             "filter": [
                 "all",
                 [
@@ -1300,26 +1239,25 @@
                     "footway"
                 ]
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "footway",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "rgba(143,140,140,1)",
                 "line-dasharray": [
                     5,
                     2
                 ]
-            },
-            "source-layer": "road"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "cycleway",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452119539441.3816"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road",
             "filter": [
                 "all",
                 [
@@ -1333,9 +1271,9 @@
                     "cycleway"
                 ]
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "cycleway",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "rgba(97,151,201,1)",
                 "line-dasharray": [
@@ -1343,17 +1281,16 @@
                     3
                 ],
                 "line-opacity": 1
-            },
-            "source-layer": "road"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "piste",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452119539441.3816"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road",
             "filter": [
                 "all",
                 [
@@ -1367,9 +1304,9 @@
                     "piste"
                 ]
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "piste",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "rgba(107,105,105,1)",
                 "line-width": {
@@ -1385,35 +1322,34 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "road"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "chair_lift",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452119539441.3816"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "bridge",
             "filter": [
                 "all",
-                [
-                    "in",
-                    "type",
-                    "chair_lift",
-                    "drag_lift",
-                    "cable_car"
-                ],
                 [
                     "==",
                     "class",
                     "aerialway"
+                ],
+                [
+                    "in",
+                    "type",
+                    "cable_car",
+                    "chair_lift",
+                    "drag_lift"
                 ]
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "chair_lift",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": {
                     "base": 1,
@@ -1445,37 +1381,36 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "bridge"
+            }
         },
         {
-            "interactive": true,
+            "id": "chair_lift ticks",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452119539441.3816"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "bridge",
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "class",
+                    "aerialway"
+                ],
+                [
+                    "in",
+                    "type",
+                    "cable_car",
+                    "chair_lift",
+                    "drag_lift"
+                ]
+            ],
             "layout": {
                 "visibility": "visible",
                 "line-cap": "square",
                 "line-join": "bevel"
             },
-            "metadata": {
-                "mapbox:group": "1452119539441.3816"
-            },
-            "filter": [
-                "all",
-                [
-                    "in",
-                    "type",
-                    "chair_lift",
-                    "drag_lift",
-                    "cable_car"
-                ],
-                [
-                    "==",
-                    "class",
-                    "aerialway"
-                ]
-            ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "chair_lift ticks",
             "paint": {
                 "line-color": {
                     "base": 1,
@@ -1534,25 +1469,24 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "bridge"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "gondola",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452119539441.3816"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "bridge",
             "filter": [
                 "==",
                 "type",
                 "gondola"
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "gondola",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": {
                     "base": 1,
@@ -1584,27 +1518,26 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "bridge"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-cap": "butt",
-                "line-join": "round"
-            },
+            "id": "gondola dots",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452119539441.3816"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "bridge",
             "filter": [
                 "==",
                 "type",
                 "gondola"
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "gondola dots",
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
             "paint": {
                 "line-color": {
                     "base": 1,
@@ -1651,14 +1584,17 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "bridge"
+            }
         },
         {
-            "layout": {},
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
             "id": "building",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "1452123103210.5454"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "building",
+            "layout": {},
             "paint": {
                 "line-color": {
                     "base": 1,
@@ -1691,18 +1627,17 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "building",
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452123103210.5454"
             }
         },
         {
-            "layout": {},
-            "type": "fill",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
             "id": "building copy",
+            "type": "fill",
+            "metadata": {
+                "mapbox:group": "1452123103210.5454"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "building",
+            "layout": {},
             "paint": {
                 "fill-pattern": "thin-diagonal-lines-blk32",
                 "fill-opacity": {
@@ -1718,30 +1653,25 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "building",
-            "interactive": true,
-            "metadata": {
-                "mapbox:group": "1452123103210.5454"
             }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible",
-                "line-join": "bevel"
-            },
+            "id": "boundaries",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452377264560.7012"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "admin",
             "filter": [
                 "==",
                 "maritime",
                 0
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "boundaries",
+            "layout": {
+                "visibility": "visible",
+                "line-join": "bevel"
+            },
             "paint": {
                 "line-color": "rgba(120,119,119,1)",
                 "line-dasharray": {
@@ -1804,25 +1734,24 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "admin"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "none"
-            },
+            "id": "maritime",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452377264560.7012"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "admin",
             "filter": [
                 "==",
                 "maritime",
                 1
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "maritime",
+            "layout": {
+                "visibility": "none"
+            },
             "paint": {
                 "line-color": "rgba(120,119,119,1)",
                 "line-dasharray": [
@@ -1863,25 +1792,24 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "admin"
+            }
         },
         {
-            "interactive": true,
-            "layout": {
-                "visibility": "visible"
-            },
+            "id": "maritime copy",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452377264560.7012"
             },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "admin",
             "filter": [
                 "==",
                 "maritime",
                 1
             ],
-            "type": "line",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "maritime copy",
+            "layout": {
+                "visibility": "visible"
+            },
             "paint": {
                 "line-color": "rgba(129,176,214,1)",
                 "line-dasharray": [
@@ -1926,15 +1854,14 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "admin"
+            }
         },
         {
-            "interactive": true,
+            "id": "maritime copy 1",
             "metadata": {
                 "mapbox:group": "1452377264560.7012"
             },
-            "id": "maritime copy 1",
+            "ref": "maritime copy",
             "paint": {
                 "line-color": "rgba(129,176,214,1)",
                 "line-dasharray": [
@@ -1976,11 +1903,27 @@
                     ]
                 },
                 "line-blur": 4
-            },
-            "ref": "maritime copy"
+            }
         },
         {
-            "interactive": true,
+            "id": "POI labels",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "poi_label",
+            "filter": [
+                "in",
+                "type",
+                "Alpine Hut",
+                "Attraction",
+                "Bed And Breakfast",
+                "Biergarten",
+                "Golf Course",
+                "Hotel",
+                "Yes"
+            ],
             "layout": {
                 "visibility": "visible",
                 "text-field": "{name_en}",
@@ -2002,34 +1945,27 @@
                     "Arial Unicode MS Regular"
                 ]
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "in",
-                "type",
-                "Alpine Hut",
-                "Attraction",
-                "Biergarten",
-                "Bed And Breakfast",
-                "Golf Course",
-                "Hotel",
-                "Yes"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "POI labels",
             "paint": {
                 "text-opacity": 0.75,
                 "text-color": "rgba(15,15,15,1)",
                 "text-halo-color": "rgba(255,255,255,1)",
                 "text-halo-blur": 0,
                 "text-halo-width": 1.5
-            },
-            "source-layer": "poi_label"
+            }
         },
         {
-            "interactive": true,
+            "id": "path label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road_label",
+            "filter": [
+                "==",
+                "class",
+                "path"
+            ],
             "layout": {
                 "text-size": {
                     "base": 1.4,
@@ -2060,26 +1996,25 @@
                 "text-anchor": "center",
                 "text-field": "{name}"
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "==",
-                "class",
-                "path"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "path label",
             "paint": {
                 "text-color": "rgba(48,47,47,1)",
                 "text-halo-color": "rgba(252,252,252,1)",
                 "text-halo-width": 21
-            },
-            "source-layer": "road_label"
+            }
         },
         {
-            "interactive": true,
+            "id": "chairlift aerialway label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road_label",
+            "filter": [
+                "==",
+                "class",
+                "aerialway"
+            ],
             "layout": {
                 "text-size": {
                     "base": 1,
@@ -2124,17 +2059,6 @@
                 "text-anchor": "bottom",
                 "text-field": "{name}"
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "==",
-                "class",
-                "aerialway"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "chairlift aerialway label",
             "paint": {
                 "text-halo-color": "#fff",
                 "text-color": "rgba(69,68,68,1)",
@@ -2159,10 +2083,16 @@
                 },
                 "text-halo-width": 2,
                 "text-halo-blur": 1
-            },
-            "source-layer": "road_label"
+            }
         },
         {
+            "id": "water-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "water_label",
             "layout": {
                 "text-size": {
                     "base": 1,
@@ -2219,12 +2149,6 @@
                 },
                 "text-max-width": 20
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "water-label",
             "paint": {
                 "text-color": "#62b0f0",
                 "text-halo-color": "rgba(252,252,252,0.8)",
@@ -2241,12 +2165,21 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "water_label",
-            "interactive": true
+            }
         },
         {
-            "interactive": true,
+            "id": "water-label (lg)",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "water_label",
+            "filter": [
+                ">=",
+                "area",
+                "258500"
+            ],
             "layout": {
                 "text-size": {
                     "base": 1,
@@ -2303,17 +2236,6 @@
                 },
                 "text-max-width": 20
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                ">=",
-                "area",
-                "258500"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "water-label (lg)",
             "paint": {
                 "text-color": "#62b0f0",
                 "text-halo-color": "rgba(252,252,252,0.8)",
@@ -2330,10 +2252,16 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "water_label"
+            }
         },
         {
+            "id": "waterway-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "waterway_label",
             "layout": {
                 "text-size": {
                     "base": 1,
@@ -2390,12 +2318,6 @@
                 },
                 "text-max-width": 20
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "waterway-label",
             "paint": {
                 "text-color": "#62b0f0",
                 "text-halo-color": "rgba(252,252,252,0.8)",
@@ -2412,12 +2334,21 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "waterway_label",
-            "interactive": true
+            }
         },
         {
-            "interactive": true,
+            "id": "glacier labels",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "poi_label",
+            "filter": [
+                "==",
+                "type",
+                "Glacier"
+            ],
             "layout": {
                 "text-size": {
                     "base": 1,
@@ -2500,17 +2431,6 @@
                     ]
                 }
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "==",
-                "type",
-                "Glacier"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "glacier labels",
             "paint": {
                 "text-opacity": 1,
                 "text-translate": {
@@ -2552,11 +2472,21 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "poi_label"
+            }
         },
         {
-            "interactive": true,
+            "id": "peak labels elevation",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "poi_label",
+            "filter": [
+                "==",
+                "type",
+                "Peak"
+            ],
             "layout": {
                 "text-size": {
                     "base": 1,
@@ -2621,17 +2551,6 @@
                 "text-field": "{ref}",
                 "text-letter-spacing": 0.05
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "==",
-                "type",
-                "Peak"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "peak labels elevation",
             "paint": {
                 "text-opacity": 0.75,
                 "text-translate": [
@@ -2654,11 +2573,21 @@
                         ]
                     ]
                 }
-            },
-            "source-layer": "poi_label"
+            }
         },
         {
-            "interactive": true,
+            "id": "peak labels",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "poi_label",
+            "filter": [
+                "==",
+                "type",
+                "Peak"
+            ],
             "layout": {
                 "text-size": {
                     "base": 1,
@@ -2697,6 +2626,7 @@
                         ]
                     ]
                 },
+                "icon-image": "peak-x",
                 "text-transform": "uppercase",
                 "text-font": [
                     "Tisa Offc Pro Bold",
@@ -2720,17 +2650,6 @@
                 "text-anchor": "bottom",
                 "text-field": "{name_en}"
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "==",
-                "type",
-                "Peak"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "peak labels",
             "paint": {
                 "text-opacity": 0.75,
                 "text-translate": [
@@ -2740,11 +2659,22 @@
                 "icon-opacity": 0.7,
                 "text-halo-color": "rgba(252,252,252,1)",
                 "text-halo-width": 1
-            },
-            "source-layer": "poi_label"
+            }
         },
         {
-            "interactive": true,
+            "id": "road-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "road_label",
+            "filter": [
+                "!in",
+                "class",
+                "aerialway",
+                "path"
+            ],
             "layout": {
                 "text-size": {
                     "base": 1.4,
@@ -2779,27 +2709,38 @@
                 "text-anchor": "center",
                 "text-field": "{name}"
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "!in",
-                "class",
-                "aerialway",
-                "path"
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "road-label",
             "paint": {
                 "text-color": "rgba(122,118,118,1)",
                 "text-halo-color": "rgba(252,252,252,1)",
                 "text-halo-width": 21
-            },
-            "source-layer": "road_label"
+            }
         },
         {
-            "interactive": true,
+            "id": "place-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "place_label",
+            "filter": [
+                "all",
+                [
+                    "<",
+                    "localrank",
+                    14
+                ],
+                [
+                    "in",
+                    "type",
+                    "city",
+                    "hamlet",
+                    "neighbourhood",
+                    "suburb",
+                    "town",
+                    "village"
+                ]
+            ],
             "layout": {
                 "visibility": "visible",
                 "text-field": "{name_en}",
@@ -2831,38 +2772,20 @@
                     0
                 ]
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "filter": [
-                "all",
-                [
-                    "in",
-                    "type",
-                    "city",
-                    "hamlet",
-                    "town",
-                    "suburb",
-                    "village",
-                    "neighbourhood"
-                ],
-                [
-                    "<",
-                    "localrank",
-                    14
-                ]
-            ],
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "place-label",
             "paint": {
                 "text-color": "rgba(48,48,48,1)",
                 "text-halo-width": 3,
                 "text-halo-color": "rgba(252,252,252,1)"
-            },
-            "source-layer": "place_label"
+            }
         },
         {
+            "id": "country-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "1452214567277.007"
+            },
+            "source": "mapbox://mapbox.mapbox-streets-v6",
+            "source-layer": "country_label",
             "layout": {
                 "visibility": "visible",
                 "text-field": "{name_en}",
@@ -2890,30 +2813,23 @@
                 "text-letter-spacing": 0.025,
                 "text-transform": "uppercase"
             },
-            "metadata": {
-                "mapbox:group": "1452214567277.007"
-            },
-            "type": "symbol",
-            "source": "mapbox://mapbox.mapbox-streets-v6",
-            "id": "country-label",
             "paint": {
                 "text-color": "rgba(48,48,48,1)",
                 "text-halo-color": "rgba(252,252,252,1)",
                 "text-halo-width": 3
-            },
-            "source-layer": "country_label",
-            "interactive": true
+            }
         },
         {
-            "layout": {
-                "visibility": "none"
-            },
+            "id": "ne-10m-graticules-5",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452377121122.9236"
             },
-            "type": "line",
             "source": "mapbox://mslee.0fc2f90a",
-            "id": "ne-10m-graticules-5",
+            "source-layer": "ne_10m_graticules_5",
+            "layout": {
+                "visibility": "none"
+            },
             "paint": {
                 "line-opacity": {
                     "base": 1,
@@ -2930,20 +2846,19 @@
                 },
                 "line-width": 1.5,
                 "line-color": "rgba(84,82,82,1)"
-            },
-            "source-layer": "ne_10m_graticules_5",
-            "interactive": true
+            }
         },
         {
-            "layout": {
-                "visibility": "none"
-            },
+            "id": "ne-10m-graticules-1",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452377121122.9236"
             },
-            "type": "line",
             "source": "mapbox://mslee.0fc2f90a",
-            "id": "ne-10m-graticules-1",
+            "source-layer": "ne_10m_graticules_1",
+            "layout": {
+                "visibility": "none"
+            },
             "paint": {
                 "line-width": 0.25,
                 "line-opacity": {
@@ -2960,20 +2875,19 @@
                     ]
                 },
                 "line-color": "rgba(84,82,82,1)"
-            },
-            "source-layer": "ne_10m_graticules_1",
-            "interactive": true
+            }
         },
         {
-            "layout": {
-                "visibility": "none"
-            },
+            "id": "ne-10m-graticules-10",
+            "type": "line",
             "metadata": {
                 "mapbox:group": "1452377121122.9236"
             },
-            "type": "line",
             "source": "mapbox://mslee.0fc2f90a",
-            "id": "ne-10m-graticules-10",
+            "source-layer": "ne_10m_graticules_10",
+            "layout": {
+                "visibility": "none"
+            },
             "paint": {
                 "line-width": {
                     "base": 1,
@@ -3002,14 +2916,13 @@
                     ]
                 },
                 "line-color": "rgba(84,82,82,1)"
-            },
-            "source-layer": "ne_10m_graticules_10",
-            "interactive": true
+            }
         }
     ],
-    "created": "2016-01-05T22:50:07.006Z",
-    "id": "cij1zoclj002y8rkkdjl69psd",
-    "modified": "2016-01-19T18:19:23.549Z",
-    "owner": "mslee",
+    "created": "2017-05-25T13:33:50.130Z",
+    "id": "cj34gm08c000t2rpfvi68k13e",
+    "modified": "2017-06-01T08:41:57.970Z",
+    "owner": "cbeddow",
+    "visibility": "private",
     "draft": false
 }
