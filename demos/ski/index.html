@@ -208,7 +208,7 @@ map.on('click', function (e) {
   var lat = JSON.stringify(e.lngLat["lat"]);
   map.flyTo({
       center: [lng,lat],
-      zoom: 14,
+      zoom: 15,
   });
 
   var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&closeto="+ lng + "," + lat;
