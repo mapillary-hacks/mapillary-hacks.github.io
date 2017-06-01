@@ -132,6 +132,8 @@ html, body {
 var currentLocation = 'PU_wVUZuYWBJ5VE-FV4Ldg'
 function fly(id) {
   mly.moveToKey(id);
+  var sequenceComponent = mly.getComponent("sequence");
+  sequenceComponent.stop();
   $("#" + currentLocation).removeClass('btnactive');
   $("#" + currentLocation).addClass('btn');
   $("#" + id).removeClass('btn');
@@ -206,6 +208,8 @@ var geojson;
 map.on('click', function (e) {
   var lng = JSON.stringify(e.lngLat["lng"]);
   var lat = JSON.stringify(e.lngLat["lat"]);
+  var sequenceComponent = mly.getComponent("sequence");
+  sequenceComponent.stop();
   map.flyTo({
       center: [lng,lat],
       zoom: 15,
