@@ -1,0 +1,100 @@
+<html>
+
+<head>
+
+  <title>Mapillary API Utility</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script="turf.min.js"></script>
+  <script src='app.js'></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://unpkg.com/mapillary-js@2.3.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.3.0/dist/mapillary.min.css' rel='stylesheet' />
+
+  <style>
+    .text {
+      padding: 10px;
+    }
+    .alt-grid [class*="col-"] {
+      padding-left:0;padding-right:00
+    }
+    .alt-grid .row {
+      margin-left:0;margin-right:0
+    }
+    /* container adjusted */
+    .alt-grid .container {
+      width:100%;max-width:none;padding:30;
+    }
+    .smallTextArea {
+      height:20px;
+      width:50%;
+      resize:none;
+      overflow: hidden;
+    }
+    .wideTextArea {
+      height:50px;
+      width:90%;
+      resize:none;
+      overflow: hidden;
+    }
+    .bboxTextArea {
+      height:20px;
+      width:10%;
+      resize:none;
+      padding-top: 10px;
+      overflow: hidden;
+    }
+  </style>
+
+</head>
+
+<body class="alt-grid">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <h1>Mapillary API Utility</h1>
+        <p>ClientID: </p><textarea class='smallTextArea' height=30 style='color:#5D6671;background-color:#D7DADD;' id='clientid'>UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkMWM2YzdjYjQxN2FhM2Vh</textarea><br><br>
+        <p>Search: </p>
+        <select id="searchType">
+          <option value="images">images</option>
+          <option value="sequences">sequences</option>
+          <option value="users">users</option>
+        </select><br><br>
+        <p>Filter: </p>
+          <input type="checkbox" name="filter" value="bbox" id='bbox' onclick="uncheck1()"> Bounding Box - longitude 1: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;' id='bboxlng1'></textarea> latitude 1: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;' id='bboxlat1'></textarea> longitude 2: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;' id='bboxlng2'></textarea> latitude 2: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;' id='bboxlat2'></textarea><br>
+          <input type="checkbox" name="tiler" value="closeto" id='closeTo' onclick="uncheck2()"> Close To - longitude: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;' id='closetolng'></textarea> latitude: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;'id='closetolat'></textarea><br>
+          <input type="checkbox" name="tiler" value="lookat" id='lookAt' onclick="uncheck2()"> Look At - longitude: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;'></textarea> latitude: <textarea class='bboxTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;'></textarea><br>
+          <input type="checkbox" name="filter" id="start_time"> Start Time - <input type="date" name="start_time" style="height:20px;" id="start_date"><br>
+          <input type="checkbox" name="filter" id="end_time"> End Time - <input type="date" name="end_time" style="height:20px;" id="end_date"><br>
+          <input type="checkbox" name="filter" id="usernames"> Usernames -  <textarea id="usernames_value" class='smallTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;'></textarea><br>
+          <input type="checkbox" name="filter" id="userkeys"> Userkeys - <textarea id="userkeys_value" class='smallTextArea' height=25 style='color:#5D6671;background-color:#D7DADD;'></textarea><br><br><br>
+          <button onclick='generate()'>Generate API Call</button><br><br>
+          <textarea class='wideTextArea' height=40 style='color:#5D6671;background-color:#D7DADD;' id='apiCall'>https://a.mapillary.com/v3/...</textarea><br><br>
+          <button onclick='window.open(geojsonURL)'>View GeoJSON code</button><br><br>
+          <button onclick='geojson()'>Preview GeoJSON on map</button><br><br>
+      </div>
+      <div class="col-sm-6" style="height:80%;" id="map">
+        <script>
+          mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+          var map = new mapboxgl.Map({
+              container: 'map',
+              style: 'mapbox://styles/mapbox/streets-v9',
+              center: [0,0],
+              zoom: 1
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</body>
+
+</html>
