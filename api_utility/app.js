@@ -22,6 +22,7 @@ function generate() {
   var end_time = "";
   var usernames = "";
   var userkeys = "";
+  var distance = "";
   if (document.getElementById('bbox').checked) {
     var bboxlng1 = $('#bboxlng1').val();
     var bboxlat1 = $('#bboxlat1').val();
@@ -55,8 +56,12 @@ function generate() {
     var userkeys_value = $('#userkeys_value').val();
     userkeys = ('&userkeys=' + userkeys_value);
   };
+  if (document.getElementById('distance').checked) {
+    var distance_value = $('#radius_value').val();
+    distance = ('&distance=' + distance_value);
+  };
   $('#apiCall').val("");
-  $('#apiCall').val('https://a.mapillary.com/v3/' + searchType + '?client_id=' + clientid + bbox + closeto + lookat + start_time + end_time + usernames + userkeys);
+  $('#apiCall').val('https://a.mapillary.com/v3/' + searchType + '?client_id=' + clientid + bbox + closeto + lookat + start_time + end_time + usernames + userkeys + distance);
   geojsonURL = $('#apiCall').val();
 };
 
