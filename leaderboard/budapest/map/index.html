@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
   <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
@@ -296,13 +296,13 @@
   }
   #mjs {
     position: relative;
-    bottom: -170px;
+    bottom: -100px;
     left: 0px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.75);
     color: white;
-    width:320px;
-    height:25vh;
-    border: 0px solid rgba(63, 127, 191);
+    width:420px;
+    height:32vh;
+    border: 5px solid gray;
     z-index: 2;
     padding: 0px;
   }
@@ -323,11 +323,11 @@
         <div id='logo'>
           <img src="http://www.flags.net/images/largeflags/HUNG0002.GIF" width=40% height=40%>
         </div>
-        <div id='logo' style="display:inline-block;margin-left:30px;">
-          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=30% height=30%></a>
+        <div id='logo' style="display:inline-block;margin-left:20px;">
+          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=35% height=35%></a>
         </div>
         <div class='map-overlay-inner' id='menu2' style="width:40%;">
-            <label><center>Budapest Challenge<br> (June 9 - June 30, 2017)<br><br><span id='slider-value'> </span></center></label>
+            <label><font style="font-size:16px;"><center>Budapest Challenge<br> (June 9 - June 30, 2017)</font><br><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='20' step='1' value='' />
             <script>
             var days = (Date.now()-1495670400000)/86400000;
@@ -343,21 +343,21 @@
 
         <div id='menu' class='map-overlay-inner'>
           <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(click to toggle)</center></div>
-          <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
-          <div id='satellite' class='btn2'>Basemap: satellite</div>
+<!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
+          <div id='satellite' class='btn2'>Basemap: satellite</div> -->
           <div id='mly' class='mbtn' style="font-size:11px;">Show all Mapillary sequences</div>
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show Target Zones</div>
         </div>
 
-        <div id='mjs' class='map-overlay-inner'><script>
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:30%;" id="mjstext">Click the map to view an image!</h4><script>
               var mjs = new Mapillary.Viewer(
                   'mjs',
                   'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
-                  'PU_wVUZuYWBJ5VE-FV4Ldg',
+                  null,
                   {
                       component: {
                           attribution: true,
-                          cover: false,
+                          cover: true,
                           imagePlane: {
                               imageTiling: true
                           },
@@ -383,6 +383,8 @@
           47.52522856471848],
           zoom: 14
       });
+
+      map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
 
       var layerList = document.getElementById('menu');
       var inputs = layerList.getElementsByClassName('btn2');
@@ -472,6 +474,20 @@
             minzoom: 0,
             maxzoom: 14,
         };
+
+        function caFind(num) {
+            var angles = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
+            var curr = angles[0];
+            var diff = Math.abs (num - curr);
+            for (var val = 0; val < angles.length; val++) {
+                var newdiff = Math.abs (num - angles[val]);
+                if (newdiff < diff) {
+                    diff = newdiff;
+                    curr = angles[val];
+                }
+            }
+            return curr;
+        }
 
         function mlyAdd() {
             console.log(count);
@@ -703,7 +719,73 @@
         mly.onclick = mlyAdd;
         maptime.onclick = maptimeAdd;
 
+        mjs.on('nodechanged', function (node) {
+            try {
+                map.removeLayer("point");
+                map.removeSource("point");
+            } catch (err) {
+                // Do nothing the layers just does not exists
+            }
+            var lng = node.originalLatLon.lon;
+            var lat = node.originalLatLon.lat;
+            var ca = node.ca;
+            var currCa = caFind(ca);
+            map.flyTo({
+                center: [lng, lat],
+                pitch: 0
+            });
+            var currCa = caFind(ca);
+
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [lng, lat]
+                    },
+                    "properties": {
+                              "angle": currCa
+                    }
+                }]
+            };
+
+            map.addSource('point', {
+            "type": "geojson",
+            "data": geojson
+            });
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-{angle}"
+              }
+            });
+        });
+
+        mjs.on(
+        Mapillary.Viewer.bearingchanged,
+        function(bearing) {
+            console.log('bearing changed:', bearing);
+            map.removeLayer("point");
+
+            var currCa = caFind(bearing);
+            console.log(currCa);
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-" + currCa
+              }
+            });
+        });
+
         map.on('click', function (e) {
+          $("#mjstext").remove();
           var lng = JSON.stringify(e.lngLat["lng"]);
           var lat = JSON.stringify(e.lngLat["lat"]);
           var sequenceComponent = mjs.getComponent("sequence");
@@ -730,11 +812,11 @@
                 var ca = data.features[0]["properties"]["ca"];
                 lng = data.features[0]["geometry"]["coordinates"][0];
                 lat = data.features[0]["geometry"]["coordinates"][1];
-//                var currCa = caFind(ca);
-//                console.log("Camera angle " + ca + " converted to " + currCa);
+                var currCa = caFind(ca);
+                console.log("Camera angle " + ca + " converted to " + currCa);
                 console.log(imgkey);
                 mjs.moveToKey(imgkey);
-/*                geojson = {
+                geojson = {
                     "type": "FeatureCollection",
                     "features": [{
                         "type": "Feature",
@@ -761,7 +843,7 @@
                       "icon-image": "cur-ca-{angle}"
                   }
                 });
-*/
+
               }
           });
         });
