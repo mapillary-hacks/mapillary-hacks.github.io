@@ -34,6 +34,8 @@
       width:50%;
       resize:none;
       overflow: hidden;
+      padding-left: 5px;
+      font-size: 12;
     }
     .wideTextArea {
       height:60px;
@@ -46,8 +48,9 @@
       width:12%;
       resize:none;
       padding-top: 0px;
+      padding-left: 5px;
       overflow: hidden;
-      font-size: 10;
+      font-size: 12;
     }
     .boxdraw {
     background: rgba(56,135,190,0.1);
@@ -91,7 +94,8 @@
           <input type="checkbox" name="filter" id="end_time"> End Time: <input type="date" name="end_time" style="height:20px;" id="end_date"><br>
           <input type="checkbox" name="filter" id="usernames"> Usernames: <input type="text" id="usernames_value" class='smallTextArea' height=30 style='color:#5D6671;background-color:#D7DADD;'></input><br>
           <input type="checkbox" name="filter" id="userkeys"> Userkeys: <input type="text" id="userkeys_value" class='smallTextArea' height=30 style='color:#5D6671;background-color:#D7DADD;'></input><br>
-          <input type="checkbox" name="filter" id="distance"> Distance: <input type="text" id="distance_value" class='smallTextArea' height=30 style='color:#5D6671;background-color:#D7DADD;'></input><br><br><br>
+          <input type="checkbox" name="filter" id="distance"> Distance: <input type="text" id="distance_value" class='smallTextArea' height=30 style='color:#5D6671;background-color:#D7DADD;'></input><br>
+          <input type="checkbox" name="filter" id="per_page"> Number of results (max 1000): <input type="text" id="per_page_value" class='bboxTextArea' height=30 style='color:#5D6671;background-color:#D7DADD;width=15%'></input><br><br><br>
           <button onclick='generate()'>Generate API Call</button><br><br>
           <textarea class='wideTextArea' height=60 style='color:#5D6671;background-color:#D7DADD;' id='apiCall'>https://a.mapillary.com/v3/...</textarea><br><br>
           <button onclick='window.open(geojsonURL)'>View GeoJSON code</button><br><br>
