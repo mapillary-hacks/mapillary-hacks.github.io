@@ -140,7 +140,7 @@
             "type": "vector"
         }
     },
-    "sprite": "assets/sprites",
+    "sprite": "sprites",
     "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
     "layers": [
         {
