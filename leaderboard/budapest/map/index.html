@@ -16,22 +16,22 @@
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
-  <meta name="description" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin." />
+  <meta name="description" content="A challenge to photo map Budapest." />
 
   <!-- Twitter Card data -->
-  <meta name="twitter:card" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin.">
-  <meta name="twitter:title" content="Complete the Map Challenge - Berlin">
+  <meta name="twitter:card" content="A challenge to photo map Budapest">
+  <meta name="twitter:title" content="Complete the Map Challenge - Budapest">
   <meta name="twitter:description" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin.">
   <meta name="twitter:image" content="https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png">
 
   <!-- Open Graph data -->
-  <meta property="og: title" content="Complete the Map Challenge - Berlin" />
+  <meta property="og: title" content="Complete the Map Challenge - Budapest" />
   <meta property="og:type" content="article" />
   <meta property="og:image:width" content="200" />
   <meta property="og:image:height" content="200" />
-  <meta property="og: url" content="https://mapillary-hacks.github.io/leaderboard/berlin/map/" />
+  <meta property="og: url" content="https://mapillary-hacks.github.io/leaderboard/budapest/map/" />
   <meta property="og: image" content="https://www.mapillary.com/assets/static/images/landing/capture-images.png" />
-  <meta property="og:description" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin." />
+  <meta property="og:description" content="A challenge to photo map Budapest" />
   <meta property="og:site_name" content="Mapillary" />
 
 
@@ -313,7 +313,7 @@
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=40% height=40%></a>
         </div>
         <div class='map-overlay-inner' id='menu2' style="width:40%;">
-            <label><center>Berlin Challenge<br> (May 25 - June 15, 2017)<br><br><span id='slider-value'> </span></center></label>
+            <label><center>Budapest Challenge<br> (June 9 - June 30, 2017)<br><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='20' step='1' value='' />
             <script>
             var days = (Date.now()-1495670400000)/86400000;
@@ -377,7 +377,7 @@
 
       $(document).ready( function() {
         var bbox = '13.376026153564451,52.493912509686346,13.420829772949217,52.51219888266202'; //this takes the first coordinate pair of the first square, and the third coordinate pair of the last square
-        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&end_time=2017-06-16&bbox=' + bbox;
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-06-09&end_time=2017-07-01&bbox=' + bbox;
         console.log(url);
 
         //tile totals
