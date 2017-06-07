@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>#CompleteTheMap Berlin - Mapillary</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='filters.js'></script>
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+  <meta name="description" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin." />
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin.">
+  <meta name="twitter:title" content="Complete the Map Challenge - Berlin">
+  <meta name="twitter:description" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin.">
+  <meta name="twitter:image" content="https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png">
+
+  <!-- Open Graph data -->
+  <meta property="og: title" content="Complete the Map Challenge - Berlin" />
+  <meta property="og:type" content="article" />
+  <meta property="og:image:width" content="200" />
+  <meta property="og:image:height" content="200" />
+  <meta property="og: url" content="https://mapillary-hacks.github.io/leaderboard/berlin/map/" />
+  <meta property="og: image" content="https://www.mapillary.com/assets/static/images/landing/capture-images.png" />
+  <meta property="og:description" content="A challenge to photo map Mitte and Kreuzberg and collect useful map data for Berlin." />
+  <meta property="og:site_name" content="Mapillary" />
+
+
+  <style>
+  #map {
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:100%;
+    height:100%;
+    min-height: 100vh;
+    z-index: 1;
+  }
+  html, body {
+     position:fixed;
+     top:0;
+     bottom:0;
+     left:0;
+     right:0;
+     background-color: black;
+  }
+  .map-overlay {
+      font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      position: absolute;
+      width: 30%;
+      top: 0;
+      left: 0;
+      color: "#900";
+
+      font-weight: bold;
+  }
+
+  .map-overlay .map-overlay-inner {
+      background-color: #a9a9a9;
+      box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+      border-radius: 3px;
+      padding: 5px;
+      width: 100%;
+      margin-bottom: 10px;
+      margin-left: 5px;
+  }
+
+  .map-overlay label {
+      display: block;
+      margin: 0 0 10px;
+  }
+
+  .map-overlay input {
+      background-color: transparent;
+      display: inline-block;
+      width: 100%;
+      position: relative;
+      margin: 0;
+      cursor: ew-resize;
+  }
+  #menu {
+      position: absolute;
+      background: #a9a9a9;
+      width: 40%;
+      padding: 5px;
+      font-family: 'Open Sans', sans-serif;
+      box-shadow:0;
+      z-index: 2;
+  }
+  #menu2 {
+      position: relative;
+      background: #a9a9a9;
+      width: 40%;
+      padding: 5px;
+      font-family: 'Open Sans', sans-serif;
+      box-shadow:0;
+      z-index: 2;
+  }
+  #leaderboard {
+    background: #36AF6D;
+    font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif
+    min-height: 100vh;
+    padding-left: 15;
+    padding-right: 15;
+    margin: 30 0 0 0;
+    color: gray;
+  }
+  .alt-grid [class*="col-"] {
+    padding-left:0;
+    padding-right:0;
+  }
+  .alt-grid .row {
+    margin-left:0;
+    margin-right:0;
+  }
+  /* container adjusted */
+  .alt-grid .container {
+    width:100%;
+    max-width:none;
+    padding:30;
+  }
+  input {
+      border: 0px solid;
+      padding: 0px;
+      font-weight: bold;
+  }
+  .btn {
+    padding: 5px;
+    cursor: pointer;
+  }
+  .mbtn {
+    padding: 5px;
+    cursor: pointer;
+    border-color:white;border:1px solid white;
+  }
+  .btn2 {
+    padding: 5px;
+    cursor: pointer;
+    border-color:white;border:1px solid white;
+  }
+  /*.btn:hover {
+    color: #FFF;
+    background: #333333;
+    cursor: pointer;
+  }
+  .mbtn:hover {
+    color: #FFF;
+    background: #9933ff;
+    cursor: pointer;
+  } */
+  #logo {
+    padding: 10px;
+    position: relative;
+    margin-bottom: 0px;
+    margin-left:0px;
+    border-radius: 3px;
+    z-index: 2;
+  }
+  th {
+    height: 15px;
+    width: 49%;
+    float: center;
+    padding: 5px;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+    width: 100%;
+  }
+
+  tr:nth-child(odd) {
+    background-color: #d3d3d3;
+    width: 100%;
+  }
+  #ltd {
+    height: 10px;
+    width: 49%;
+    border: 2;
+    border-color: white;
+    padding: 5px;
+  }
+  #shtd {
+    height: 10px;
+    width: 33%;
+    border: 2;
+    border-color: white;
+    padding: 5px;
+  }
+  table {
+    float:left;
+    margin-left:5px;
+    margin-right: 5px;
+    border: 2;
+    border-color: white;
+    padding: 5px;
+    width: 97%;
+  }
+  #share {
+    float:center;
+    margin-left:5px;
+    margin-right: 5px;
+    padding: 5px;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 12px;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {display:none;}
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 9px;
+    width: 9px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #E6E9ED;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: #36AF6D;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #36AF6D;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(8px);
+    -ms-transform: translateX(8px);
+    transform: translateX(8px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 12px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  .coveragetext {
+    font-size: 16;
+  }
+  .fa {
+      padding: 20px;
+      font-size: 30px;
+      width: 70px;
+      text-align: center;
+      text-decoration: none;
+  }
+  .fa:hover {
+      opacity: 0.7;
+  }
+  .fa-facebook {
+      background: #3B5998;
+      color: white;
+  }
+  .fa-envelope {
+      background: #333333;
+      color: white;
+  }
+
+  .fa-twitter {
+      background: #55ACEE;
+      color: white;
+  }
+  </style>
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+  <div class="alt-grid row" style="height:100%">
+    <div class="col-sm-10">
+      <div class='map-overlay top'>
+        <div id='logo'>
+          <img src='https://www.mapillary.com/assets/static/images/landing/capture-images.png' width=0 height=0 />
+          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=40% style="margin-top:5px;"></a>
+        </div>
+        <div id='logo'>
+          <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Flag_of_Berlin.svg/2000px-Flag_of_Berlin.svg.png' width=40% height=40%>
+        </div>
+        <div id='logo'>
+          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=40% height=40%></a>
+        </div>
+        <div class='map-overlay-inner' id='menu2' style="width:40%;">
+            <label><center>Berlin Challenge<br> (May 25 - June 15, 2017)<br><br><span id='slider-value'> </span></center></label>
+            <input id='slider' type='range' min='1' max='20' step='1' value='' />
+            <script>
+            var days = (Date.now()-1495670400000)/86400000;
+            console.log("Current date is " + Date.now());
+            console.log("value of days is " + days);
+            document.getElementById('slider').max = 22;//Math.floor(Math.abs(days));
+            console.log("The max value is now " + document.getElementById('slider').max)
+            document.getElementById('slider').value = days;
+            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since competition start';
+
+            </script>
+        </div>
+
+        <div id='menu' class='map-overlay-inner'>
+          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center><h4>Control Panel</h4></center></div>
+          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(click to toggle)</center><br></div>
+          <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets
+          </div>
+          <div id='satellite' class='btn2'>Basemap: satellite</div>
+          <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
+          <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show Target Zones</div>
+        </div>
+      </div>
+      <div id='map'></div>
+      <script>
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+      var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v9',
+          center: [13.388512979125977,
+                52.5010889376858],
+          zoom: 14
+      });
+
+      var layerList = document.getElementById('menu');
+      var inputs = layerList.getElementsByClassName('btn2');
+      var count = 0;
+      var count2 = 0;
+
+      var userjson = "usernames.json";
+      var url;
+      var users = [];
+      var userkeys = [];
+//      var lowfilter = [];
+//      var medfilter = [];
+//      var highfilter = [];
+
+      console.log(users);
+      console.log(userkeys);
+      var myfilter = ["in", "userkey",...userkeys]
+      console.log(myfilter);
+
+      var slider = document.getElementById('slider');
+      var sliderValue = document.getElementById('slider-value');
+
+
+      var maxdate = Date.now();
+      var mindate = (1495670400000) //set to show Mapillary sequences from May 25, 2017 onward
+      var last30 = (maxdate-(86400000 * 5))
+
+      $(document).ready( function() {
+        var bbox = '13.376026153564451,52.493912509686346,13.420829772949217,52.51219888266202'; //this takes the first coordinate pair of the first square, and the third coordinate pair of the last square
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&end_time=2017-06-16&bbox=' + bbox;
+        console.log(url);
+
+        //tile totals
+        var x;
+        var y;
+        var totals = [];
+        var sums = [];
+        var tiles = [];
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: 'square.geojson',
+          success: function (square) {
+            console.log("There are " + square.features.length + " squares in the grid!");
+          /*  for ( i = 0; i < square.features.length; i++) {
+              x = square.features[i]["geometry"]["coordinates"][0][0];
+              y = square.features[i]["geometry"]["coordinates"][0][2];
+              var bbox2 = x[0]+','+x[1]+','+y[0]+','+y[1];
+              var myurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&end_time=2017-06-16&bbox=' + bbox2;
+              $.ajax({
+                dataType: "json",
+                async: false, // Makes sure to wait for load
+                url: myurl,
+                success: function (stats) {
+                  console.log(myurl);
+                  tiles.push(stats[0]["username"]);
+                }
+              });
+            }*/
+          }
+        });
+        console.log("Tiles list is " + tiles);
+        var obj = { };
+        for (var i = 0, j = tiles.length; i < j; i++) {
+           obj[tiles[i]] = (obj[tiles[i]] || 0) + 1;
+        };
+        var test = tiles[3];
+        console.log("The test comes out as " + obj[test]);
+        //user scores
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: url,
+          success: function (stats) {
+            for (n = 0; n < stats.length; n++) {
+              var u = stats[n]["username"];
+              $('#table').append('<tr><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td></tr>');
+            }
+          }
+        });
+      });
+
+      map.on('style.load', function () {
+        var mapillarySource = {
+            type: 'vector',
+            tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+            minzoom: 0,
+            maxzoom: 14,
+        };
+
+        function mlyAdd() {
+            console.log(count);
+            switch (count) {
+              case 0:
+                mly.style.backgroundColor = "rgb(53, 175, 109)";
+                mly.style.color = "#FFF";
+                map.addLayer({
+                    'id': 'mapillary-all',
+                    'type': 'circle',
+                    'source': 'mapillary',
+                    'source-layer': 'mapillary-sequence-overview',
+                    'paint': {
+                        'circle-opacity': 0.75,
+                        'circle-color':   'rgb(53, 175, 109)',
+                        'circle-radius':   2
+                    }
+                }, 'mapillary-o');
+                map.addLayer({
+                   'id': 'mapillary-all2',
+                   'type': 'line',
+                   'source': 'mapillary',
+                   'source-layer': 'mapillary-sequences',
+                   'layout': {
+                       'line-cap': 'round',
+                       'line-join': 'round'
+                   },
+                   'paint': {
+                       'line-opacity': 0.75,
+                       'line-color':   'rgb(53, 175, 109)',
+                       'line-width':   2
+                   }
+                }, 'mapillary');
+                count = 1;
+                break;
+              case 1:
+                mly.style.backgroundColor = "#a9a9a9";
+                mly.style.color = "#000";
+                map.removeLayer('mapillary-all');
+                map.removeLayer('mapillary-all2');
+                count = 0;
+                break;
+            };
+        };
+
+        function maptimeAdd() {
+            console.log(count2);
+            switch (count2) {
+              case 0:
+                maptime.style.backgroundColor = "red";
+                maptime.style.color = "#FFF";
+                count2 = 1;
+                map.addSource('maptime', {
+                    'type': 'geojson',
+                    'data': 'square.geojson'
+                });
+                map.addLayer({
+                    'id': 'maptimelayer-low',
+                    'type': 'fill',
+                    'source': 'maptime',
+                    'filter': ['all',
+                            lowfilter],
+                    'paint': {
+                        'fill-color': 'red',
+                        'fill-outline-color' : "white",
+        //                {
+        //                  'property': 'fill',
+        //                  'type': 'identity'
+        //                },
+                        'fill-opacity': .65
+                    }
+                });
+                map.addLayer({
+                    'id': 'maptimelayer-med',
+                    'type': 'fill',
+                    'source': 'maptime',
+                    'filter': ['all',
+                            medfilter],
+                    'paint': {
+                        'fill-color': 'gold',
+                        'fill-outline-color' : "white",
+                        'fill-opacity': .65
+                    }
+                });
+                map.addLayer({
+                    'id': 'maptimelayer-high',
+                    'type': 'fill',
+                    'source': 'maptime',
+                    'filter': ['all',
+                            highfilter],
+                    'paint': {
+                        'fill-color': 'green',
+                        'fill-outline-color' : "white",
+        //                {
+        //                  'property': 'fill',
+        //                  'type': 'identity'
+        //                },
+                        'fill-opacity': .65
+                    }
+                });
+                map.addLayer({
+                  "id": "maptime-label",
+                  "type": "symbol",
+                  "source": "maptime",
+                  "layout": {
+                    "text-field": "{Id}",
+                    "text-font": [
+                      "DIN Offc Pro Medium",
+                      "Arial Unicode MS Bold"
+                    ],
+                    "text-size": 12
+                  },
+                  'paint': {
+                          'text-color': 'white'
+                  }
+                });
+                break;
+              case 1:
+                maptime.style.backgroundColor = "#a9a9a9";
+                maptime.style.color = "#000";
+                count2 = 0;
+                map.removeLayer('maptimelayer-low');
+                map.removeLayer('maptimelayer-med');
+                map.removeLayer('maptimelayer-high');
+                map.removeLayer('maptime-label');
+                map.removeSource('maptime');
+                break;
+            };
+        };
+
+        function switchLayer(layer) {
+            var layerId = layer.target.id;
+            map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+            switch (layerId) {
+              case 'streets':
+                streets.style.backgroundColor = "#333333";
+                streets.style.color = "#FFF";
+                satellite.style.backgroundColor = "#a9a9a9";
+                satellite.style.color = "#000";
+                count = Math.abs(count-1);
+                count2 = Math.abs(count2-1);
+                break;
+              case 'satellite':
+                satellite.style.backgroundColor = "#333333";
+                satellite.style.color = "#FFF";
+                streets.style.backgroundColor = "#a9a9a9";
+                streets.style.color = "#000";
+                count = Math.abs(count-1);
+                count2 = Math.abs(count2-1);
+                break;
+            };
+        };
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].onclick = switchLayer;
+        };
+
+/*        var max = sums.reduce(function(a, b) {
+            return Math.max(a, b);
+        });
+        console.log(totals);
+        console.log("The highest value is " + max);
+        var step1 = max/3;
+        var step2 = step1*2;
+        var step3= max;
+
+        var low = [];
+        var med = [];
+        var high = [];
+
+        for (i = 0; i < totals.length; i++) {
+          if (sums[i] < step1 || sums[i] == step1) {
+            low.push(ids[i])
+          } else if (sums[i] > step1 && sums[i] < step2 || sums[i] == step2) {
+            med.push(ids[i]);
+          } else {
+            high.push(ids[i]);
+          }
+        };
+*/
+
+  /*    var N = 121;
+      var low = Array.apply(null, {length: N}).map(Number.call, Number)
+      var med = [];
+      var high = []; */
+      lowfilter = ["in", "Id",...low]
+      medfilter = ["in", "Id",...med]
+      highfilter = ["in", "Id",...high]
+
+
+      //
+
+
+        map.addSource('mapillary', mapillarySource);
+
+        map.addLayer({
+            'id': 'mapillary-o',
+            'type': 'circle',
+            'source': 'mapillary',
+            'source-layer': 'mapillary-sequence-overview',
+            'filter': ['all',
+                    ['>=', 'captured_at', mindate],
+                    ['<=', 'captured_at', maxdate]],
+            'paint': {
+                'circle-opacity': 0.75,
+                'circle-color':   'purple',
+                'circle-radius':   2
+            }
+        });
+        map.addLayer({
+           'id': 'mapillary',
+           'type': 'line',
+           'source': 'mapillary',
+           'source-layer': 'mapillary-sequences',
+           'filter': ['all',
+                   ['>=', 'captured_at', mindate],
+                   ['<=', 'captured_at', maxdate]],
+           'layout': {
+               'line-cap': 'round',
+               'line-join': 'round'
+           },
+           'paint': {
+               'line-opacity': 0.75,
+               'line-color':   'purple',
+               'line-width':   2
+           }
+       });
+        maptimeAdd();
+        mly.onclick = mlyAdd;
+        maptime.onclick = maptimeAdd;
+
+        slider.addEventListener('input', function(e) {
+                var newDate = (mindate+(86400000 * e.target.value))
+                console.log(new Date(newDate));
+                map.removeLayer('mapillary','mapillary-o');
+                map.addLayer({
+                    'id': 'mapillary-o',
+                    'type': 'circle',
+                    'source': 'mapillary',
+                    'source-layer': 'mapillary-sequence-overview',
+                    'filter': ['all',
+                            ['>=', 'captured_at', mindate],
+                            ['<=', 'captured_at', newDate]],
+                    'paint': {
+                        'circle-opacity': 0.75,
+                        'circle-color':   'purple',
+                        'circle-radius':   2
+                    }
+                },'exzona');
+                map.addLayer({
+                     'id': 'mapillary',
+                     'type': 'line',
+                     'source': 'mapillary',
+                     'source-layer': 'mapillary-sequences',
+                     'filter': ['all',
+                             ['>=', 'captured_at', mindate],
+                             ['<=', 'captured_at', newDate]],
+                     'layout': {
+                         'line-cap': 'round',
+                         'line-join': 'round'
+                     },
+                     'paint': {
+                         'line-opacity': 0.75,
+                         'line-color':   'purple',
+                         'line-width':   2
+                     }
+                 }, 'exzona');
+
+                // Value indicator
+                sliderValue.textContent = e.target.value + ' days since competition start';
+            });
+        });
+      </script>
+    </div>
+    <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:1000vh;">
+      <div class="alt-grid row" style="min-height:87vh;">
+        <center><h2 style="color:white;">Leaderboard</h2></center>
+        <br>
+        <table id='table'>
+          <tr>
+            <th>User</th><th>Images</th>
+          </tr>
+        </table>
+      </div>
+      <div class="alt-grid row"style="max-height:8vh;margin-left:18%;width:100%;" id="share">
+          <a href="https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=https%3A%2F%2Fmapillary-hacks.github.io%2Fleaderboard%2Fberlin%2Fmap%2F&display=popup&ref=plugin&src=share_button" target="_blank" class="fa fa-facebook"></a><a href="https://twitter.com/home?status=Mapillary%20is%20running%20a%20challenge%20to%20%23CompletetheMap%20in%20Berlin.%20Take%20photos%20in%20Berlin%20to%20join.%0AMore%20details%20here%3A%20http%3A//bit.ly/2qMjn4D" target="_blank" class="fa fa-twitter"></a><a href="mailto:?&subject=Join%20the%20#CompletetheMap%20Challenge%20in%20Berlin&body=Mapillary%20is%20running%20a%20challenge%20to%20%23CompletetheMap%20in%20Berlin.%20All%20you%20have%20to%20do%20to%20join%20is%20take%20photos%20in%20central%20Berlin%20from%20May%2025th%20to%20June%2015th.%20More%20details%20here%3A%20http%3A//bit.ly/2qMjn4D" target="_blank" class="fa fa-envelope"></a>
+          <br><br>
+      </div>
+      <div class="alt-grid row"style="max-height:5vh;margin-left:10%;width:100%;" id="share">
+          <h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;">Click here to nominate your city!</a></h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>
