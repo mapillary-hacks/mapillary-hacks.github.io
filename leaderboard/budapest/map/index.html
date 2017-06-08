@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>#CompleteTheMap Berlin - Mapillary</title>
+  <title>#CompleteTheMap Budapest - Mapillary</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='filters.js'></script>
   <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
@@ -12,9 +12,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
 
   <meta name="description" content="A challenge to photo map Budapest." />
 
@@ -60,7 +62,7 @@
       top: 0;
       left: 0;
       color: "#900";
-
+      height: 100vh;
       font-weight: bold;
   }
 
@@ -292,6 +294,18 @@
       background: #55ACEE;
       color: white;
   }
+  #mjs {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    width:480px;
+    height:35vh;
+    border: 5px solid gray;
+    z-index: 2;
+    padding: 0px;
+  }
   </style>
 
 </head>
@@ -307,13 +321,13 @@
           <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=40% style="margin-top:5px;"></a>
         </div>
         <div id='logo'>
-          <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Flag_of_Berlin.svg/2000px-Flag_of_Berlin.svg.png' width=40% height=40%>
+          <img src="http://www.flags.net/images/largeflags/HUNG0002.GIF" width=40% height=40%>
         </div>
-        <div id='logo'>
-          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=40% height=40%></a>
+        <div id='logo' style="display:inline-block;margin-left:20px;">
+          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=35% height=35%></a>
         </div>
         <div class='map-overlay-inner' id='menu2' style="width:40%;">
-            <label><center>Budapest Challenge<br> (June 9 - June 30, 2017)<br><br><span id='slider-value'> </span></center></label>
+            <label><font style="font-size:16px;"><center>Budapest Challenge<br> (June 9 - June 30, 2017)</font><br><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='20' step='1' value='' />
             <script>
             var days = (Date.now()-1495670400000)/86400000;
@@ -328,26 +342,49 @@
         </div>
 
         <div id='menu' class='map-overlay-inner'>
-          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center><h4>Control Panel</h4></center></div>
-          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(click to toggle)</center><br></div>
-          <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets
-          </div>
-          <div id='satellite' class='btn2'>Basemap: satellite</div>
-          <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
+          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(click to toggle)</center></div>
+<!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
+          <div id='satellite' class='btn2'>Basemap: satellite</div> -->
+          <div id='mly' class='mbtn' style="font-size:11px;">Show all Mapillary sequences</div>
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show Target Zones</div>
         </div>
+
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:50%;" id="mjstext">Click the map to view an image!</h4><script>
+              var mjs = new Mapillary.Viewer(
+                  'mjs',
+                  'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
+                  null,
+                  {
+                      component: {
+                          attribution: true,
+                          cover: true,
+                          imagePlane: {
+                              imageTiling: true
+                          },
+                          stats: true
+                      },
+                      renderMode: Mapillary.RenderMode.Fill
+                  }
+              );
+          </script>
+        </div>
+
       </div>
+
       <div id='map'></div>
+
       <script>
 
       mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
       var map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9',
-          center: [13.388512979125977,
-                52.5010889376858],
+          style: 'homebrew-streets-v8.json',
+          center: [19.05123710632324,
+          47.52522856471848],
           zoom: 14
       });
+
+      map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
 
       var layerList = document.getElementById('menu');
       var inputs = layerList.getElementsByClassName('btn2');
@@ -437,6 +474,20 @@
             minzoom: 0,
             maxzoom: 14,
         };
+
+        function caFind(num) {
+            var angles = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
+            var curr = angles[0];
+            var diff = Math.abs (num - curr);
+            for (var val = 0; val < angles.length; val++) {
+                var newdiff = Math.abs (num - angles[val]);
+                if (newdiff < diff) {
+                    diff = newdiff;
+                    curr = angles[val];
+                }
+            }
+            return curr;
+        }
 
         function mlyAdd() {
             console.log(count);
@@ -667,6 +718,135 @@
         maptimeAdd();
         mly.onclick = mlyAdd;
         maptime.onclick = maptimeAdd;
+
+        mjs.on('nodechanged', function (node) {
+            try {
+                map.removeLayer("point");
+                map.removeSource("point");
+            } catch (err) {
+                // Do nothing the layers just does not exists
+            }
+            var lng = node.originalLatLon.lon;
+            var lat = node.originalLatLon.lat;
+            var ca = node.ca;
+            var currCa = caFind(ca);
+            map.flyTo({
+                center: [lng, lat],
+                pitch: 0
+            });
+            var currCa = caFind(ca);
+
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [lng, lat]
+                    },
+                    "properties": {
+                              "angle": currCa
+                    }
+                }]
+            };
+
+            map.addSource('point', {
+            "type": "geojson",
+            "data": geojson
+            });
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-{angle}"
+              }
+            });
+        });
+
+        mjs.on(
+        Mapillary.Viewer.bearingchanged,
+        function(bearing) {
+            console.log('bearing changed:', bearing);
+            map.removeLayer("point");
+
+            var currCa = caFind(bearing);
+            console.log(currCa);
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-" + currCa
+              }
+            });
+        });
+
+        map.on('click', function (e) {
+          $("#mjstext").remove();
+          var lng = JSON.stringify(e.lngLat["lng"]);
+          var lat = JSON.stringify(e.lngLat["lat"]);
+          var sequenceComponent = mjs.getComponent("sequence");
+          sequenceComponent.stop();
+          map.flyTo({
+              center: [lng,lat],
+              zoom: 15,
+          });
+
+          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&closeto="+ lng + "," + lat;
+
+          $.ajax({
+              dataType: "json",
+              url: url,
+              success: function(data) {
+                try {
+                    map.removeLayer("point");
+                    map.removeSource("point");
+                } catch (err) {
+                    // Do nothing the layers just does not exists
+                }
+                console.log(url);
+                var imgkey = data.features[0]["properties"]["key"];
+                var ca = data.features[0]["properties"]["ca"];
+                lng = data.features[0]["geometry"]["coordinates"][0];
+                lat = data.features[0]["geometry"]["coordinates"][1];
+                var currCa = caFind(ca);
+                console.log("Camera angle " + ca + " converted to " + currCa);
+                console.log(imgkey);
+                mjs.moveToKey(imgkey);
+                geojson = {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [lng, lat]
+                        },
+                        "properties": {
+                                  "angle": currCa
+                        }
+                    }]
+                };
+
+                map.addSource('point', {
+                "type": "geojson",
+                "data": geojson
+                });
+
+                map.addLayer({
+                  "id": "point",
+                  "type": "symbol",
+                  "source": "point",
+                  "layout": {
+                      "icon-image": "cur-ca-{angle}"
+                  }
+                });
+
+              }
+          });
+        });
 
         slider.addEventListener('input', function(e) {
                 var newDate = (mindate+(86400000 * e.target.value))

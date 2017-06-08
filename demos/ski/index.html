@@ -163,6 +163,8 @@ var map = new mapboxgl.Map({
     zoom: 15
 });
 
+map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
+
 map.on('style.load', function () {
   var mapillarySource = {
       type: 'vector',
