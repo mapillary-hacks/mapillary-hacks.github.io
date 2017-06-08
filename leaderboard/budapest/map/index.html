@@ -330,7 +330,7 @@
             <label><font style="font-size:16px;"><center>Budapest Challenge<br> (June 9 - June 30, 2017)</font><br><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='20' step='1' value='' />
             <script>
-            var days = (Date.now()-1495670400000)/86400000;
+            var days = (Date.now()-1496966400000)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
             console.log("Current date is " + Date.now());
             console.log("value of days is " + days);
             document.getElementById('slider').max = 22;//Math.floor(Math.abs(days));
@@ -349,7 +349,10 @@
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show Target Zones</div>
         </div>
 
-        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:50%;" id="mjstext">Click the map to view an image!</h4><script>
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:35%;" id="mjstext">Click the map to view an image!</h4>
+          <script>
+              var maxdate = Date.now();
+              var mindate = (1496966400000) //set to show epoch milliseconds of the start date
               var mjs = new Mapillary.Viewer(
                   'mjs',
                   'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
@@ -366,6 +369,7 @@
                       renderMode: Mapillary.RenderMode.Fill
                   }
               );
+              mjs.setFilter([['>=', 'captured_at', mindate],['<=', 'captured_at', maxdate]]);;
           </script>
         </div>
 
@@ -381,7 +385,7 @@
           style: 'homebrew-streets-v8.json',
           center: [19.05123710632324,
           47.52522856471848],
-          zoom: 14
+          zoom: 13
       });
 
       map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
@@ -406,11 +410,6 @@
 
       var slider = document.getElementById('slider');
       var sliderValue = document.getElementById('slider-value');
-
-
-      var maxdate = Date.now();
-      var mindate = (1495670400000) //set to show Mapillary sequences from May 25, 2017 onward
-      var last30 = (maxdate-(86400000 * 5))
 
       $(document).ready( function() {
         var bbox = '19.04193498148289,47.50728240506778,19.089477516684735,47.539486035012736'; //this takes the first coordinate pair of the first square, and the third coordinate pair of the last square
@@ -785,7 +784,6 @@
         });
 
         map.on('click', function (e) {
-          $("#mjstext").remove();
           var lng = JSON.stringify(e.lngLat["lng"]);
           var lat = JSON.stringify(e.lngLat["lat"]);
           var sequenceComponent = mjs.getComponent("sequence");
@@ -795,7 +793,7 @@
               zoom: 15,
           });
 
-          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&closeto="+ lng + "," + lat;
+          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=2017-06-09&end_time=2017-07-01&closeto="+ lng + "," + lat;
 
           $.ajax({
               dataType: "json",
@@ -808,6 +806,12 @@
                     // Do nothing the layers just does not exists
                 }
                 console.log(url);
+                if (!data.features[0]) {
+                  $("#mjstext").text("No competition images here yet--go map it!");
+                  console.log("test");
+                } else {
+                  $("#mjstext").remove();
+                };
                 var imgkey = data.features[0]["properties"]["key"];
                 var ca = data.features[0]["properties"]["ca"];
                 lng = data.features[0]["geometry"]["coordinates"][0];
