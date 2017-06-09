@@ -7,7 +7,7 @@ While coverage in Budapest has come a long way, there are many gaps that remain.
 <a href="https://mapillary-hacks.github.io/leaderboard/budapest/map/" rel="external"><img src="Day_1_Coverage.JPG" alt="Complete the Map Budapest Leaderboard"/></a>
 
 ### The Challenge
-Újlipótváros has been divided into a 5x grid, with each zone in the grid 1000 m x 1000 m. To participate in the challenge, simply capture streets and paths in each zone. The contributor with the most images in each zone when it is marked as complete will win the zone. The contributor who wins the most zones wins #CompleteTheMap Budapest. If you’d like to take part, subscribe to [our email updates](http://eepurl.com/cRP5Sz), head into Újlipótváros and start capturing images. Good luck!
+Újlipótváros has been divided into a 4x4 grid, with each zone in the grid 1000 m x 1000 m. To participate in the challenge, simply capture streets and paths in each zone. The contributor with the most images in each zone when it is marked as complete will win the zone. The contributor who wins the most zones wins #CompleteTheMap Budapest. If you’d like to take part, subscribe to [our email updates](http://eepurl.com/cRP5Sz), head into Újlipótváros and start capturing images. Good luck!
 
 ### The Rules
 
