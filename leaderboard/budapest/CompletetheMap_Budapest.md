@@ -1,53 +1,40 @@
-**Über die nächsten drei Wochen hinweg laden wir alle Mapillary-Benutzer in Berlin dazu ein, an unserem Wettbewerb zum Fotomappen von Berlin-Mitte und -Kreuzberg teilzunehmen. Jeder, der in Berlin lebt oder zufällig gerade in der Stadt ist, kann bei unserem #CompleteTheMap Wettbewerb mitmachen.**
+**A challenge to photo map Újlipótváros and collect useful map data for Budapest.**
 
-Auch wenn schon seit einer langen Zeit in Berlin Bilder hochgeladen werden, ist die Stadt noch längst nicht vollständig abgedeckt. Wenn wir viele Fotos in dem kurzen Zeitabschnitt sammeln können, haben wir die Möglichkeit die noch vorhandenen Lücken in Mitte & Kreuzberg zu schließen. Damit können wir eine Menge neue Daten, wie unter anderem Geschäfte und Einrichtungen, erfassen.
+From now until the end of June, we’re bringing together the Mapillary community in Budapest in a challenge to unlock the zones of Újlipótváros and Margaret Island. Anyone living in Budapest or passing through during this time is welcome to join the #CompleteTheMap challenge.  
 
-### Der Wettbewerb
-![Das Raster](Day_6_Progress.JPG)
+While coverage in Budapest has come a long way, there are many gaps that remain. #CompletetheMap Berlin has demonstrated that bringing together the community to focus on a specific part of the city is a very effective way to improve coverage. These photos will enable a new round of map editing focused on street-level details like shop information, mobility access, and amenities. [Follow the action here](https://mapillary-hacks.github.io/leaderboard/budapest/map/).
 
-Ein Abschnitt von Berlin, der Mitte und Kreuzberg umschließt, wurde in ein 12x10 Zonen großes Raster unterteilt, wobei jede einzelne Zone im Raster 250x250m groß ist. Um an dem Wettbewerb teilzunehmen, muss man einfach Straßen und Wege in diesen Zonen aufnehmen. Sobald eine Zone grün wird, ist sie fertig. Der Mitwirkende mit den meisten Bildern in einer Zone gewinnt diese Zone und der, der die meisten Zonen für sich gewonnen hat, ist der Sieger des #CompletetheMap Wettbewerbs.
+<a href="https://mapillary-hacks.github.io/leaderboard/budapest/map/" rel="external"><img src="Day_1_Coverage.JPG" alt="Complete the Map Budapest Leaderboard"/></a>
 
-Wenn man mitmachen wiIl, muss man einfach nur Bilder in diesem Bereich aufnehmen und auf Mapillary hochladen. Außerdem sollte man unsere E-Mails abonnieren, denn dort teilen wir den Teilnehmern den Fortschritt. Viel Glück!
+### The Challenge
+Újlipótváros has been divided into a 5x grid, with each zone in the grid 1000 m x 1000 m. To participate in the challenge, simply capture streets and paths in each zone. The contributor with the most images in each zone when it is marked as complete will win the zone. The contributor who wins the most zones wins #CompleteTheMap Budapest. If you’d like to take part, subscribe to [our email updates](http://eepurl.com/cRP5Sz), head into Újlipótváros and start capturing images. Good luck!
 
-### Die Regeln
+### The Rules
 
-**Wann?**
-Der Wettbewerb beginnt am Donnerstag, den 25. Mai 2017 um 00:00 Uhr und endet am Donnerstag, den 15. Juni um 23:59 Uhr.
+**How do I enter the challenge**
 
-**Wie nehme ich an dem Wettbewerb teil?**
+Anyone capturing within the grid will automatically participate in the challenge. You don’t need to sign up anywhere.
 
-Jeder, der Bilder in dem Abschnitt von Berlin hochlädt, nimmt automatisch daran teil. Man muss sich also nirgendwo extra für den Wettbewerb registrieren.
+**The Grid**
 
-**Die Zonen**
+We will be checking coverage every day and assigning a color to each zone that represents the coverage status for that area. Red will represent 50% or less of coverage, orange above 50% and green 100% (complete). Only images captured from day one of the competition (June 9th) will be counted. 
 
-Wir werden den Wettbewerb täglich überprüfen und den Zonen je nach Fortschritt eine Farbe zuordnen. Rot bedeutet, dass die Zone zu 33% oder weniger abgedeckt ist, Orange zwischen 33% und 80%, und grün >80%. Dabei zählen nur Bilder, die seit dem 25. Mai 2017 hochgeladen wurden. 
+**Rankings & Updates**
 
-**Bestenlisten & Updates**
+We’ll be maintaining a live page with the results that you can visit any time [here](https://mapillary-hacks.github.io/leaderboard/budapest/map/). In addition to this, we’ll be sending out email updates participants at the start and end of each week. You can opt in [here](http://eepurl.com/cRP5Sz). As usual, you’ll be able to get updates on [Twitter](https://twitter.com/mapillary) and [Facebook](https://www.facebook.com/mapillary) as well.
 
-[Hier](https://mapillary-hacks.github.io/leaderboard/berlin/map/) gibt eine Seite mit den aktuellen Ergebnissen, die man jederzeit besuchen kann. Außerdem werden wir die Teilnehmer jeden Tag mit einer E-Mail auf dem neuesten Stand halten. [Hier](http://eepurl.com/cPJtU9) kann man die E-Mails abonnieren. Wir informieren unsere Nutzer aber wie sonst auch mit [Twitter](https://twitter.com/mapillary) und [Facebook](https://www.facebook.com/mapillary) über das aktuelle Geschehen.
+**How to win**
 
-**Wie man gewinnt**
+The winner of each zone will be the contributor with the most photos in that area when the zone is marked as complete (goes green). The overall winner will thus be the one to collect the most zones by improving coverage in that area. The competition will end when all the zones go green or on June 30th, whichever comes sooner. 
 
-Der Gewinner einer Zone wird derjenige sein, der sobald die Zone grün wird, die meisten Fotos in dem jeweiligen Bereich hochgeladen hat. *Der Gewinner des gesamten Wettbewerbs wird der Teilnehmer sein, der die meisten Zonen für sich gewonnen hat*. Der Wettbewerb wird entweder am 15. Juni zu Ende sein oder sobald alle Zonen grün sind, je nachdem was früher kommt.
+To keep the challenge as fair as possible, we will make sure that photos taken in each zone are useful. When necessary, we’ll manually update the zone to make sure it accurately reflects the state of photo coverage in that area. You’re welcome to send in feedback to tell us which zones need to be adjusted.
 
-Das Hauptziel der Teilnehmer sollte es sein, so viel neue Straßen in einer Zone wie möglich abzudecken. Das bedeutet, man kann Fotos von jedem Weg in dem Bereich machen, egal ob kleiner Fußweg oder große Autobahn.
+**Invite Friends**
 
-1. Wir zählen die Anzahl der Fotos in einer Zone und wer die meisten davon hochgeladen hat.
-2. Wenn eine Zone zu über 80% vollständig ist (wir überprüfen das manuell), werden wir sie als "grün" kennzeichnen. Gleichzeitig zählen wir, wer die meisten Bilder in diesem Bereich hochgeladen hat. Dieser Teilnehmer wird die Zone gewinnen.
-3. Neuigkeiten zur Bestenliste werden alle paar Tage per E-Mail, Facebook und Twitter bekannt gegeben.
+If you would like to invite your friends to take part in the challenge, all they have to do is capture within the grid area and they will automatically appear on the leaderboard. If they want to stay updated, make sure they subscribe to our email updates and follow the #CompletetheMap hashtag on Facebook and Twitter.
 
-Um den Wettbewerb fair zu gestalten, werden wir sicher gehen, dass die hochgeladenen Fotos auch nützlich sind. Wenn man also 10.000 Bilder von seinem Abendessen hochlädt, gewinnt man natürlich nicht. Wenn wir es für notwendig halten, werden wir die Zone entsprechend manuell aktualisieren, um sicherzustellen, dass sie auch wirklich genau den Zustand der Fotoabdeckung in diesem Bereich wiedergibt. Alle Teilnehmer sind herzlich dazu eingeladen, uns Feedback zu schicken, um uns mitzuteilen, welche Zonen entsprechend angepasst werden müssen.
+**And we're off!**
 
-**Ladet eure Freunde ein**
+Charge your phones, get your action cameras out, and get ready to photo map Budapest!Have fun exploring the city. Let’s #CompleteTheMap! 
 
-Es wäre toll, wenn alle Teilnehmer ihre Freunde einladen könnten, um den Wettbewerb spannender zu machen. Auch sie müssen natürlich nur Fotos in dem Bereich hochladen und nehmen dann automatisch am Wettbewerb teil. Vergesst auch nicht euren Freunden mitzuteilen, dass sie unsere E-Mails abonnieren oder den #CompletetheMap Hastag auf Facebook und Twitter verfolgen können. Außerdem haben wir eine [Diskussion in unserem Forum](http://forum.mapillary.io/t/completethemap-berlin/1035) gestartet.
-
-
-**Das wars von unserer Seite!**
-Ladet eure Smartphones, holt eure Kameras heraus und beginnt mit dem Aufnehmen von Berlin!
-
-Wenn ihr nicht aus Berlin kommt und so einen Wettbewerb auch gerne in eurer Stadt hättet, dann teilt es uns einfach mit und wir werden auch bei euch Wettbewerb starten. Wenn ihr nicht auf uns warten wollt, könnt ihr auch [selbst eine Bestenliste erstellen](https://github.com/mapillary-hacks/mapillary-hacks.github.io/tree/master/leaderboard/berlin/map).
-
-Habt Spaß beim Erkunden der Stadt. Let’s #CompleteTheMap!
-
-P.S. Nominiert eure Stadt [hier](https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link), wenn wir auch bei euch einen Wettbewerb starten sollen.
+P.S. Nominate your city [here](https://drive.google.com/open?id=14X76aTo3BNVw-x_QOKx4C80pvKdny-uYdO07vggaHcQ) if you’d like to see the challenge in your neighbourhood. If you can’t wait for that, we’ve also [open sourced the code for the grid and leaderboard](https://github.com/mapillary-hacks/mapillary-hacks.github.io/tree/master/leaderboard/) so you can set it up yourself.
