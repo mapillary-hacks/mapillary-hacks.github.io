@@ -319,7 +319,7 @@
             var days = (Date.now()-1495670400000)/86400000;
             console.log("Current date is " + Date.now());
             console.log("value of days is " + days);
-            document.getElementById('slider').max = 23;//Math.floor(Math.abs(days));
+            document.getElementById('slider').max = 22;//Math.floor(Math.abs(days));
             console.log("The max value is now " + document.getElementById('slider').max)
             document.getElementById('slider').value = days;
             document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since competition start';
