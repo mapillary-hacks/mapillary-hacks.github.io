@@ -92,7 +92,7 @@
   #menu {
       position: absolute;
       background: #a9a9a9;
-      width: 50%;
+      width: 40%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
@@ -101,7 +101,7 @@
   #menu2 {
       position: relative;
       background: #a9a9a9;
-      width: 50%;
+      width: 40%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
@@ -296,12 +296,12 @@
   }
   #mjs {
     position: relative;
-    top: 110px;
+    top: 120px;
     left: 0px;
     background-color: rgba(0, 0, 0, 0.75);
     color: white;
     width:480px;
-    height:32vh;
+    height:35vh;
     border: 5px solid gray;
     z-index: 2;
     padding: 0px;
@@ -318,16 +318,16 @@
       <div class='map-overlay top'>
         <div id='logo'>
           <img src='https://www.mapillary.com/assets/static/images/landing/capture-images.png' width=0 height=0 />
-          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=50% style="margin-top:5px;"></a>
+          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=40% style="margin-top:5px;"></a>
         </div>
         <div id='logo'>
-          <img src="http://www.flags.net/images/largeflags/HUNG0002.GIF" width=50% height=50%>
+          <img src="http://www.flags.net/images/largeflags/HUNG0002.GIF" width=40% height=40%>
         </div>
-        <div id='logo' style="display:inline-block;margin-left:40px;">
+        <div id='logo' style="display:inline-block;margin-left:20px;">
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=35% height=35%></a>
         </div>
-        <div class='map-overlay-inner' id='menu2' style="width:50%;">
-            <label><font style="font-size:16px;"><center>Budapest Kihívás<br> (Június 9 - Június 30, 2017)</font><br><br><span id='slider-value'> </span></center></label>
+        <div class='map-overlay-inner' id='menu2' style="width:40%;">
+            <label><font style="font-size:16px;"><center>Budapest Challenge<br> (June 9 - June 30, 2017)</font><br><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='20' step='1' value='' />
             <script>
             var days = (Date.now()-1496966400000)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
@@ -336,20 +336,20 @@
             document.getElementById('slider').max = 22;//Math.floor(Math.abs(days));
             console.log("The max value is now " + document.getElementById('slider').max)
             document.getElementById('slider').value = days;
-            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' nappal a kihívás kezdete után';
+            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since competition start';
 
             </script>
         </div>
 
         <div id='menu' class='map-overlay-inner'>
-          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(kattints a bekapcsoláshoz)</center></div>
+          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(click to toggle)</center></div>
 <!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
           <div id='satellite' class='btn2'>Basemap: satellite</div> -->
-          <div id='mly' class='mbtn' style="font-size:11px;">Mutasd az összes Mapillary fotósorozatot</div>
-          <div id='maptime' class='mbtn' onclick="maptimeAdd()">Mutasd a térképezendő területet</div>
+          <div id='mly' class='mbtn' style="font-size:11px;">Show all Mapillary sequences</div>
+          <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show Target Zones</div>
         </div>
 
-        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Kattints a térképre a képek megtekintéséhez!</h4>
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:35%;" id="mjstext">Click the map to view an image!</h4>
           <script>
               var maxdate = Date.now();
               var mindate = (1496966400000) //set to show epoch milliseconds of the start date
@@ -807,7 +807,7 @@
                 }
                 console.log(url);
                 if (!data.features[0]) {
-                  $("#mjstext").text("Nincsenek képek a kihívás kezdete óta itt. Térképezd fel magad!");
+                  $("#mjstext").text("No competition images here yet--go map it!");
                   console.log("test");
                 } else {
                   $("#mjstext").remove();
@@ -897,11 +897,11 @@
     </div>
     <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:1000vh;">
       <div class="alt-grid row" style="min-height:87vh;">
-        <center><h2 style="color:white;">Ranglista</h2></center>
+        <center><h2 style="color:white;">Leaderboard</h2></center>
         <br>
         <table id='table'>
           <tr>
-            <th>Felhasználó</th><th>Képek</th>
+            <th>User</th><th>Images</th>
           </tr>
         </table>
       </div>
