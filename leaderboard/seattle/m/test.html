@@ -306,9 +306,9 @@
   }
   #map {
     min-height: 65vh;
+    z-index: 1;
     background: #FFF
     visibility: visible;
-    z-index: 2;
   }
   #stats {
     min-height: 65vh;
@@ -369,16 +369,15 @@
       <div id='mapdisplay' class='mbtn' type='button' style="font-size:18px;" onclick='mapDisplay()'>Map</div>
     </div>
   </div>
-  <div class="alt-grid row" style="height:4vh;display:table;" id="bottom">
-    <div id='mapillaryBtn' class='bbtn' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='mlyAdd()'>Show All Mapillary Tiles</div>
-    <div id='challengeBtn' class='bbtn' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='maptimeAdd()'>Show Challenge Grid</div>
-  </div>
   <div class="alt-grid row" id="map">
     <script>
       mapDisplay();
     </script>
   </div>
-
+  <div class="alt-grid row" style="display:table;" id="bottom">
+    <div id='mapillaryBtn' class='bbtn' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='mlyAdd()'>Show All Mapillary Tiles</div>
+    <div id='challengeBtn' class='bbtn' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='maptimeAdd()'>Show Challenge Grid</div>
+  </div>
 </div>
 
 </body>
