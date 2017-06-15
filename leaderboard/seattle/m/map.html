@@ -1,0 +1,10 @@
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+  var map = new mapboxgl.Map({
+      container: 'map',
+      style: '../homebrew-streets-v8.json',
+      center: [-122.3, 47.6147628],
+      zoom: 10
+  });
+  map.addControl(new mapboxgl.Navigation({position: 'top-left'}));
+</script>
