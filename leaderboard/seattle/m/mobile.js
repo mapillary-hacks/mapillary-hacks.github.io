@@ -1,7 +1,11 @@
 var count = 0;
+var count2 = 0;
 var count3 = 0;
 var maxdate = Date.now();
 var mindate = (1496966400000); //set to show epoch milliseconds of the start date
+lowfilter = ["in", "Id",...low]
+medfilter = ["in", "Id",...med]
+highfilter = ["in", "Id",...high]
 
 function mlyInit() {
   console.log("adding Mapillary source");
@@ -12,6 +16,7 @@ function mlyInit() {
       maxzoom: 14,
   };
   map.addSource('mapillary', mapillarySource);
+  map.addSource('mapillarySlider', mapillarySource);
 }
 
 function mlyAdd() {
@@ -132,3 +137,88 @@ function mapLoadInitial(){
   }
 
 }
+
+function maptimeAdd() {
+    console.log(count2);
+    switch (count2) {
+      case 0:
+        challengeBtn.style.backgroundColor = '#00bcff';
+        map.addSource('maptime', {
+            'type': 'geojson',
+            'data': '../square.geojson'
+        });
+        count2 = 1;
+        map.addLayer({
+            'id': 'maptimelayer-low',
+            'type': 'fill',
+            'source': 'maptime',
+            'filter': ['all',
+                    lowfilter],
+            'paint': {
+                'fill-color': 'red',
+                'fill-outline-color' : "white",
+//                {
+//                  'property': 'fill',
+//                  'type': 'identity'
+//                },
+                'fill-opacity': .65
+            }
+        });
+        map.addLayer({
+            'id': 'maptimelayer-med',
+            'type': 'fill',
+            'source': 'maptime',
+            'filter': ['all',
+                    medfilter],
+            'paint': {
+                'fill-color': 'gold',
+                'fill-outline-color' : "white",
+                'fill-opacity': .65
+            }
+        });
+        map.addLayer({
+            'id': 'maptimelayer-high',
+            'type': 'fill',
+            'source': 'maptime',
+            'filter': ['all',
+                    highfilter],
+            'paint': {
+                'fill-color': 'green',
+                'fill-outline-color' : "white",
+//                {
+//                  'property': 'fill',
+//                  'type': 'identity'
+//                },
+                'fill-opacity': .65
+            }
+        });
+        map.addLayer({
+          "id": "maptime-label",
+          "type": "symbol",
+          "source": "maptime",
+          "layout": {
+            "text-field": "{Id}",
+            "text-font": [
+              "DIN Offc Pro Medium",
+              "Arial Unicode MS Bold"
+            ],
+            "text-size": 12
+          },
+          'paint': {
+                  'text-color': 'white'
+          }
+        });
+        break;
+      case 1:
+        challengeBtn.style.backgroundColor = "#5D6671";
+//        maptime.style.color = "#000";
+        count2 = 0;
+        console.log(count2);
+        map.removeLayer('maptimelayer-low');
+        map.removeLayer('maptimelayer-med');
+        map.removeLayer('maptimelayer-high');
+        map.removeLayer('maptime-label');
+        map.removeSource('maptime');
+        break;
+    };
+};
