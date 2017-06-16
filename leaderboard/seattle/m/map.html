@@ -6,12 +6,15 @@
   var map = new mapboxgl.Map({
       container: 'map',
       style: '../homebrew-streets-v8.json',
-      center: [-122.3, 47.6147628],
-      zoom: 10
+      center: [ -122.3111343383789,
+          47.61761985489538],
+      zoom: 13
   });
   map.addControl(new mapboxgl.Navigation({position: 'top-left'}));
   map.dragRotate.disable();
   map.touchZoomRotate.disableRotation();
   mlyInit();
-  maptimeAdd();
+  map.on('style.load', function() {
+    maptimeAdd();
+  });
 </script>
