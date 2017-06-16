@@ -276,12 +276,12 @@
     max-width: 15vw;
     height:auto;
     width:auto;
+    min-height: 5vh;
     max-height:15vh;
   }
   #top {
-    min-height: 10vh;
-    max-height: 10vh;
-    height: 100%;
+    min-height: 6vh;
+    max-height: 6vh;
     width: 100vw;
     background: #36AF6D;
     display: table;
@@ -296,6 +296,7 @@
   }
   #top2 {
     min-height: 10vh;
+    max-height: 10vh;
     font: calc(0.55em + 2vmin) 'Helvetica Neue', Arial, Helvetica, sans-serif;
     background: #5D6671;
   }
@@ -304,8 +305,14 @@
     max-height: 10vh;
     background: #36AF6D;
   }
+  #bottom {
+    min-height: 5vh;
+    max-height: 10vh;
+    background: #FFF;
+  }
   #map {
-    min-height: 65vh;
+    max-height: 65vh;
+    min-height: 60vh;
     z-index: 1;
     background: #FFF
     visibility: visible;
@@ -438,6 +445,8 @@
   <div class="alt-grid row" style="display:table;" id="bottom">
     <div id='mapillaryBtn' class='bbtn col-xs-6' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='mlyAdd()'>Show All Mapillary Tiles</div>
     <div id='challengeBtn' class='bbtn col-xs-6' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='maptimeAdd()'>Show Challenge Grid</div>
+  </div>
+  <div class="alt-grid row" style="display:table;" id="bottom2">
   </div>
 </div>
 
