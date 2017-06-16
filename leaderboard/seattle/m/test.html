@@ -4,11 +4,11 @@
   <meta charset='utf-8' />
   <title>Complete the Map - Seattle - Mapillary</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src='../filters.js'></script>
   <script src='mobile.js'></script>
   <link rel="shortcut icon" type="image/x-icon" href="../favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
@@ -155,8 +155,8 @@
   .bbtn {
     padding: 1vh;
     cursor: pointer;
-    width: 45vh;
-    max-height: 4vh;
+    width: 50vw;
+    max-height: 10vh;
     color: white;
     border:1px solid white;
     background-color: #5D6671;
@@ -301,7 +301,7 @@
   }
   #bottom {
     min-height: 5vh;
-    max-height: 5vh;
+    max-height: 10vh;
     background: #36AF6D;
   }
   #map {
@@ -342,7 +342,9 @@
     </div>
     <div class="col-xs-6" id="title">
       <div class="alt-grid row" style="max-height:30%">
-        <p style="vertical-align:middle;display:inline-block;"><br>Complete the Map!</p><br>
+        <div class="col-xs-12">
+          <p style="vertical-align:middle;display:inline-block;"><br>Complete the Map!</p><br>
+        </div>
       </div>
     </div>
     <div class="col-xs-3" style="display:table-cell;text-align:right;position:relative;">
@@ -353,7 +355,6 @@
     <div class="col-xs-8" style="border-top: 2px solid white;border-bottom: 2px solid white;border-left: 2px solid white;border-right: 1px solid white;height:100%;">
       <div id='slider-value'></div>
       <input id='slider' type='range' min='1' max='20' step='1' value='' />
-
       <script>
         var days = (Date.now()-1496966400000)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
         console.log("Current date is " + Date.now());
@@ -362,6 +363,65 @@
         console.log("The max value is now " + document.getElementById('slider').max)
         document.getElementById('slider').value = days;
         document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since challenge start';
+        var slider = document.getElementById('slider');
+        var sliderValue = document.getElementById('slider-value');
+        slider.addEventListener('input', function(e) {
+                var newDate = (mindate+(86400000 * e.target.value))
+                console.log(new Date(newDate));
+                try {
+                  map.removeLayer('mapillary','mapillary-o');
+                  map.removeSource('mapillarySource');
+                  mlyInit();
+                } catch (err) {
+                  // Do nothing the layers just does not exists
+                };
+                try {
+                  var mapillarySource = {
+                      type: 'vector',
+                      tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+                      minzoom: 0,
+                      maxzoom: 14,
+                  };
+                  map.addSource('mapillarySource', mapillarySource);
+                } catch (err) {
+                  // Do nothing the layer already exists
+                }
+                map.addLayer({
+                    'id': 'mapillary-o',
+                    'type': 'circle',
+                    'source': 'mapillarySource',
+                    'source-layer': 'mapillary-sequence-overview',
+                    'filter': ['all',
+                            ['>=', 'captured_at', mindate],
+                            ['<=', 'captured_at', newDate]],
+                    'paint': {
+                        'circle-opacity': 0.75,
+                        'circle-color':   'purple',
+                        'circle-radius':   2
+                    }
+                });
+                map.addLayer({
+                     'id': 'mapillary',
+                     'type': 'line',
+                     'source': 'mapillarySource',
+                     'source-layer': 'mapillary-sequences',
+                     'filter': ['all',
+                             ['>=', 'captured_at', mindate],
+                             ['<=', 'captured_at', newDate]],
+                     'layout': {
+                         'line-cap': 'round',
+                         'line-join': 'round'
+                     },
+                     'paint': {
+                         'line-opacity': 0.75,
+                         'line-color':   'purple',
+                         'line-width':   2
+                     }
+                 });
+
+                // Value indicator
+                sliderValue.textContent = e.target.value + ' days since competition start';
+            });
       </script>
     </div>
     <div class="col-xs-4" style="height:100%;;display:table;position:relative;float:left;border-top: 1px solid white;">
@@ -371,12 +431,13 @@
   </div>
   <div class="alt-grid row" id="map">
     <script>
+      count = 1;
       mapDisplay();
     </script>
   </div>
   <div class="alt-grid row" style="display:table;" id="bottom">
-    <div id='mapillaryBtn' class='bbtn' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='mlyAdd()'>Show All Mapillary Tiles</div>
-    <div id='challengeBtn' class='bbtn' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='maptimeAdd()'>Show Challenge Grid</div>
+    <div id='mapillaryBtn' class='bbtn col-xs-6' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='mlyAdd()'>Show All Mapillary Tiles</div>
+    <div id='challengeBtn' class='bbtn col-xs-6' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='maptimeAdd()'>Show Challenge Grid</div>
   </div>
 </div>
 
