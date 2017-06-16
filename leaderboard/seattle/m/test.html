@@ -48,58 +48,6 @@
      right:0;
      background-color: #36AF6D;
   }
-  .map-overlay {
-      font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-      position: absolute;
-      width: 30%;
-      top: 0;
-      left: 0;
-      color: "#900";
-      height: 100vh;
-      font-weight: bold;
-  }
-
-  .map-overlay .map-overlay-inner {
-      background-color: #a9a9a9;
-      box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
-      border-radius: 3px;
-      padding: 5px;
-      width: 100%;
-      margin-bottom: 10px;
-      margin-left: 5px;
-  }
-
-  .map-overlay label {
-      display: block;
-      margin: 0 0 10px;
-  }
-
-  .map-overlay input {
-      background-color: transparent;
-      display: inline-block;
-      width: 100%;
-      position: relative;
-      margin: 0;
-      cursor: ew-resize;
-  }
-  #menu {
-      position: absolute;
-      background: #a9a9a9;
-      width: 50%;
-      padding: 5px;
-      font-family: 'Open Sans', sans-serif;
-      box-shadow:0;
-      z-index: 2;
-  }
-  #menu2 {
-      position: relative;
-      background: #a9a9a9;
-      width: 50%;
-      padding: 5px;
-      font-family: 'Open Sans', sans-serif;
-      box-shadow:0;
-      z-index: 2;
-  }
   #leaderboard {
     background: #36AF6D;
     font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif
@@ -439,7 +387,7 @@
   <div class="alt-grid row" id="map">
     <script>
       count = 1;
-      mapDisplay();
+      mapLoadInitial();
     </script>
   </div>
   <div class="alt-grid row" style="display:table;" id="bottom">

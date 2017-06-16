@@ -84,10 +84,13 @@ function mlyAdd() {
 
 function statsDisplay(){
   $("#map").empty;
+  $("#bottom").toggle();
+  $("#bottom2").toggle();
   $("#statsdisplay").css('background', "#00bcff");
   $("#mapdisplay").css('background', "#5D6671");
   $("#map").load("stats.html");
-  $("#slider").disable
+  $("#slider").toggle();
+  $("#slider-value").toggle();
   if (count == 1) {
     mlyAdd();
     count3 = 3;
@@ -96,10 +99,30 @@ function statsDisplay(){
 }
 function mapDisplay(){
   $("#map").empty;
+  $("#bottom").toggle();
+  $("#bottom2").toggle();
   $("#mapdisplay").css('background', "#00bcff");
   $("#statsdisplay").css('background', "#5D6671");
   $("#map").load("map.html");
-  $("#slider").enable;
+  $("#slider").toggle();
+  $("#slider-value").toggle();
+  if (count3 == 3 ) {
+    setTimeout(function() {
+      mlyAdd();
+      count3 = 0;
+      console.log('count3 equals ' + count3);
+    }, 1000);
+  }
+
+}
+
+function mapLoadInitial(){
+  $("#map").empty;
+  $("#bottom").toggle();
+  $("#bottom2").toggle();
+  $("#mapdisplay").css('background', "#00bcff");
+  $("#statsdisplay").css('background', "#5D6671");
+  $("#map").load("map.html");
   if (count3 == 3 ) {
     setTimeout(function() {
       mlyAdd();
