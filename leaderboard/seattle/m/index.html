@@ -300,7 +300,7 @@
       </div>
     </div>
     <div class="col-xs-3" style="display:table-cell;text-align:right;position:relative;">
-      <img src='https://secure.meetupstatic.com/photos/event/f/7/a/highres_438483962.jpeg' />
+      <img id='partnerLogo' src='' />
     </div>
   </div>
   <div class="alt-grid row" style="height:7vh" id="top2">
@@ -308,6 +308,7 @@
       <div id='slider-value'></div>
       <input id='slider' type='range' min='1' max='20' step='1' value='' />
       <script>
+        $('#partnerLogo').attr('src', partnerLogo);
         var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
         console.log("Current date is " + Date.now());
         console.log("value of days is " + days);
