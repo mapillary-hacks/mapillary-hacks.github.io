@@ -1,7 +1,4 @@
 var cityname = 'seattle' //lowercase name for the folder in /
-if (screen.width <= 699) {
-    window.location = 'leaderboard/' + cityname + '/m/test.html';
-}
 
 var high = [];
 var med = [];
