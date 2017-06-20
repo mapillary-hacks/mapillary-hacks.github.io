@@ -424,9 +424,7 @@
           async: false, // Makes sure to wait for load
           url: 'square.geojson',
           success: function (square) {
-            console.log(JSON.stringify(square));
             bbox = turf.bbox(square);
-            console.log(bbox);
           }
         });
         var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-06-09&end_time=2017-07-01&bbox=' + bbox;

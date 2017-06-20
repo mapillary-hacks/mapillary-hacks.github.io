@@ -14,4 +14,4 @@ var docTitle = 'Complete the Map: Seattle - Mapillary'; //text next to favicon o
 var challengeLng = -122.3111343383789; //center of the map
 var challengeLat = 47.61761985489538; //center of the map
 var challengeZoom = 14; //zoom for desktop browser
-var mobileZoom = 13; //should be challengeZoom minus 1 usually
+var mobileZoom = 12; //should be challengeZoom minus 2 usually
