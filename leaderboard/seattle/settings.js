@@ -1,10 +1,6 @@
-<script type="text/javascript">
-  <!--
-  if (screen.width <= 699) {
+if (screen.width <= 699) {
     window.location = "/m/test.html";
-  }
-  //-->
-</script>
+}
 
 var high = [];
 var med = [];
