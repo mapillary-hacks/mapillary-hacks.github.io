@@ -1,8 +1,7 @@
 var count = 0;
 var count2 = 0;
 var count3 = 0;
-var maxdate = Date.now();
-var mindate = (1496966400000); //set to show epoch milliseconds of the start date
+
 lowfilter = ["in", "Id",...low]
 medfilter = ["in", "Id",...med]
 highfilter = ["in", "Id",...high]

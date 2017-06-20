@@ -2,12 +2,10 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>Complete the Map - Seattle - Mapillary</title>
-
+  <title id='doctitle'></title>
   <meta name="viewport" content="width=device-width">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src='../filters.js'></script>
+  <script src='../settings.js'></script>
   <script src='mobile.js'></script>
   <link rel="shortcut icon" type="image/x-icon" href="../favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -310,10 +308,10 @@
       <div id='slider-value'></div>
       <input id='slider' type='range' min='1' max='20' step='1' value='' />
       <script>
-        var days = (Date.now()-1496966400000)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
+        var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
         console.log("Current date is " + Date.now());
         console.log("value of days is " + days);
-        document.getElementById('slider').max = 22;//Math.floor(Math.abs(days));
+        document.getElementById('slider').max = Math.floor(Math.abs(days));
         console.log("The max value is now " + document.getElementById('slider').max)
         document.getElementById('slider').value = days;
         document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since challenge start';
