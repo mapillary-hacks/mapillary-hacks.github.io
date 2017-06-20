@@ -322,7 +322,7 @@
                 console.log(new Date(newDate));
                 try {
                   map.removeLayer('mapillary','mapillary-o');
-                  map.removeSource('mapillarySource');
+                  map.removeSource('mapillarySlider');
                   mlyInit();
                 } catch (err) {
                   // Do nothing the layers just does not exists
@@ -334,14 +334,14 @@
                       minzoom: 0,
                       maxzoom: 14,
                   };
-                  map.addSource('mapillarySource', mapillarySource);
+                  map.addSource('mapillarySlider', mapillarySource);
                 } catch (err) {
                   // Do nothing the layer already exists
                 }
                 map.addLayer({
                     'id': 'mapillary-o',
                     'type': 'circle',
-                    'source': 'mapillarySource',
+                    'source': 'mapillarySlider',
                     'source-layer': 'mapillary-sequence-overview',
                     'filter': ['all',
                             ['>=', 'captured_at', mindate],
@@ -355,7 +355,7 @@
                 map.addLayer({
                      'id': 'mapillary',
                      'type': 'line',
-                     'source': 'mapillarySource',
+                     'source': 'mapillarySlider',
                      'source-layer': 'mapillary-sequences',
                      'filter': ['all',
                              ['>=', 'captured_at', mindate],
@@ -391,7 +391,10 @@
     <div id='mapillaryBtn' class='bbtn col-xs-6' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='mlyAdd()'>Show All Mapillary Tiles</div>
     <div id='challengeBtn' class='bbtn col-xs-6' type='button' style="font-size:13px;text-align: center;display:table-cell" onclick='maptimeAdd()'>Show Challenge Grid</div>
   </div>
-  <div class="alt-grid row" style="display:table;" id="bottom2">
+  <div class="alt-grid row" style="display:table;width:100vw;" id="bottom2">
+    <div class='col-xs-12'><br>
+    <center><a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a><center>
+    </div>
   </div>
 </div>
 
