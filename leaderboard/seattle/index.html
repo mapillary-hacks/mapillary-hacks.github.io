@@ -322,10 +322,10 @@
           <img src='https://www.mapillary.com/assets/static/images/landing/capture-images.png' width=0 height=0 />
           <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=50% style="margin-top:5px;"></a>
         </div>
-        <div id='logo' style="display:inline-block;margin-left:40px;">
-          <img src="https://secure.meetupstatic.com/photos/event/f/7/a/highres_438483962.jpeg" width=60% height=60%>
+        <div id='logo' style="display:inline-block;margin-right:10%;margin-left:10%;">
+          <a id='partnerLink' href=''><img id='partnerlogo' src='' width=60% height=60%></a>
         </div>
-        <div id='logo' style="display:inline-block;margin-left:40px;">
+        <div id='logo' style="display:inline-block;margin-left:10%;">
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=35% height=35%></a>
         </div>
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
@@ -342,6 +342,8 @@
             document.getElementById('challengeTitle').innerHTML = challengeTitle;
             document.getElementById('docTitle').innerHTML = docTitle;
             document.getElementById('challengeDate').innerHTML = challengeDate;
+            $('#partnerlogo').attr('src', partnerLogo);
+            $('#partnerLink').attr('href', partnerLink);
 
             </script>
         </div>
