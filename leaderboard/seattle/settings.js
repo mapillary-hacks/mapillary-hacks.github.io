@@ -16,3 +16,7 @@ var challengeLng = -122.3111343383789; //center of the map
 var challengeLat = 47.61761985489538; //center of the map
 var challengeZoom = 14; //zoom for desktop browser
 var mobileZoom = 12; //should be challengeZoom minus 2 usually
+
+var facebookShare = 'url.com'; //link for facebook sharing
+var twitterShare = 'url.com'; //link for twitter sharing
+var emailShare = 'mail.com'; //link for email sharing
