@@ -1,6 +1,8 @@
 var count = 0;
 var count2 = 0;
 var count3 = 0;
+var count4 = 0;
+var count5 = 0;
 
 lowfilter = ["in", "Id",...low]
 medfilter = ["in", "Id",...med]
@@ -16,6 +18,10 @@ function mlyInit() {
   };
   map.addSource('mapillary', mapillarySource);
   map.addSource('mapillarySlider', mapillarySource);
+  map.addSource('maptime', {
+      'type': 'geojson',
+      'data': '../square.geojson'
+  });
 }
 
 function mlyAdd() {
@@ -89,7 +95,6 @@ function mlyAdd() {
 function statsDisplay(){
   $("#map").empty;
   $("#bottom").toggle();
-  $("#bottom2").toggle();
   $("#statsdisplay").css('background', "#00bcff");
   $("#mapdisplay").css('background', "#5D6671");
   $("#map").load("stats.html");
@@ -100,11 +105,15 @@ function statsDisplay(){
     count3 = 3;
     console.log('count3 equals ' + count3);
   }
+  if (count4 == 4) {
+    maptimeAdd();
+    count5 = 5;
+    console.log('count5 equals ' + count5);
+  }
 }
 function mapDisplay(){
   $("#map").empty;
   $("#bottom").toggle();
-  $("#bottom2").toggle();
   $("#mapdisplay").css('background', "#00bcff");
   $("#statsdisplay").css('background', "#5D6671");
   $("#map").load("map.html");
@@ -115,9 +124,15 @@ function mapDisplay(){
       mlyAdd();
       count3 = 0;
       console.log('count3 equals ' + count3);
-    }, 1000);
+    }, 500);
   }
-
+  if (count5 == 5) {
+    setTimeout(function() {
+      maptimeAdd();
+      count5 = 0;
+      console.log('count5 equals ' + count5);
+    }, 500);
+  }
 }
 
 function mapLoadInitial(){
@@ -138,8 +153,8 @@ function mapLoadInitial(){
 }
 
 function maptimeAdd() {
-    console.log(count2);
-    switch (count2) {
+    console.log(count4);
+    switch (count4) {
       case 0:
         challengeBtn.style.backgroundColor = '#00bcff';
         map.addSource('maptime', {
@@ -147,6 +162,7 @@ function maptimeAdd() {
             'data': '../square.geojson'
         });
         count2 = 1;
+        count4 = 4;
         map.addLayer({
             'id': 'maptimelayer-low',
             'type': 'fill',
@@ -208,11 +224,12 @@ function maptimeAdd() {
           }
         });
         break;
-      case 1:
+      case 4:
         challengeBtn.style.backgroundColor = "#5D6671";
 //        maptime.style.color = "#000";
         count2 = 0;
-        console.log(count2);
+        count4 = 0;
+        console.log(count4);
         map.removeLayer('maptimelayer-low');
         map.removeLayer('maptimelayer-med');
         map.removeLayer('maptimelayer-high');
