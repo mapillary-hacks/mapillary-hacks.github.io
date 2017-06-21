@@ -147,7 +147,7 @@
     cursor: pointer;
   }
   .mbtn {
-    padding: 5px;
+    padding: 1vh;
     cursor: pointer;
     border-color:white;border:1px solid white;
   }
@@ -268,12 +268,20 @@
   }
 
   /* Rounded sliders */
-  .slider.round {
-    border-radius: 12px;
+  input[type='range'] {
+    -webkit-appearance: none !important;
+    background: #ffc01b;
+    height: calc(1px + 1vmin);
+    border: 0px;
   }
-
-  .slider.round:before {
-    border-radius: 50%;
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #e05643;
+    border: 2px solid #e05643;
+    width: calc(3px + 3vmin);
+    height: calc(1px + 2vmin);
+    border-radius: 0px;
+    cursor: pointer;
   }
   .coveragetext {
     font-size: 16;
@@ -339,8 +347,8 @@
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
         </div> -->
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
-            <label><font style="font-size:16px;"><center><span id="challengeTitle"></span><br> <span id="challengeDate"></span></font><br><br><span id='slider-value'> </span></center></label>
-            <input id='slider' type='range' min='1' max='20' step='1' value='' />
+            <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><br><span id='slider-value'> </span></center></label>
+            <input id='slider' type='range' min='1' max='20' step='1' value='' style='margin-bottom:1vh;' />
             <script>
             var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
             console.log("Current date is " + Date.now());
@@ -362,7 +370,7 @@
           <div id='controls'style='align:center;font-size:24'><center>(click to toggle)</center></div>
 <!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
           <div id='satellite' class='btn2'>Basemap: satellite</div> -->
-          <div id='mly' class='mbtn' style="font-size:11px;">Show all Mapillary coverage</div>
+          <div id='mly' class='mbtn' >Show all Mapillary coverage</div>
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show challenge grid</div>
         </div>
 
@@ -481,8 +489,7 @@
             console.log(count);
             switch (count) {
               case 0:
-                mly.style.backgroundColor = "rgb(53, 175, 109)";
-                mly.style.color = "#FFF";
+                mly.style.backgroundColor = "#FF861B";
                 map.addLayer({
                     'id': 'mapillary-all',
                     'type': 'circle',
@@ -512,8 +519,7 @@
                 count = 1;
                 break;
               case 1:
-                mly.style.backgroundColor = "#a9a9a9";
-                mly.style.color = "#000";
+                mly.style.backgroundColor = "rgb(53, 175, 109)";
                 map.removeLayer('mapillary-all');
                 map.removeLayer('mapillary-all2');
                 count = 0;
@@ -525,8 +531,7 @@
             console.log(count2);
             switch (count2) {
               case 0:
-                maptime.style.backgroundColor = "red";
-                maptime.style.color = "#FFF";
+                maptime.style.backgroundColor = "#FF861B";
                 count2 = 1;
                 map.addSource('maptime', {
                     'type': 'geojson',
@@ -594,8 +599,7 @@
                 });
                 break;
               case 1:
-                maptime.style.backgroundColor = "#a9a9a9";
-                maptime.style.color = "#000";
+                maptime.style.backgroundColor = "#36AF6D";
                 count2 = 0;
                 map.removeLayer('maptimelayer-low');
                 map.removeLayer('maptimelayer-med');
