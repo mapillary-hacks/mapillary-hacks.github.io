@@ -59,16 +59,17 @@
   .map-overlay {
       font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
       position: absolute;
-      width: 30%;
+      width: 30vw;
       top: 0;
       left: 0;
-      color: "#900";
+      color: "#fff";
       height: 100vh;
       font-weight: bold;
+      z-index: 2;
   }
 
   .map-overlay .map-overlay-inner {
-      background-color: #a9a9a9;
+      background-color: #36AF6D;
       box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
       border-radius: 3px;
       padding: 5px;
@@ -80,6 +81,7 @@
   .map-overlay label {
       display: block;
       margin: 0 0 10px;
+      z-index: 2;
   }
 
   .map-overlay input {
@@ -89,24 +91,27 @@
       position: relative;
       margin: 0;
       cursor: ew-resize;
+      z-index: 2;
   }
   #menu {
       position: absolute;
-      background: #a9a9a9;
+      background: #36AF6D;
       width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
       z-index: 2;
+      color: white;
   }
   #menu2 {
       position: relative;
-      background: #a9a9a9;
+      background: #36AF6D;
       width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
       z-index: 2;
+      color: white;
   }
   #leaderboard {
     background: #36AF6D;
@@ -135,6 +140,7 @@
       border: 0px solid;
       padding: 0px;
       font-weight: bold;
+      z-index: 2;
   }
   .btn {
     padding: 5px;
@@ -273,9 +279,10 @@
     font-size: 16;
   }
   .fa {
-      padding: 20px;
-      font-size: 30px;
-      width: 70px;
+      padding: 3vh;
+      font-size: 3vh;
+      width: 5vw;
+      height: 8vh;
       text-align: center;
       text-decoration: none;
   }
@@ -302,11 +309,14 @@
     bottom: 1vh;
     background-color: rgba(0, 0, 0, 0.75);
     color: white;
-    width:480px;
+    width:20vw;
     height:30vh;
     border: 5px solid gray;
     z-index: 2;
     padding: 0px;
+  }
+  #nominate {
+    font-size: 1vw;
   }
   </style>
 
@@ -320,14 +330,14 @@
       <div class='map-overlay top'>
         <div id='logo'>
           <img src='https://www.mapillary.com/assets/static/images/landing/capture-images.png' width=0 height=0 />
-          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=50% style="margin-top:5px;"></a>
+          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=50% style="margin-top:3vh;"></a>
         </div>
-        <div id='logo' style="display:inline-block;margin-right:10%;margin-left:10%;">
-          <a id='partnerLink' href=''><img id='partnerlogo' src='' width=60% height=60%></a>
+<!--        <div id='logo' style="display:inline-block;margin-right:10%;margin-left:10%;">
+          <a id='partnerLink' href=''><img id='partnerlogo' src='' width=10vw height=10vh></a>
         </div>
-        <div id='logo' style="display:inline-block;margin-left:10%;">
-          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=35% height=35%></a>
-        </div>
+        <div id='logo' style="margin-left:10%;">
+          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
+        </div> -->
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
             <label><font style="font-size:16px;"><center><span id="challengeTitle"></span><br> <span id="challengeDate"></span></font><br><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='20' step='1' value='' />
@@ -349,7 +359,7 @@
         </div>
 
         <div id='menu' class='map-overlay-inner'>
-          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(click to toggle)</center></div>
+          <div id='controls'style='align:center;font-size:24'><center>(click to toggle)</center></div>
 <!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
           <div id='satellite' class='btn2'>Basemap: satellite</div> -->
           <div id='mly' class='mbtn' style="font-size:11px;">Show all Mapillary coverage</div>
@@ -884,12 +894,12 @@
           </tr>
         </table>
       </div>
-      <div class="alt-grid row"style="max-height:8vh;margin-left:18%;width:100%;" id="share">
-          <a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a>
+      <div class="alt-grid row"style="max-height:8vh;width:100%;" id="share">
+          <center><a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a></center>
           <br><br>
       </div>
-      <div class="alt-grid row"style="max-height:5vh;margin-left:10%;width:100%;" id="share">
-          <h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;">Click here to nominate your city!</a></h4>
+      <div class="alt-grid row"style="max-height:5vh;width:100%;" id="share">
+          <center><h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;" id='nominate'>Click here to nominate your city!</a></h4></center>
           <script>
             $('.fa-facebook').attr('href', facebookShare);
             $('.fa-twitter').attr('href', twitterShare);
