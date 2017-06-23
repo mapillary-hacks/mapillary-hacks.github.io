@@ -348,7 +348,7 @@
         </div> -->
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
             <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><br><span id='slider-value'> </span></center></label>
-            <input id='slider' type='range' min='1' max='20' step='1' value='' style='margin-bottom:1vh;' />
+            <input id='slider' type='range' min='1' max='38' step='1' value='' style='margin-bottom:1vh;' />
             <script>
             var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
             console.log("Current date is " + Date.now());
@@ -377,7 +377,7 @@
         <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Click on the map to display an image!</h4>
           <script>
               var maxdate = Date.now();
-              var mindate = (1496966400000) //set to show epoch milliseconds of the start date
+              var mindate = (1498204800000) //set to show epoch milliseconds of the start date
               var mjs = new Mapillary.Viewer(
                   'mjs',
                   'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
