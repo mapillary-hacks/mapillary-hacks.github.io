@@ -74,11 +74,11 @@ html, body {
  #mly {
    position: absolute;
    bottom: 3vh;
-   right: 1vw;
+   right: .5vw;
    background-color: rgba(0, 0, 0, 0.5);
    color: white;
-   width:41vw;
-   height:31vh;
+   width: calc(270px + 10vw);
+   height: calc(180px + 10vh);
    border: .5vh solid grey;
    z-index: 1;
  }
