@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>Complete the Map - Seattle - Mapillary</title>
+  <title id='docTitle'></title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <script src='filters.js'></script>
   <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src='settings.js'></script>
+  <script src='mobileredirect.js'></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
@@ -18,22 +19,22 @@
   <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
 
-  <meta name="description" content="A challenge to collect useful imagery and map data for Seattle." />
+  <meta name="description" content="A challenge to collect useful imagery and map data." />
 
   <!-- Twitter Card data -->
-  <meta name="twitter:card" content="A challenge to collect useful imagery and map data for Seattle.">
-  <meta name="twitter:title" content="Complete the Map Challenge - Seattle">
-  <meta name="twitter:description" content="A challenge to collect useful imagery and map data for Seattle.">
+  <meta name="twitter:card" content="A challenge to collect useful imagery and map data..">
+  <meta name="twitter:title" content="Complete the Map Challenge">
+  <meta name="twitter:description" content="A challenge to collect useful imagery and map data.">
   <meta name="twitter:image" content="https://www.mapillary.com/assets/static/images/landing/capture-images.png">
 
   <!-- Open Graph data -->
-  <meta property="og: title" content="Complete the Map Challenge - Seattle" />
+  <meta property="og: title" content="Complete the Map Challenge" />
   <meta property="og:type" content="article" />
   <meta property="og:image:width" content="200" />
   <meta property="og:image:height" content="200" />
   <meta property="og: url" content="https://mapillary-hacks.github.io/leaderboard/budapest/map/" />
   <meta property="og: image" content="https://www.mapillary.com/assets/static/images/landing/capture-images.png" />
-  <meta property="og:description" content="A challenge to collect useful imagery and map data for Seattle." />
+  <meta property="og:description" content="A challenge to collect useful imagery and map data." />
   <meta property="og:site_name" content="Mapillary" />
 
 
@@ -58,16 +59,17 @@
   .map-overlay {
       font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
       position: absolute;
-      width: 30%;
+      width: 30vw;
       top: 0;
       left: 0;
-      color: "#900";
+      color: "#fff";
       height: 100vh;
       font-weight: bold;
+      z-index: 2;
   }
 
   .map-overlay .map-overlay-inner {
-      background-color: #a9a9a9;
+      background-color: #36AF6D;
       box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
       border-radius: 3px;
       padding: 5px;
@@ -79,6 +81,7 @@
   .map-overlay label {
       display: block;
       margin: 0 0 10px;
+      z-index: 2;
   }
 
   .map-overlay input {
@@ -88,24 +91,27 @@
       position: relative;
       margin: 0;
       cursor: ew-resize;
+      z-index: 2;
   }
   #menu {
       position: absolute;
-      background: #a9a9a9;
+      background: #36AF6D;
       width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
       z-index: 2;
+      color: white;
   }
   #menu2 {
       position: relative;
-      background: #a9a9a9;
+      background: #36AF6D;
       width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
       z-index: 2;
+      color: white;
   }
   #leaderboard {
     background: #36AF6D;
@@ -134,13 +140,14 @@
       border: 0px solid;
       padding: 0px;
       font-weight: bold;
+      z-index: 2;
   }
   .btn {
     padding: 5px;
     cursor: pointer;
   }
   .mbtn {
-    padding: 5px;
+    padding: 1vh;
     cursor: pointer;
     border-color:white;border:1px solid white;
   }
@@ -261,20 +268,29 @@
   }
 
   /* Rounded sliders */
-  .slider.round {
-    border-radius: 12px;
+  input[type='range'] {
+    -webkit-appearance: none !important;
+    background: #ffc01b;
+    height: calc(1px + 1vmin);
+    border: 0px;
   }
-
-  .slider.round:before {
-    border-radius: 50%;
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #e05643;
+    border: 2px solid #e05643;
+    width: calc(3px + 3vmin);
+    height: calc(1px + 2vmin);
+    border-radius: 0px;
+    cursor: pointer;
   }
   .coveragetext {
     font-size: 16;
   }
   .fa {
-      padding: 20px;
-      font-size: 30px;
-      width: 70px;
+      padding: 3vh;
+      font-size: 3vh;
+      width: 5vw;
+      height: 8vh;
       text-align: center;
       text-decoration: none;
   }
@@ -295,16 +311,20 @@
       color: white;
   }
   #mjs {
-    position: relative;
-    top: 110px;
+    position: absolute;
+    top: 69vh;
     left: 0px;
+    bottom: 1vh;
     background-color: rgba(0, 0, 0, 0.75);
     color: white;
-    width:480px;
-    height:32vh;
+    width:20vw;
+    height:30vh;
     border: 5px solid gray;
     z-index: 2;
     padding: 0px;
+  }
+  #nominate {
+    font-size: 1vw;
   }
   </style>
 
@@ -318,41 +338,48 @@
       <div class='map-overlay top'>
         <div id='logo'>
           <img src='https://www.mapillary.com/assets/static/images/landing/capture-images.png' width=0 height=0 />
-          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=50% style="margin-top:5px;"></a>
+          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=50% style="margin-top:3vh;"></a>
         </div>
-        <div id='logo' style="display:inline-block;margin-left:40px;">
-          <img src="https://secure.meetupstatic.com/photos/event/f/7/a/highres_438483962.jpeg" width=60% height=60%>
+<!--        <div id='logo' style="display:inline-block;margin-right:10%;margin-left:10%;">
+          <a id='partnerLink' href=''><img id='partnerlogo' src='' width=10vw height=10vh></a>
         </div>
-        <div id='logo' style="display:inline-block;margin-left:40px;">
-          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=35% height=35%></a>
-        </div>
+        <div id='logo' style="margin-left:10%;">
+          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
+        </div> -->
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
             <label><font style="font-size:16px;"><center>Seattle Challenge<br> (June 9 - June 30, 2017)</font><br><a href ="http://bit.ly/2sPWCxq" target="_blank">Challenge Instructions</a><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='20' step='1' value='' />
+            <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><br><span id='slider-value'> </span></center></label>
+            <input id='slider' type='range' min='1' max='38' step='1' value='' style='margin-bottom:1vh;' />
             <script>
-            var days = (Date.now()-1496966400000)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
+            var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
             console.log("Current date is " + Date.now());
             console.log("value of days is " + days);
-            document.getElementById('slider').max = 22;//Math.floor(Math.abs(days));
+            document.getElementById('slider').max = Math.floor(Math.abs(days));
             console.log("The max value is now " + document.getElementById('slider').max)
             document.getElementById('slider').value = days;
             document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since challenge start';
+            document.getElementById('challengeTitle').innerHTML = challengeTitle;
+            document.getElementById('docTitle').innerHTML = docTitle;
+            document.getElementById('challengeDate').innerHTML = challengeDate;
+            $('#partnerlogo').attr('src', partnerLogo);
+            $('#partnerLink').attr('href', partnerLink);
 
             </script>
         </div>
 
         <div id='menu' class='map-overlay-inner'>
-          <div id='controls'style='background-color:#a9a9a9;color:#333333;align:center;font-size:24'><center>(kattints a bekapcsoláshoz)</center></div>
+          <div id='controls'style='align:center;font-size:24'><center>(click to toggle)</center></div>
 <!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
           <div id='satellite' class='btn2'>Basemap: satellite</div> -->
-          <div id='mly' class='mbtn' style="font-size:11px;">Show all Mapillary coverage</div>
+          <div id='mly' class='mbtn' >Show all Mapillary coverage</div>
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show challenge grid</div>
         </div>
 
         <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Click on the map to display an image!</h4>
           <script>
               var maxdate = Date.now();
-              var mindate = (1496966400000) //set to show epoch milliseconds of the start date
+              var mindate = (1498204800000) //set to show epoch milliseconds of the start date
               var mjs = new Mapillary.Viewer(
                   'mjs',
                   'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
@@ -383,9 +410,9 @@
       var map = new mapboxgl.Map({
           container: 'map',
           style: 'homebrew-streets-v8.json',
-          center: [19.05123710632324,
-          47.52522856471848],
-          zoom: 13
+          center: [challengeLng,
+          challengeLat],
+          zoom: challengeZoom
       });
 
       map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
@@ -412,46 +439,18 @@
       var sliderValue = document.getElementById('slider-value');
 
       $(document).ready( function() {
-        var bbox = '19.04193498148289,47.50728240506778,19.089477516684735,47.539486035012736'; //this takes the first coordinate pair of the first square, and the third coordinate pair of the last square
-        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-06-09&end_time=2017-07-01&bbox=' + bbox;
-        console.log(url);
-
-        //tile totals
-        var x;
-        var y;
-        var totals = [];
-        var sums = [];
-        var tiles = [];
+        var bbox;
+        //bbox to find users
         $.ajax({
           dataType: "json",
           async: false, // Makes sure to wait for load
           url: 'square.geojson',
           success: function (square) {
-            console.log("There are " + square.features.length + " squares in the grid!");
-          /*  for ( i = 0; i < square.features.length; i++) {
-              x = square.features[i]["geometry"]["coordinates"][0][0];
-              y = square.features[i]["geometry"]["coordinates"][0][2];
-              var bbox2 = x[0]+','+x[1]+','+y[0]+','+y[1];
-              var myurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&end_time=2017-06-16&bbox=' + bbox2;
-              $.ajax({
-                dataType: "json",
-                async: false, // Makes sure to wait for load
-                url: myurl,
-                success: function (stats) {
-                  console.log(myurl);
-                  tiles.push(stats[0]["username"]);
-                }
-              });
-            }*/
+            bbox = turf.bbox(square);
           }
         });
-        console.log("Tiles list is " + tiles);
-        var obj = { };
-        for (var i = 0, j = tiles.length; i < j; i++) {
-           obj[tiles[i]] = (obj[tiles[i]] || 0) + 1;
-        };
-        var test = tiles[3];
-        console.log("The test comes out as " + obj[test]);
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-06-09&end_time=2017-07-01&bbox=' + bbox;
+        console.log(url);
         //user scores
         $.ajax({
           dataType: "json",
@@ -492,8 +491,7 @@
             console.log(count);
             switch (count) {
               case 0:
-                mly.style.backgroundColor = "rgb(53, 175, 109)";
-                mly.style.color = "#FFF";
+                mly.style.backgroundColor = "#FF861B";
                 map.addLayer({
                     'id': 'mapillary-all',
                     'type': 'circle',
@@ -523,8 +521,7 @@
                 count = 1;
                 break;
               case 1:
-                mly.style.backgroundColor = "#a9a9a9";
-                mly.style.color = "#000";
+                mly.style.backgroundColor = "rgb(53, 175, 109)";
                 map.removeLayer('mapillary-all');
                 map.removeLayer('mapillary-all2');
                 count = 0;
@@ -536,8 +533,7 @@
             console.log(count2);
             switch (count2) {
               case 0:
-                maptime.style.backgroundColor = "red";
-                maptime.style.color = "#FFF";
+                maptime.style.backgroundColor = "#FF861B";
                 count2 = 1;
                 map.addSource('maptime', {
                     'type': 'geojson',
@@ -605,8 +601,7 @@
                 });
                 break;
               case 1:
-                maptime.style.backgroundColor = "#a9a9a9";
-                maptime.style.color = "#000";
+                maptime.style.backgroundColor = "#36AF6D";
                 count2 = 0;
                 map.removeLayer('maptimelayer-low');
                 map.removeLayer('maptimelayer-med');
@@ -905,12 +900,17 @@
           </tr>
         </table>
       </div>
-      <div class="alt-grid row"style="max-height:8vh;margin-left:18%;width:100%;" id="share">
-          <a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a>
+      <div class="alt-grid row"style="max-height:8vh;width:100%;" id="share">
+          <center><a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a></center>
           <br><br>
       </div>
-      <div class="alt-grid row"style="max-height:5vh;margin-left:10%;width:100%;" id="share">
-          <h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;">Click here to nominate your city!</a></h4>
+      <div class="alt-grid row"style="max-height:5vh;width:100%;" id="share">
+          <center><h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;" id='nominate'>Click here to nominate your city!</a></h4></center>
+          <script>
+            $('.fa-facebook').attr('href', facebookShare);
+            $('.fa-twitter').attr('href', twitterShare);
+            $('.fa-envelope').attr('href', emailShare);
+          </script>
       </div>
     </div>
   </div>

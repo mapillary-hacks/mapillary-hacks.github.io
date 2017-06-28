@@ -1,3 +1,6 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<script src='../settings.js'></script>
 <center><h2 style="color:white;">Leaderboard</h2></center>
 <br>
 <table id='table'>
@@ -5,3 +8,32 @@
     <th>Username</th><th>Images</th>
   </tr>
 </table>
+
+<script>
+$(document).ready( function() {
+    var bbox;
+    //bbox to find users
+    $.ajax({
+      dataType: "json",
+      async: false, // Makes sure to wait for load
+      url: '../square.geojson',
+      success: function (square) {
+        bbox = turf.bbox(square);
+      }
+    });
+    var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + new Date(mindate).toISOString() + '&bbox=' + bbox;
+    console.log(url);
+    //user scores
+    $.ajax({
+      dataType: "json",
+      async: false, // Makes sure to wait for load
+      url: url,
+      success: function (stats) {
+        for (n = 0; n < stats.length; n++) {
+          var u = stats[n]["username"];
+          $('#table').append('<tr><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td></tr>');
+        }
+      }
+    });
+  });
+</script>
