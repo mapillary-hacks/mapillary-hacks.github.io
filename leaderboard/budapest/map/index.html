@@ -327,13 +327,13 @@
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=35% height=35%></a>
         </div>
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
-            <label><font style="font-size:16px;"><center>Budapest Kihívás<br> (Június 9 - Június 30, 2017)</font><br><br><span id='slider-value'> </span></center></label>
-            <input id='slider' type='range' min='1' max='20' step='1' value='' />
+            <label><font style="font-size:16px;"><center>Budapest Kihívás<br> (Június 9 - Július 9, 2017)</font><br><br><span id='slider-value'> </span></center></label>
+            <input id='slider' type='range' min='1' max='30' step='1' value='' />
             <script>
             var days = (Date.now()-1496966400000)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
             console.log("Current date is " + Date.now());
             console.log("value of days is " + days);
-            document.getElementById('slider').max = 22;//Math.floor(Math.abs(days));
+            document.getElementById('slider').max = 30;//Math.floor(Math.abs(days));
             console.log("The max value is now " + document.getElementById('slider').max)
             document.getElementById('slider').value = days;
             document.getElementById('slider-value').innerHTML = Math.floor(days) + ' nappal a kihívás kezdete után';
