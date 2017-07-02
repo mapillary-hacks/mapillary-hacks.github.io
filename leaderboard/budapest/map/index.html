@@ -328,7 +328,7 @@
         </div>
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
             <label><font style="font-size:16px;"><center>Budapest Kihívás<br> (Június 9 - Július 9, 2017)</font><br><br><span id='slider-value'> </span></center></label>
-            <input id='slider' type='range' min='1' max='30' step='1' value='' />
+            <input id='slider' type='range' min='0' max='30' step='1' value='' />
             <script>
             var days = (Date.now()-1496966400000)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
             console.log("Current date is " + Date.now());
@@ -501,7 +501,7 @@
                     'source-layer': 'mapillary-sequence-overview',
                     'paint': {
                         'circle-opacity': 0.75,
-                        'circle-color':   'rgb(53, 175, 109)',
+                        'circle-color':   'rgb(0, 80, 209)',
                         'circle-radius':   2
                     }
                 }, 'mapillary-o');
@@ -516,7 +516,7 @@
                    },
                    'paint': {
                        'line-opacity': 0.75,
-                       'line-color':   'rgb(53, 175, 109)',
+                       'line-color':   'rgb(0, 80, 209)',
                        'line-width':   2
                    }
                 }, 'mapillary');
