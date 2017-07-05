@@ -413,7 +413,7 @@
 
       $(document).ready( function() {
         var bbox = '19.04193498148289,47.50728240506778,19.089477516684735,47.539486035012736'; //this takes the first coordinate pair of the first square, and the third coordinate pair of the last square
-        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-06-09&end_time=2017-07-01&bbox=' + bbox;
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-06-09&bbox=' + bbox;
         console.log(url);
 
         //tile totals
@@ -432,7 +432,7 @@
               x = square.features[i]["geometry"]["coordinates"][0][0];
               y = square.features[i]["geometry"]["coordinates"][0][2];
               var bbox2 = x[0]+','+x[1]+','+y[0]+','+y[1];
-              var myurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&end_time=2017-06-16&bbox=' + bbox2;
+              var myurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-05-25&bbox=' + bbox2;
               $.ajax({
                 dataType: "json",
                 async: false, // Makes sure to wait for load
@@ -793,7 +793,7 @@
               zoom: 15,
           });
 
-          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=2017-06-09&end_time=2017-07-01&closeto="+ lng + "," + lat;
+          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=2017-06-09&closeto="+ lng + "," + lat;
 
           $.ajax({
               dataType: "json",
