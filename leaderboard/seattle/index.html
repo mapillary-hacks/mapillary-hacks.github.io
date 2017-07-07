@@ -448,7 +448,7 @@
             bbox = turf.bbox(square);
           }
         });
-        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-06-09&end_time=2017-07-01&bbox=' + bbox;
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindate + '&bbox=' + bbox;
         console.log(url);
         //user scores
         $.ajax({
