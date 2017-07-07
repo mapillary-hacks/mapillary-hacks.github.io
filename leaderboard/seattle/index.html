@@ -448,7 +448,7 @@
             bbox = turf.bbox(square);
           }
         });
-        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindate + '&bbox=' + bbox;
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindate2 + '&bbox=' + bbox;
         console.log(url);
         //user scores
         $.ajax({
@@ -787,7 +787,7 @@
               zoom: 15,
           });
 
-          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=2017-06-09&end_time=2017-07-01&closeto="+ lng + "," + lat;
+          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=' + mindate2 + '&closeto="+ lng + "," + lat;
 
           $.ajax({
               dataType: "json",
