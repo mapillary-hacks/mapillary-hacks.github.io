@@ -4,11 +4,11 @@ From now until the end of June, we’re bringing together the Mapillary communit
 
 While coverage in Seattle has come a long way, there are many gaps that remain. #CompletetheMap Berlin has demonstrated that bringing together the community to focus on a specific part of the city is a very effective way to improve coverage. These photos will enable a new round of map editing focused on street-level details like shop information, mobility access, and amenities. [Follow the action here](https://mapillary-hacks.github.io/leaderboard/seattle/).
 
-<a href="https://mapillary-hacks.github.io/leaderboard/seattle/" rel="external"><img src="Day_1_Coverage.JPG" alt="Complete the Map Budapest Leaderboard"/></a>
+<a href="https://mapillary-hacks.github.io/leaderboard/seattle/" rel="external"><img src="Day_6_Coverage.JPG" alt="Complete the Map Seattle Leaderboard"/></a>
 
 ### The Challenge
 Capitol Hill and surrounding areas has been divided into a 5x5 grid. To participate in the challenge, simply capture streets and paths in each zone. The contributor with the most images in each zone when it is marked as complete will win the zone. The contributor who wins the most zones wins #CompleteTheMap Seattle. Prizes will be awarded to winners of three different zones, but we won't tell you which ones so capture as many zones as possible to increase your chances.
-If you’d like to take part, subscribe to [our email updates](http://eepurl.com/cRP5Sz), head into Capitol Hill and start capturing images. Good luck!
+If you’d like to take part, subscribe to [our email updates](http://eepurl.com/cTGRQT), head into Capitol Hill and start capturing images. Good luck!
 
 ### The Rules
 
