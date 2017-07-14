@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>HERE Dashboard</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='app.js'></script>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
+    <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  </head>
+  <style>
+    html, body {
+       position:relative;
+       top:0;
+       bottom:0;
+       left:0;
+       right:0;
+       background-color: black;
+    }
+    #leaderboard {
+      background: #000;
+      font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      min-height: 99vh;
+      height:99vh;
+      min-width: 50vw;
+      max-width: 80vw;
+      color: gray;
+    }
+    .alt-grid [class*="col-"] {
+      padding-left:0;
+      padding-right:0;
+    }
+    .alt-grid .row {
+      margin-left:0;
+      margin-right:0;
+    }
+    /* container adjusted */
+    .alt-grid .container {
+      width:80vw;
+      max-width: 80vw;
+      padding:0;
+    }
+    countrytr {
+      height: 10vh;
+      width: 100%;
+      float: right;
+      padding: 10px;
+    }
+    subtr {
+      height: 5vh;
+      width: 18vw;
+      float: center;
+      padding: 1vw;
+    }
+    td {
+      padding: 1vw;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+      width: 18vw;
+      padding: 1vw;
+    }
+    th {
+      background-color: rgb(72,218,208);
+      color: rgb(56,60,69);
+      padding: 1vw;
+    }
+    tr:nth-child(odd) {
+      background-color: #d3d3d3;
+      width: 18vw;
+      padding: 1vw;
+    }
+    #table {
+      float: center;
+      border: 3;
+      border-color: white;
+      padding: 5vw;
+      width: 80vw;
+    }
+  </style>
+
+  <body>
+
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-xs-1'></div>
+      <div class='col-xs-10' id='leaderboard'>
+        <br>
+        <center><img src='HERE_logo.svg.png' height=10% width=10% /></center>
+        <br>
+        <table id='table'></table>
+        <script>
+          countryCalc();
+        </script>
+      </div>
+      <div class='col-xs-1'></div>
+    </div>
+  </div>
+
+  </body>
+</html>
