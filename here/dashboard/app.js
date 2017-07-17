@@ -5,33 +5,42 @@ var totals = [];
 var usertotals = [];
 console.log(countries.length + ' ' + codes.length);
 
-function countryCalc() {
+function loadTable() {
   $('#table').append('<tr id="subtr"><th><h5><b>Country</h5></th><th><h5><b>Images</h5></th><th><h5><b>HERE UTM Users</h5></th><th><h5><b>Non-HERE UTM Users</h5></th></tr>');
-  for (c = 0; c < countries.length; c++) {
-    var currentCode = codes[c];
-    var currentCountry = countries[c];
-    var testurl = 'https://a.mapillary.com/v3/leaderboard/images?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&usernames=' + users + '&iso_countries=' + currentCode;
-    console.log(testurl);
-    console.log(currentCountry);
-    var imageTotal = 0;
-    var userTotal = 0
-    $.ajax({
-        dataType: "json",
-        url: testurl,
-        async: false,
-        success: function (stats) {
-          userTotal = stats.length;
-          for (n = 0; n < stats.length; n++) {
-            var imageCount = stats[n]["image_count"];
-            imageTotal = imageTotal + imageCount;
-            console.log(currentCountry + ' count is ' + imageTotal);
-            }
-        }
-      });
-    totals.push(imageTotal);
-    usertotals.push(userTotal);
-  }
-  for (t = 0; t < countries.length; t++) {
-    $('#table').append('<tr id="subtr"><td>' + countries[t] + '</td><td>' + totals[t] + '</td><td>' + usertotals[t]+ '</td><td>' + 0 + '</td></tr>');
+
+}
+
+function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("table");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.getElementsByTagName("TR");
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[0];
+      y = rows[i + 1].getElementsByTagName("TD")[0];
+      //check if the two rows should switch place:
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        //if so, mark as a switch and break the loop:
+        shouldSwitch= true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
   }
 }

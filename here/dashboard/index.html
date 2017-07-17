@@ -5,6 +5,7 @@
     <title>HERE Dashboard</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='app.js'></script>
+    <script src='countrycalc.js'></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -85,6 +86,30 @@
       padding: 5vw;
       width: 80vw;
     }
+    .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('ajax-loader.gif')
+                50% 50%
+                no-repeat;
+    }
+    /* When the body has the loading class, we turn
+       the scrollbar off with overflow:hidden */
+    body.loading {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+       modal element will be visible */
+    body.loading .modal {
+        display: block;
+    }
   </style>
 
   <body>
@@ -98,12 +123,46 @@
         <br>
         <table id='table'></table>
         <script>
-          countryCalc();
+          $body = $("body");
+          $(document).on({
+              ajaxStart: function() { $body.addClass("loading");    },
+              ajaxStop: function() { $body.removeClass("loading"); }
+          });
+          loadTable();
+          var done = 52; // number of total requests
+          var sum = 0;
+          /* Normal loops don't create a new scope */
+          $([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).each(function() {
+            var c = this;
+            var currentCode = codes[c];
+            var currentCountry = countries[c];
+            var testurl = 'https://a.mapillary.com/v3/leaderboard/images?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&usernames=' + users + '&iso_countries=' + currentCode;
+            var imageTotal = 0;
+            var userTotal = 0
+            $.ajax({
+                dataType: "json",
+                url: testurl,
+                success: function (stats) {
+                  userTotal = stats.length;
+                  for (n = 0; n < stats.length; n++) {
+                    var imageCount = stats[n]["image_count"];
+                    imageTotal = imageTotal + imageCount;
+                    console.log(currentCountry + ' count is ' + imageTotal);
+                  }
+                  sum++;
+                  done -= 1;
+                  $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + userTotal + '</td><td>' + 0 + '</td></tr>');
+                  sortTable();
+                }
+              });
+          });
+
+
         </script>
       </div>
       <div class='col-xs-1'></div>
     </div>
   </div>
-
+  <div class="modal"><!-- Place at bottom of page --></div>
   </body>
 </html>
