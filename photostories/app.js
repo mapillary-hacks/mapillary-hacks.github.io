@@ -92,7 +92,7 @@ function nextImage() {
     });
     mly.moveToKey(currentImage);
     $("#place").empty().append("<h3 class='slideTitle'>" + titles[myImage] + "</h3>")
-    $("#content").empty().append("<p class='slideContent'>" + content[myImage] + "</p>")
+    $("#content").empty().append("<h4 class='slideContent'>" + content[myImage] + "</h4>")
   };
 
 function prevImage() {
@@ -220,7 +220,7 @@ function loadImage(image) {
 //     $("#mly").empty().append("<script>var mly = new Mapillary.Viewer('mly','UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkNTRmOTk5NzQ2N2E3ZDAy',currentImage,{component: {attribution: false,cover: false,direction: {distinguishSequence: true,maxWidth: 460,minWidth: 180},imagePlane: {imageTiling: true},stats: true},renderMode: Mapillary.RenderMode.Fill});</script>");
      mly.moveToKey(currentImage);
      $("#place").empty().append("<h3 class='slideTitle'>" + titles[image] + "</h3>")
-     $("#content").empty().append("<p class='slideContent'>" + content[image] + "</p>")
+     $("#content").empty().append("<h4 class='slideContent'>" + content[image] + "</h4>")
      image = 77777777777777;
   });
 };
@@ -230,9 +230,9 @@ $(document).ready(
   function load() {
 
     $("#title").empty().append("<h1 style='padding: 10;'>" + project_title + "</h1>")
-    $("#subtitle").empty().append("<h4 style='padding: 10;'>" + project_subtitle + "</h4>")
+    $("#subtitle").empty().append("<h3 style='padding: 10;'>" + project_subtitle + "</h3>")
     $("#place").empty().append("<h3 class='slideTitle'>" + titles[0] + "</h3>")
-    $("#content").empty().append("<p class='slideContent'>" + content[0] + "</p>")
+    $("#content").empty().append("<h4 class='slideContent'>" + content[0] + "</p>")
     for (i = 0; i < images.length; i++) {
       $("#gallery").append(
         "<div class='img' id='div" +i+"'><img src='https://d1cuyjsrcm0gby.cloudfront.net/"+images[i]+"/thumb-320.jpg' id=image" + i +" href='#' onclick='loadImage(" + i + ")' title='" + titles[i] + "'></div>"
