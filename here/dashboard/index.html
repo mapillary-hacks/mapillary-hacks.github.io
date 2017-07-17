@@ -94,7 +94,7 @@
     left:       0;
     height:     100%;
     width:      100%;
-    background: rgba( 255, 255, 255, .8 )
+    background: rgba( 0, 0, 0, .8 )
                 url('ajax-loader.gif')
                 50% 50%
                 no-repeat;
@@ -129,9 +129,8 @@
               ajaxStop: function() { $body.removeClass("loading"); }
           });
           loadTable();
-          var done = 52; // number of total requests
+          var done = 53; // number of total requests
           var sum = 0;
-          /* Normal loops don't create a new scope */
           $([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).each(function() {
             var c = this;
             var currentCode = codes[c];
