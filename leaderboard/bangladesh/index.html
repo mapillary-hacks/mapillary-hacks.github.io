@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src=https://code.jquery.com/jquery-3.2.1.min.js></script>
+</head>
+<title>Mapillary Challenge - Bangladesh</title>
+<style>
+html, body {
+  background-color: #474a4e;
+}
+
+#indiv {
+  color: #000;
+}
+
+#teams {
+    color: #000;
+}
+
+#header {
+  font-weight: bold;
+  background-color: #32c987;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+
+tr:nth-child(odd) {
+  background-color: #d3d3d3;
+}
+
+tr {
+  width: 200px;
+}
+
+td {
+  height: 10px;
+  width: 180px;
+}
+
+table {
+  float:right;
+}
+
+div {
+  background-color: #474a4e;
+}
+
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<body bgcolor=#474a4e>
+<table id="table"></table>
+	<script>
+    $.ajax({
+    type: "get",
+    dataType: "json",
+    url: "https://a.mapillary.com/v3/leaderboard/images?usernames=tasauf1980,mmahmud,antaratithi,xihad,sawanshariar,gineus,atik,fazlerabbi37,arafin,shaheen,ashiq,kazitusher123,subhesaadik,ravennahid,asmi,zahidbd94,rajib,mapdhaka&client_id=UDlZN2VvUUk2ZjlFVnowd3BELUw1QTo5ZDViODk3OThjYjcyMmRh&start_time=2017-06-01&end_time=2017-12-31",
+    success: function(data) {
+     for (i = 0; i < data.length; i++) {
+        $('#table').append('<tr><td>' + data[i]["username"] + '</td><td>' + data[i]["image_count"] + '</td><td>');
+ 		};
+      }
+    });
+  </script>
+
+</body>
+
+</html>
