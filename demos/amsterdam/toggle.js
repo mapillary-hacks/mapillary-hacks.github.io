@@ -1,5 +1,5 @@
-var toggleableLayerIds = ['benches', 'bikes', 'billboards', 'bridges', 'crosswalks', 'trash bins', 'tunnels', 'vegetation','water'];
-var colors = ['red', 'yellow', 'orange', 'brown', 'white', 'pink', 'purple', 'magenta', 'green', 'blue'];
+var toggleableLayerIds = ['benches', 'bikes', 'billboards', 'bridges', 'crosswalks', 'curbs', 'trash bins', 'tunnels', 'vegetation','water'];
+var colors = ['red', 'yellow', 'orange', 'brown', 'white', '#32cd32', 'pink', 'purple', 'magenta', 'green', 'blue'];
 
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];

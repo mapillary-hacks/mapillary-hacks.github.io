@@ -114,6 +114,23 @@ map.on('style.load', function () {
         'visibility' : 'none'
       }
   });
+  map.addSource('curbs', {
+      'type': 'geojson',
+      'data': 'ams_curbs.geojson'
+  });
+  map.addLayer({
+      'id': 'curbs',
+      'type': 'circle',
+      'source': 'curbs',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[5]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
   map.addSource('hydrants', {
       'type': 'geojson',
       'data': 'ams_hydrants.geojson'
@@ -125,7 +142,7 @@ map.on('style.load', function () {
       'paint': {
           'circle-opacity': 0.6,
           'circle-radius': 5,
-          'circle-color': colors[5]
+          'circle-color': colors[6]
       },
       'layout' : {
         'visibility' : 'none'
@@ -142,7 +159,7 @@ map.on('style.load', function () {
       'paint': {
           'circle-opacity': 0.6,
           'circle-radius': 5,
-          'circle-color': colors[5]
+          'circle-color': colors[7]
       },
       'layout' : {
         'visibility' : 'none'
@@ -159,7 +176,7 @@ map.on('style.load', function () {
       'paint': {
           'circle-opacity': 0.6,
           'circle-radius': 5,
-          'circle-color': colors[7]
+          'circle-color': colors[8]
       },
       'layout' : {
         'visibility' : 'none'
@@ -176,7 +193,7 @@ map.on('style.load', function () {
       'paint': {
           'circle-opacity': 0.6,
           'circle-radius': 5,
-          'circle-color': colors[8]
+          'circle-color': colors[9]
       },
       'layout' : {
         'visibility' : 'none'
@@ -193,7 +210,7 @@ map.on('style.load', function () {
       'paint': {
           'circle-opacity': 0.6,
           'circle-radius': 5,
-          'circle-color': colors[9]
+          'circle-color': colors[10]
       },
       'layout' : {
         'visibility' : 'none'
