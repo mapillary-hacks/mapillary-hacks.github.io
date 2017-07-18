@@ -270,7 +270,7 @@ map.on('style.load', function () {
   });
 
   map.on('mousemove', function (e) {
-      var features = map.queryRenderedFeatures(e.point, { layers: ['benches', 'bikes', 'billboards', 'bridges', 'crosswalks', 'hydrants', 'trash bins', 'tunnels', 'vegetation','water'] });
+      var features = map.queryRenderedFeatures(e.point, { layers: ['benches', 'bikes', 'billboards', 'bridges', 'crosswalks', 'curbs', 'hydrants', 'trash bins', 'tunnels', 'vegetation','water'] });
       map.getCanvas().style.cursor = 'pointer';
   });
 });
