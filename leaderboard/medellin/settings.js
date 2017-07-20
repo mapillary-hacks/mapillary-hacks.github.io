@@ -9,9 +9,9 @@ var mindate2 = new Date(mindate).toISOString();
 var partnerLogo = 'http://blog.openstreetmap.co/img/osm-co.png';
 var partnerLink = 'http://blog.openstreetmap.co/'
 
-var challengeTitle = 'Medellín Challenge'; //text in the slider
-var challengeDate = 'July 14th - July 31st, 2017'
-var docTitle = 'Complete the Map: Medellín - Mapillary'; //text next to favicon on browser window
+var challengeTitle = '#Mapathon Medellín por Geo Project y Mapillary'; //text in the slider
+var challengeDate = '20 de Julio al 3 de Agosto, 2017'
+var docTitle = '#Mapathon Medellín'; //text next to favicon on browser window
 
 var challengeLng = -75.588014602661133; //center of the map
 var challengeLat = 6.259724583206608; //center of the map
