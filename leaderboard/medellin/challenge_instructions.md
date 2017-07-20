@@ -1,41 +1,42 @@
-**A challenge to photo map Capitol Hill and collect useful map data for Seattle.**
+**Un reto para mapear las zonas ciclistas de Medellín y recolectar información útil para Medellín.**
 
-From now until the end of June, we’re bringing together the Mapillary community in Seattle and students from UW in a challenge to unlock the zones of Capitol Hill. Anyone living in Seattle or passing through during this time is welcome to join the #CompleteTheMap challenge.  
+Desde hoy hasta el 3 de Agosto, vamos a reunir a las comunidades interesadas en mapas, datos abiertos y colaboración en línea de Medellín para que puedan ir cubriendo las zonas alrededor de las ciclo rutas de la ciudad. Cualquier persona que viva en Medellín o que este de paso por la ciudad es bienvenido a apoyar al #Mapathon. 
 
-While coverage in Seattle has come a long way, there are many gaps that remain. #CompletetheMap Berlin has demonstrated that bringing together the community to focus on a specific part of the city is a very effective way to improve coverage. These photos will enable a new round of map editing focused on street-level details like shop information, mobility access, and amenities. [Follow the action here](https://mapillary-hacks.github.io/leaderboard/seattle/).
+La cobertura de la ciudad es bastante buena, hace tiempo que no hay nuevas coberturas en Mapillary enfocadas a las rutas ciclistas. Siguiendo el ejemplo de #CompletetheMap en Berlin que fué todo un éxito demostrando que la comunidad se puede coordinar y enfocarse en una zona especifica de la ciudad para mejorar la cobertura de fotos a nivel de calle. Estas fotos habilitarán una nueva ronda de fotos a nivel de calle con mayor detalle de información que es de interés para ciclistas. [Puedes seguir la cobertura en este tablero de aportaciones.](https://mapillary-hacks.github.io/leaderboard/medellin/).
 
-<a href="https://mapillary-hacks.github.io/leaderboard/seattle/" rel="external"><img src="Day_6_Coverage.JPG" alt="Complete the Map Seattle Leaderboard"/></a>
+<a href="https://mapillary-hacks.github.io/leaderboard/medellin/" rel="external"><img src="Day_1_Coverage.JPG" alt="Tablero de aportaciones al #Mapathon Medellín"/></a>
 
-### The Challenge
-Capitol Hill and surrounding areas has been divided into a 5x5 grid. To participate in the challenge, simply capture streets and paths in each zone. The contributor with the most images in each zone when it is marked as complete will win the zone. The contributor who wins the most zones wins #CompleteTheMap Seattle. Prizes will be awarded to winners of three different zones, but we won't tell you which ones so capture as many zones as possible to increase your chances.
-If you’d like to take part, subscribe to [our email updates](http://eepurl.com/cTGRQT), head into Capitol Hill and start capturing images. Good luck!
+### El #Mapathon.
+Las zona de Los Colores y el Barrio de San Germán cerca de la Universidad Nacional de Colombia han sido dividas en una grilla de 5x5. Para participar en el #Mapathon, simplemente debes de capturas imágenes con la aplicación de Mapillary de las calles y las aceras de cada zona. El voluntario que contribuya el mayor número de imágenes en cada zona cuando sea marcado como completa será el ganador de dicha zona. El voluntario que tenga el mayor número de zonas ganadas será declarado el ganador de #Mapathon. Habra unos premios sorpresa para aquellos voluntarios con el mayor número de zonas.
 
-### The Rules
+Sí quieres tomar parte te invitamos a participar en los talleres los días **27,28,29 de Julio y el 3 de Agosto**. Para más información ir a www.datosabiertosmedellin.org, por favor confirmar su participación en la página de Meetup - https://www.meetup.com/es-ES/Datos-Abiertos-y-Gobierno-Abierto-en-Medellin/
 
-**How do I enter the challenge**
+### Las reglas.
 
-Anyone capturing within the grid will automatically participate in the challenge. You don’t need to sign up anywhere.
+**¿Cómo participó en el #Mapathon?**
 
-**The Grid**
+Cualquier persona que captura imágenes dentro de la grilla automáticamente participa en el #Mapathon. No necesitas apuntarte en ningún lugar.
 
-We will be checking coverage every day and assigning a color to each zone that represents the coverage status for that area. Red will represent 50% or less of coverage, orange above 50% and green 100% (complete). Only images captured from day one of the competition (June 23rd) will be counted. 
+**La Grilla.**
+
+Estaremos analizando la cobertura diaria de la zona e iremos asignando un color a cada zona que representara el grado de cobertura del área. Rojo significa que hay menos del 50% de cobertura, naranja que hay una cobertura por encima del 50% y verde que la zona esta completamente cubierta. Solamente las imágenes que se han capturado desde el primer día del #Mapathon van a ser contabilizadas.
 
 **Rankings & Updates**
 
-We’ll be maintaining a live page with the results that you can visit any time [here](https://mapillary-hacks.github.io/leaderboard/seattle/). In addition to this, we’ll be sending out email updates participants at the start and end of each week. You can opt in [here](http://eepurl.com/cTGRQT). As usual, you’ll be able to get updates on [Twitter](https://twitter.com/mapillary) and [Facebook](https://www.facebook.com/mapillary) as well.
+Vamos a mantener una página web actualizada con el ranking de los contribuyentes [aquí el link](https://mapillary-hacks.github.io/leaderboard/medellin/). Adicionalmente estaremos enviandoles un email a todos los voluntarios que vayan subiendo fotos. Puedes apuntarte [aquí](http://eepurl.com/cTGRQT). También estaremos actualizando nuestras redes sociales de [Twitter](https://twitter.com/mapillary) y [Facebook](https://www.facebook.com/mapillary) as well.
 
-**How to win**
+**Como ganar una zona.**
 
-The winner of each zone will be the contributor with the most photos in that area when the zone is marked as complete (goes green). The overall winner will thus be the one to collect the most zones by improving coverage in that area. The competition will end when all the zones go green or on July 31st, whichever comes sooner. 
+El ganador de cada zona será el voluntario que tenga el mayor número de fotos en dicha área cuando la zona sea marcada como completa (color verde). El ganador del #Mapathon será aquel que tenga el mayor número de zonas cubiertas en la grilla. El Marathon terminara cuando todas las zonas se hayan puesto en verde o hasta el 3 de Agosto cuando termina el #Mapathon.
 
-To keep the challenge as fair as possible, we will make sure that photos taken in each zone are useful. When necessary, we’ll manually update the zone to make sure it accurately reflects the state of photo coverage in that area. You’re welcome to send in feedback to tell us which zones need to be adjusted.
+Para mantener la competencia enfocada a beneficiar a la ciudad, nos aseguraremos que las fotos sean de uso para la comunidad de datos abiertos de Medellín. Cuando sea necesario, vamos a actualizar manualmente las zonas para que reflejen la cobertura actual del área. Estamos abiertos a recibir sus comentarios si ven que hay zonas que no se han actualizado.
 
-**Invite Friends**
+**Invita a tus amigos.**
 
-If you would like to invite your friends to take part in the challenge, all they have to do is capture within the grid area and they will automatically appear on the leaderboard. If they want to stay updated, make sure they subscribe to our email updates and follow the #CompletetheMap hashtag on Facebook and Twitter.
+Si quieres invitar a tus vecinos, amigos o compañeros de la escuela al #Mapathon, lo único que necesitan es capturar fotos dentro de la grilla y aparecerán automáticamente en el tablero de participantes. Para mantenerse al tanto de los avances, aseguren de seguir #Mapathon en Facebook y Twitter.
 
-**And we're off!**
+**Que comience el mapeo :D**
 
-Charge your phones, get your action cameras out, and get ready to photo map Seattle! Have fun exploring the city. Let’s #CompleteTheMap! 
+Aseguren de cargar bien su celular y que tienen espacio para capturar imágenes, con un esfuerzo colectivo vamos a incrementar los datasets de datos abiertos de la ciudad de Medellín. Vamos al #Mapathon.
 
-P.S. Nominate your city [here](https://drive.google.com/open?id=14X76aTo3BNVw-x_QOKx4C80pvKdny-uYdO07vggaHcQ) if you’d like to see the challenge in your neighbourhood. If you can’t wait for that, we’ve also [open sourced the code for the grid and leaderboard](https://github.com/mapillary-hacks/mapillary-hacks.github.io/tree/master/leaderboard/) so you can set it up yourself.
+PD. Si deseas nominar tu ciudad puedes hacerlo en este link [aquí](https://drive.google.com/open?id=14X76aTo3BNVw-x_QOKx4C80pvKdny-uYdO07vggaHcQ) if you’d like to see the challenge in your neighbourhood. Si no puedes esperar y deseas montarlo por cuenta propia lo puedes hacer con el siguiente código abierto [libreria para generar una grilla y el tablero de aportaciones](https://github.com/mapillary-hacks/mapillary-hacks.github.io/tree/master/leaderboard/).
