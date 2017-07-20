@@ -9,7 +9,7 @@ var mindate2 = new Date(mindate).toISOString();
 var partnerLogo = 'http://blog.openstreetmap.co/img/osm-co.png';
 var partnerLink = 'http://blog.openstreetmap.co/'
 
-var challengeTitle = '#Mapathon Medellín por Geo Project y Mapillary'; //text in the slider
+var challengeTitle = '#Mapathon Medellín por Geo Project'; //text in the slider
 var challengeDate = '20 de Julio al 3 de Agosto, 2017'
 var docTitle = '#Mapathon Medellín'; //text next to favicon on browser window
 
