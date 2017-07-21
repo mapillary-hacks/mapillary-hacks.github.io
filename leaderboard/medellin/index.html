@@ -348,7 +348,7 @@
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
         </div> -->
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
-                                   <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><a href ="https://forum.mapillary.com/t/mapathon-medellin/1075" target="_blank">Challenge Instructions</a><br><span id='slider-value'> </span></center></label>
+                                   <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><a href ="http://bit.ly/2sPWCxq" target="_blank">Instrucciones del #Mapathon</a><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='38' step='1' value='' style='margin-bottom:1vh;' />
             <script>
             var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
@@ -357,7 +357,7 @@
             document.getElementById('slider').max = Math.floor(Math.abs(days));
             console.log("The max value is now " + document.getElementById('slider').max)
             document.getElementById('slider').value = days;
-            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since challenge start';
+            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' días del comienzo del #Mapathon';
             document.getElementById('challengeTitle').innerHTML = challengeTitle;
             document.getElementById('docTitle').innerHTML = docTitle;
             document.getElementById('challengeDate').innerHTML = challengeDate;
@@ -368,14 +368,14 @@
         </div>
 
         <div id='menu' class='map-overlay-inner'>
-          <div id='controls'style='align:center;font-size:24'><center>(click to toggle)</center></div>
+          <div id='controls'style='align:center;font-size:24'><center>(Haz click para cambiar la vista)</center></div>
 <!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
           <div id='satellite' class='btn2'>Basemap: satellite</div> -->
           <div id='mly' class='mbtn' >Muestra toda la cobertura en Mapillary</div>
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Muestra la grilla del #Mapathon</div>
         </div>
 
-        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Click on the map to display an image!</h4>
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Haz click en el mapa para ver las fotos</h4>
           <script>
               var maxdate = Date.now();
               var mindate = (1498204800000) //set to show epoch milliseconds of the start date
