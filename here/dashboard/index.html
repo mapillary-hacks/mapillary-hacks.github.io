@@ -136,33 +136,19 @@
             var imageTotal = 0;
             var userTotalUTM = 0;
             var userTotalNonUTM = 0;
+
             $.ajax({
                 dataType: "json",
                 url: utmurl,
                 success: function (stats) {
                   var kmTotal = km[c];
-                  $.ajax({
-                      dataType: "json",
-                      url: nonutmurl,
-                      async: false,
-                      success: function (stats) {
-                        for (n = 0; n < stats.length; n++) {
-                          var user = stats[n]["username"];
-                          var imageCount = stats[n]["image_count"];
-                          imageTotal = imageTotal + imageCount;
-                          console.log(currentCountry + ' non-UTM count is ' + imageTotal);
-                          userTotalNonUTM = stats.length;
-                        }
-                      }
-                  });
-
                   var UTMTotal = 0;
                   var nonUTMTotal = 0;
                   for (n = 0; n < stats.length; n++) {
                     var user = stats[n]["username"];
                     var imageCount = stats[n]["image_count"];
                     imageTotal = imageTotal + imageCount;
-                    console.log(currentCountry + ' UTM count is ' + imageTotal);
+//                    console.log(currentCountry + ' UTM count is ' + imageTotal);
                     userTotalUTM = stats.length;
   /*                  if ($.inArray(user, usersUTM) !== -1) {
                       UTM.push(user)
@@ -171,10 +157,26 @@
                       UTM.push(user)
                     }; */
                   }
-                  sum++;
-                  done -= 1;
-                  $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + kmTotal.toFixed(2) + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
-                  sortTable();
+                  $.ajax({
+                      dataType: "json",
+                      url: nonutmurl,
+                      success: function (stats2) {
+                        console.log(nonutmurl);
+                        for (n = 0; n < stats2.length; n++) {
+                          var user = stats2[n]["username"];
+                          var imageCount = stats2[n]["image_count"];
+                          imageTotal = imageTotal + imageCount;
+//                          console.log(currentCountry + ' non-UTM count is ' + imageTotal);
+                        }
+                        console.log(stats2.length);
+                        userTotalNonUTM = stats2.length;
+                        sum++;
+                        done -= 1;
+                        $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + kmTotal + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
+                        sortTable();
+                      }
+                  });
+
                 }
               });
           });
