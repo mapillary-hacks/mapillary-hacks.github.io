@@ -173,7 +173,7 @@
                   }
                   sum++;
                   done -= 1;
-                  $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + kmTotal + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
+                  $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + kmTotal.toFixed(2) + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
                   sortTable();
                 }
               });
