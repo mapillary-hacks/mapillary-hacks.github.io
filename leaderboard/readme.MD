@@ -15,7 +15,13 @@ If you have these ready, let's get started below.
 
 **Step 1: Creating your `square.geojson` file**
 
+You can use this tool to make a fishnet grid: https://mapillary-hacks.github.io/fishnet-generator
 
+The tool will save the file as `square.geojson`. Keep this file name, and place the GeoJSON in the same folder as your challenge files, particularly the same as the `index.html` file. 
+
+Note that this tool allows you to draw a box that indicates your challenge area, but that it also will render a grid that goes beyond the border of your box (because it ensures the grids are square and contain your bounding box boundary). Don't hesitate to use trial and error to find the correct grid for your needs.
+
+This tool adds an ID number to every grid square, starting with the number 1. These ID numbers will be needed in order to manually determine the status of the grids in reference to how well mapped they are by competitors.
 
 **Step 2: Configuring `settings.js`**
 
