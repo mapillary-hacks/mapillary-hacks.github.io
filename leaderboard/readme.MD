@@ -13,7 +13,7 @@ What you'll need:
 
 If you have these ready, let's get started below.
 
-**Step 1: Creating your `square.geojson` file**
+### **Step 1: Creating your `square.geojson` file**
 
 You can use this tool to make a fishnet grid: https://mapillary-hacks.github.io/fishnet-generator
 
@@ -23,7 +23,7 @@ Note that this tool allows you to draw a box that indicates your challenge area,
 
 This tool adds an ID number to every grid square, starting with the number 1. These ID numbers will be needed in order to manually determine the status of the grids in reference to how well mapped they are by competitors.
 
-**Step 2: Configuring `settings.js`**
+### **Step 2: Configuring `settings.js`**
 
 The following variable items in `settings.js` can be modified to fit your challenge:
 
@@ -34,11 +34,11 @@ The following variable items in `settings.js` can be modified to fit your challe
 5. The location and view of the map can be adjusted with `challengeLng` and `challengeLat` indicating the map center, `challengeZoom` indicating how zoomed in the map should be (a value of 1 would show the whole world, a value of 20 would get to city block level), and `mobileZoom` should be `challengeZoom` minus 2, but can be adjusted as needed, to fit a mobile screen.
 6. You can add in any share links for Facebook, Twitter, or an email with `facebookShare`, `twitterShare`, or `emailShare`. 
 
-**Step 3: Configuring the challenge description in `readme.md`**
+### **Step 3: Configuring the challenge description in `readme.md`**
 
 In the `readme.md` file, you can being editing and you'll notice some suggested variables marked with brackets, such as `<city>` where you should insert your city name. These are invisible usually in the rendered readme, but only visible in the editing mode. Scan this file to ensure you fill in the correct dates and locations, or create your own totally unique `readme.md` as you see fit. This is a great place to share information about the time, place, conditions, and other details of your challenge and send it out for participants to read.
 
-**Step 4: Adjusting the scores in `settings.js`**
+### **Step 4: Adjusting the scores in `settings.js`**
 
 It is suggested that you check the map once a day to see if the coverage in each grid has moved from `low` to `medium` or `high`. Usually we suggest anything under 1/2 coverage is `low`, and anything above 1/2 is `medium`, and anything that's nearly complete is `high`. Marking this manually gives you full control, but also requires attention. There is currently not an automated way to calculate this, but if you decide to build such a function, don't hesitate to brag about!
 
