@@ -36,7 +36,7 @@ The following variable items in `settings.js` can be modified to fit your challe
 
 ### **Step 3: Configuring the challenge description in `readme.md`**
 
-In the `readme.md` file, you can being editing and you'll notice some suggested variables marked with brackets, such as `<city>` where you should insert your city name. These are invisible usually in the rendered readme, but only visible in the editing mode. Scan this file to ensure you fill in the correct dates and locations, or create your own totally unique `readme.md` as you see fit. This is a great place to share information about the time, place, conditions, and other details of your challenge and send it out for participants to read.
+In the `readme.md` file, you can begin editing and you'll notice some suggested variables marked with brackets, such as `<city>` where you should insert your city name. These are invisible usually in the rendered readme, but only visible in the editing mode. Scan this file to ensure you fill in the correct dates and locations, or create your own totally unique `readme.md` as you see fit. This is a great place to share information about the time, place, conditions, and other details of your challenge and send it out for participants to read.
 
 ### **Step 4: Adjusting the scores in `settings.js`**
 
