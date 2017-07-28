@@ -86,6 +86,13 @@
       padding: 5vw;
       width: 80vw;
     }
+    #totalTable {
+      float: center;
+      border: 3px rgb(56,60,69);
+      background-color: #000;
+      color: rgb(56,60,69);
+      padding: 1vw;
+    }
     .modal {
     display:    none;
     position:   fixed;
@@ -105,6 +112,15 @@
     body.loading .modal {
         display: block;
     }
+    button {
+      background-color: rgb(72,218,208);
+      color: rgb(56,60,69);
+      height: 100%;
+      padding: 0 vh;
+      text-decoration: none;
+      display: inline-block;
+      border: 1px white;
+    }
   </style>
 
   <body>
@@ -112,16 +128,39 @@
   <div class='container-fluid'>
     <div class='row'>
       <div class='col-xs-1'></div>
-      <div class='col-xs-10' id='leaderboard'>
+      <div class='col-xs-10' id='top'>
         <br>
         <center><img src='HERE_logo.svg.png' height=10% width=10% /></center>
         <br>
+      <div class='col-xs-1'></div>
+      </div>
+    </div>
+    <div class-'row'>
+      <div class='col-xs-1'></div>
+      <div class='col-xs-10' id='totals'>
+        <center><table id='totalTable'></table></center><br>
+      </div>
+      <div class='col-xs-1'></div>
+    </div>
+    <div class-'row'>
+      <div class='col-xs-1'></div>
+      <div class='col-xs-6 col-xs-offset-3' style='color:white;'>
+        <center id="updatedDate"></center><br>
+      </div>
+      <div class='col-xs-2'>
+        <button id='export'><b>Export CSV</b></button>
+      </div>
+      <div class='col-xs-1'></div>
+    </div>
+    <div class='row'>
+      <div class='col-xs-1'></div>
+      <div class='col-xs-10 col-xs-offset-1' id='leaderboard'>
         <table id='table'></table>
         <script>
           $body = $("body");
           $(document).on({
               ajaxStart: function() { $body.addClass("loading"); },
-              ajaxStop: function() { $body.removeClass("loading"); }
+              ajaxStop: function() { $body.removeClass("loading"); calculateTotals();}
           });
           loadTable();
           var done = 53; // number of total requests
@@ -172,15 +211,98 @@
                         userTotalNonUTM = stats2.length;
                         sum++;
                         done -= 1;
-                        $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + kmTotal + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
-                        sortTable();
+                        $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + Math.round(kmTotal) + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
+                        imagesGrandTotal = imagesGrandTotal + imageTotal;
+                        kmGrandTotal = kmGrandTotal + Math.round(kmTotal);
+                        console.log(imagesGrandTotal);
+                        console.log(kmGrandTotal);
+                        sortTable(0);
+
                       }
                   });
 
                 }
               });
           });
+          function exportTableToCSV($table, filename) {
+                          var $headers = $('#table').find('tr:has(th)')
+                              ,$rows = $('#table').find('tr:has(td)')
 
+                              // Temporary delimiter characters unlikely to be typed by keyboard
+                              // This is to avoid accidentally splitting the actual contents
+                              ,tmpColDelim = String.fromCharCode(11) // vertical tab character
+                              ,tmpRowDelim = String.fromCharCode(0) // null character
+
+                              // actual delimiter characters for CSV format
+                              ,colDelim = '","'
+                              ,rowDelim = '"\r\n"';
+
+                              // Grab text from table into CSV formatted string
+                              var csv = '"';
+                              csv += formatRows($headers.map(grabRow));
+                              csv += rowDelim;
+                              csv += formatRows($rows.map(grabRow)) + '"';
+
+                              // Data URI
+                              var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+                          // For IE (tested 10+)
+                          if (window.navigator.msSaveOrOpenBlob) {
+                              var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
+                                  type: "text/csv;charset=utf-8;"
+                              });
+                              navigator.msSaveBlob(blob, filename);
+                          } else {
+                              $(this)
+                                  .attr({
+                                      'download': filename
+                                      ,'href': csvData
+                                      //,'target' : '_blank' //if you want it to open in a new window
+                              });
+                          }
+
+                          //------------------------------------------------------------
+                          // Helper Functions
+                          //------------------------------------------------------------
+                          // Format the output so it has the appropriate delimiters
+                          function formatRows(rows){
+                              return rows.get().join(tmpRowDelim)
+                                  .split(tmpRowDelim).join(rowDelim)
+                                  .split(tmpColDelim).join(colDelim);
+                          }
+                          // Grab and format a row from the table
+                          function grabRow(i,row){
+
+                              var $row = $(row);
+                              //for some reason $cols = $row.find('td') || $row.find('th') won't work...
+                              var $cols = $row.find('td');
+                              if(!$cols.length) $cols = $row.find('th');
+
+                              return $cols.map(grabCol)
+                                          .get().join(tmpColDelim);
+                          }
+                          // Grab and format a column from the table
+                          function grabCol(j,col){
+                              var $col = $(col),
+                                  $text = $col.text();
+
+                              return $text.replace('"', '""'); // escape double quotes
+
+                          }
+                      }
+
+                      // This must be a hyperlink
+                      $("#export").click(function (event) {
+                          var outputFile = new Date();
+                          outputFile = outputFile.toString();
+                          outputFile = outputFile.replace('.csv','') + '.csv'
+                          console.log('filename is ' + outputFile);
+                          // CSV
+                          exportTableToCSV.apply(this, [$('#leaderboard > table'), outputFile]);
+
+                          // IF CSV, don't do event.preventDefault() or return false
+                          // We actually need this to be a typical hyperlink
+                      });
 
         </script>
       </div>

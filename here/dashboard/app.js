@@ -9,14 +9,18 @@ var codes = ['AR','AU','BD','BE','BY','BA','BR','BG','CA','HR','CW','CZ','EE','F
 var km = ['10.50128911','33.2602101','0','246.1788947','10.56422244','565.8862','269.9205814','1117.249922','0','4872.622043','0','3343.463277','388.8322779','0','110.2607614','108.89995082492716','2144.234672','4325.241742','1487.624244','70.75769612','1007.638484','1092.635224','6275.680516','0','63.98321491','0.014771715','0','2337.074909','2503.268022','194.8668796','543.4887828','7.00027229803','0','0','4719.551226','0','10925.00511','6999.997941','10778.1305','0.007364365','2.446986762','2046.171134','721.7964462','114.2071926','282.7197227','1316.05147','1143.677286','50.50097868','9760.792068','0.141609796','51.61711537','180.3746208'];
 var totals = [];
 var usertotals = [];
+var imagesGrandTotal = 0;
+var kmGrandTotal = 0;
 console.log(countries.length + ' ' + codes.length + ' ' + km.length);
 
 
 function loadTable() {
-  $('#table').append('<tr id="subtr"><th><h5><b>Country</h5></th><th><h5><b>Images</h5></th><th><h5><b>Kilometers</h5></th><th><h5><b>HERE UTM Users</h5></th><th><h5><b>Non-HERE UTM Users</h5></th></tr>');
+  var today = new Date();
+  $('#updatedDate').append('<center><h5>Last updated on ' + today + '</h5></center>')
+  $('#table').append('<tr id="subtr"><th onclick="sortTable(0)"><h5><b>Country</h5></th><th onclick="sortTable2(1)"><h5><b>Images</h5></th><th onclick="sortTable2(2)"><h5><b>Kilometers</h5></th><th onclick="sortTable2(3)"><h5><b>UTM Users</h5></th><th onclick="sortTable2(4)"><h5><b>Non-UTM Users</h5></th></tr>');
 }
 
-function sortTable() {
+function sortTable(col) {
   var table, rows, switching, i, x, y, shouldSwitch;
   table = document.getElementById("table");
   switching = true;
@@ -33,8 +37,8 @@ function sortTable() {
       shouldSwitch = false;
       /*Get the two elements you want to compare,
       one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[0];
-      y = rows[i + 1].getElementsByTagName("TD")[0];
+      x = rows[i].getElementsByTagName("TD")[col];
+      y = rows[i + 1].getElementsByTagName("TD")[col];
       //check if the two rows should switch place:
       if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
         //if so, mark as a switch and break the loop:
@@ -49,4 +53,44 @@ function sortTable() {
       switching = true;
     }
   }
+}
+
+function sortTable2(col) {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("table");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.getElementsByTagName("TR");
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[col];
+      y = rows[i + 1].getElementsByTagName("TD")[col];
+      //check if the two rows should switch place:
+      if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+        //if so, mark as a switch and break the loop:
+        shouldSwitch= true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+
+function calculateTotals() {
+  $('#totalTable').empty();
+  $('#totalTable').append('<tr id="subtr"><th><h5><b>Total Countries: ' + countries.length + '</h5></th><th><h5><b>Total Images: ' + imagesGrandTotal + '</h5></th><th><h5><b>Total Kilometers: ' + kmGrandTotal + '</h5></th><th><h5><b>Total UTM Users: ' + keysUTM.length + '</h5></th><th><h5><b>Total non-UTM Users: ' + keysNonUTM.length + '</h5></th></tr>');
 }
