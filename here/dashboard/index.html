@@ -176,6 +176,12 @@
             var imageTotal = 0;
             var userTotalUTM = 0;
             var userTotalNonUTM = 0;
+            var formatThousands = function(n, dp){
+              var s = ''+(Math.floor(n)), d = n % 1, i = s.length, r = '';
+              while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }
+              return s.substr(0, i + 3) + r +
+                (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
+            };
 
             $.ajax({
                 dataType: "json",
@@ -212,9 +218,9 @@
                         userTotalNonUTM = stats2.length;
                         sum++;
                         done -= 1;
-                        $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + Math.round(kmTotal) + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
+                        $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td>' + formatThousands(kmTotal) + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
                         imagesGrandTotal = imagesGrandTotal + imageTotal;
-                        kmGrandTotal = kmGrandTotal + Math.round(kmTotal);
+                        kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
                         console.log(imagesGrandTotal);
                         console.log(kmGrandTotal);
                         sortTable(0);

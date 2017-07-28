@@ -90,7 +90,14 @@ function sortTable2(col) {
   }
 }
 
+function formatThousands(n, dp){
+  var s = ''+(Math.floor(n)), d = n % 1, i = s.length, r = '';
+  while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }
+  return s.substr(0, i + 3) + r +
+    (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
+};
+
 function calculateTotals() {
   $('#totalTable').empty();
-  $('#totalTable').append('<tr id="subtr"><th><h5><b>Total Countries: ' + countries.length + '</h5></th><th><h5><b>Total Images: ' + imagesGrandTotal + '</h5></th><th><h5><b>Total Kilometers: ' + kmGrandTotal + '</h5></th><th><h5><b>Total UTM Users: ' + keysUTM.length + '</h5></th><th><h5><b>Total non-UTM Users: ' + keysNonUTM.length + '</h5></th></tr>');
+  $('#totalTable').append('<tr id="subtr"><th><h5><b>Total Countries: ' + countries.length + '</h5></th><th><h5><b>Total Images: ' + formatThousands(imagesGrandTotal) + '</h5></th><th><h5><b>Total Kilometers: ' + formatThousands(kmGrandTotal) + '</h5></th><th><h5><b>Total UTM Users: ' + keysUTM.length + '</h5></th><th><h5><b>Total non-UTM Users: ' + keysNonUTM.length + '</h5></th></tr>');
 }
