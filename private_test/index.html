@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Skiing with Mapillary</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
+<style>
+#mly {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  width:90vw;
+  height:90vh;
+  border: 3px solid rgba(63, 127, 191);
+  z-index: 1;
+}
+html, body {
+   position:fixed;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+   background-color: black;
+}
+</style>
+</head>
+
+<body>
+
+<div id='mly'></div>
+
+<script>
+  var globalMapillariId = 'OXh1Y2R0em1mZmlOMEthSWVrLXBOdzo0OTFiZmQwMWQ4NmMxN2Zl';
+  var MapProjId = 'VP8TtxN8IKMTtn3itEWoJQ';
+  var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtcHkiLCJzdWIiOiI5eHVjZHR6bWZmaU4wS2FJZWstcE53IiwiYXVkIjoiTWtKS2JEQTBiblp1WmxjeGVUSkhUbUZxTjNnMWR6bzFZVE0wTmpSa00yRXlaR1U1TXpCaCIsImlhdCI6MTQ5NzM2OTA3MDEyNSwianRpIjoiNGY4MzE4MzAyZjI1OWM0NzYyMGE0MTMwNmU4OTA5ODIiLCJzY28iOlsibWFwaWxsYXJ5OnVzZXIiXSwidmVyIjoxfQ.jcmZHxdMoQ9WQdabgpdKyIyc9lokI7Jccty4UTa5YIo";
+
+  // initiate mapillary street view
+
+  mly = new Mapillary.Viewer(
+      'mly',
+      globalMapillariId,
+      's8_h6fVs0QRq6FkafU50_Q',
+      token,
+      {
+          component: {
+              direction: true
+          }
+      });
+  mly.setFilter(["==", "projectKey", MapProjId]);
+  mly.setAuthToken(token);
+</script>
+
+
+</body>
+</html>
