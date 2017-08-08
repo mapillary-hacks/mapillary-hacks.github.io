@@ -11,8 +11,6 @@ var totals = [];
 var usertotals = [];
 var imagesGrandTotal = 0;
 var kmGrandTotal = 0;
-console.log(countries.length + ' ' + codes.length + ' ' + km.length);
-
 
 function loadTable() {
   var today = new Date();
