@@ -160,8 +160,8 @@
         <script>
           $body = $("body");
           $(document).on({
-              ajaxStart: function() { $body.addClass("loading"); },
-              ajaxStop: function() { $body.removeClass("loading"); calculateTotals();}
+              load: function() { $body.addClass("loading"); },
+              ajaxStop: function() { $body.removeClass("loading"); calculateTotals(); }
           });
           loadTable();
           var done = 53; // number of total requests
@@ -173,9 +173,6 @@
             var testurl = 'https://a.mapillary.com/v3/leaderboard/images?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&userkeys=' + userkeys + '&iso_countries=' + currentCode;
             var utmurl = 'https://a.mapillary.com/v3/leaderboard/images?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&usernames=' + usersUTM + '&iso_countries=' + currentCode;
             var nonutmurl = 'https://a.mapillary.com/v3/leaderboard/images?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&userkeys=' + keysNonUTM + '&iso_countries=' + currentCode;
-            var imageTotal = 0;
-            var userTotalUTM = 0;
-            var userTotalNonUTM = 0;
             var formatThousands = function(n, dp){
               var s = ''+(Math.floor(n)), d = n % 1, i = s.length, r = '';
               while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }
@@ -183,58 +180,58 @@
                 (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
             };
 
-            $.ajax({
-                dataType: "json",
-                url: utmurl,
-                success: function (stats) {
-                  var kmTotal = km[c];
-                  var UTMTotal = 0;
-                  var nonUTMTotal = 0;
-                  for (n = 0; n < stats.length; n++) {
-                    var user = stats[n]["username"];
-                    var imageCount = stats[n]["image_count"];
-                    imageTotal = imageTotal + imageCount;
-//                    console.log(currentCountry + ' UTM count is ' + imageTotal);
-                    userTotalUTM = stats.length;
-  /*                  if ($.inArray(user, usersUTM) !== -1) {
-                      UTM.push(user)
-                    };
-                    if ($.inArray(user, usersNonUTM) !== -1) {
-                      UTM.push(user)
-                    }; */
-                  }
-                  $.ajax({
-                      dataType: "json",
-                      url: nonutmurl,
-                      success: function (stats2) {
-                        console.log(nonutmurl);
-                        for (n = 0; n < stats2.length; n++) {
-                          var user = stats2[n]["username"];
-                          var imageCount = stats2[n]["image_count"];
-                          imageTotal = imageTotal + imageCount;
-//                          console.log(currentCountry + ' non-UTM count is ' + imageTotal);
-                        }
-                        console.log(stats2.length);
-                        userTotalNonUTM = stats2.length;
-                        sum++;
-                        done -= 1;
-                        $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td>' + formatThousands(kmTotal) + '</td><td>' + userTotalUTM + '</td><td>' + userTotalNonUTM + '</td></tr>');
-                        imagesGrandTotal = imagesGrandTotal + imageTotal;
-                        kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
-                        console.log(imagesGrandTotal);
-                        console.log(kmGrandTotal);
-                        sortTable(0);
-
-                      }
-                  });
-
+            $.post(
+              'https://a.mapillary.com/v3/leaderboard/images?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000',
+            {
+              userkeys: userkeys,
+              iso_countries: currentCode,
+            }).done(function (stats) {
+              var kmTotal = 0;
+              var distanceURL = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&userkeys=' + userkeys + '&iso_countries=' + currentCode;
+              $.ajaxSetup({async: false});
+              $.post(
+                'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000',
+              {
+                userkeys: userkeys,
+                iso_countries: currentCode,
+              }).done(function (stats2) {
+                $.ajaxSetup({async: true});
+                for (n = 0; n < stats2.length; n++) {
+                  console.log("yay");
+                  var km = stats2[n]["total_distance"]/1000;
+                  kmTotal = kmTotal + km;
                 }
+              }).fail(function (xhr, status, error) {
+                console.log('fail', status, error);
               });
+              var UTMTotal = 0;
+              var nonUTMTotal = 0;
+              var imageTotal = 0;
+              for (n = 0; n < stats.length; n++) {
+                var user = stats[n]["username"];
+                var imageCount = stats[n]["image_count"];
+                imageTotal = imageTotal + imageCount;
+                if ($.inArray(user, usersUTM) !== -1) {
+                  UTMTotal++;
+                };
+                if ($.inArray(user, usersNonUTM) !== -1) {
+                  nonUTMTotal++;
+                };
+              }
+              sum++;
+              done -= 1;
+              $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td>' + formatThousands(kmTotal) + '</td><td>' + UTMTotal + '</td><td>' + nonUTMTotal + '</td></tr>');
+              imagesGrandTotal = imagesGrandTotal + imageTotal;
+              kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
+              console.log(imagesGrandTotal);
+              console.log(kmGrandTotal);
+              sortTable(0);
+            }).fail(function (xhr, status, error) {
+              console.log('fail', status, error);
+            });
           });
 
           $(document).ready(function () {
-
-              console.log("HELLO")
               function exportTableToCSV($table, filename) {
                   var $headers = $table.find('tr:has(th)')
                       ,$rows = $table.find('tr:has(td)')
