@@ -6,12 +6,13 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='app.js'></script>
     <script src='countrycalc.js'></script>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.png'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src='table2CSV.js'></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js'></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <script src='table2CSV.js'></script>
     <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
     <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
@@ -153,77 +154,113 @@
       </div>
       <div class='col-xs-1'></div>
     </div>
+    <div class-'row' >
+      <div class='col-xs-2'></div>
+      <div class='col-xs-3 col-xs-offset-3' style='color:white;'>
+        From: <input type="date" id="start_date" style='color:black;' />
+     </div>
+     <div class='col-xs-3' style='color:white;'>
+        To: <input type="date" id="end_date" style='color:black;' />
+      </div>
+      <div class='col-xs-2'><button onclick='applyDates()'><b>Apply Date Filter</b></button></div>
+      <div class='col-xs-1' style='min-height:5vh;'></div>
+    </div>
     <div class='row'>
-      <div class='col-xs-1'></div>
+      <div class='col-xs-2'></div>
       <div class='col-xs-10 col-xs-offset-1' id='leaderboard'>
         <table id='table'></table>
         <script>
           $body = $("body");
           $(document).on({
               ajaxStart: function() { $body.addClass("loading"); },
-              ajaxStop: function() { $body.removeClass("loading"); calculateTotals(); }
+              ajaxStop: function() { $body.removeClass("loading"); calculateTotals(); sortTable(0); }
           });
           loadTable();
-          var done = 53; // number of total requests
-          var sum = 0;
-          $([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).each(function() {
-            var c = this;
-            var currentCode = codes[c];
-            var currentCountry = countries[c];
-            var formatThousands = function(n, dp){
-              var s = ''+(Math.floor(n)), d = n % 1, i = s.length, r = '';
-              while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }
-              return s.substr(0, i + 3) + r +
-                (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
-            };
-            $.post(
-              'https://a.mapillary.com/v3/leaderboard/images?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000',
-            {
-              userkeys: userkeys,
-              iso_countries: currentCode,
-            }).done(function (stats) {
-              var distanceURL = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&userkeys=' + userkeys + '&iso_countries=' + currentCode;
-              var UTMTotal = 0;
-              var nonUTMTotal = 0;
-              var imageTotal = 0;
-              for (n = 0; n < stats.length; n++) {
-                var user = stats[n]["username"];
-                var imageCount = stats[n]["image_count"];
-                imageTotal = imageTotal + imageCount;
-                if ($.inArray(user, usersUTM) !== -1) {
-                  UTMTotal++;
-                };
-                if ($.inArray(user, usersNonUTM) !== -1) {
-                  nonUTMTotal++;
-                };
-              }
-              imagesGrandTotal = imagesGrandTotal + imageTotal;
-              $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td id="' + currentCode +'km">' + 0 + '</td><td>' + UTMTotal + '</td><td>' + nonUTMTotal + '</td></tr>');
-            }).fail(function (xhr, status, error) {
-              console.log('fail', status, error);
-              console.log(currentCountry + " " + currentCode + " failed image test");
+
+          function runAjax(a, b) {
+            $('#table').empty();
+            $('#table').append('<tr id="subtr"><th onclick="sortTable(0)"><h5><b>Country</h5></th><th onclick="sortTable2(1)"><h5><b>Images</h5></th><th onclick="sortTable2(2)"><h5><b>Kilometers</h5></th><th onclick="sortTable2(3)"><h5><b>UTM Users</h5></th><th onclick="sortTable2(4)"><h5><b>Non-UTM Users</h5></th></tr>');
+            var done = 53; // number of total requests
+            var sum = 0;
+            var from = a;
+            var to = b;
+            $([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).each(function() {
+              var c = this;
+              var currentCode = codes[c];
+              var currentCountry = countries[c];
+              var formatThousands = function(n, dp){
+                var s = ''+(Math.floor(n)), d = n % 1, i = s.length, r = '';
+                while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }
+                return s.substr(0, i + 3) + r +
+                  (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
+              };
+              var image_url = 'https://a.mapillary.com/v3/leaderboard/images?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + from + to;
+
+              $.post(
+                image_url,
+              {
+                userkeys: userkeys,
+                iso_countries: currentCode,
+              }).done(function (stats) {
+                sortTable(0);
+                var distance_url = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + from + to;
+                $.post(
+                  distance_url,
+                {
+                  userkeys: userkeys,
+                  iso_countries: currentCode,
+                }).done(function (stats2) {
+                  var kmTotal = 0;
+                  for (n = 0; n < stats2.length; n++) {
+                    var km = stats2[n]["total_distance"]/1000;
+                    kmTotal = kmTotal + km;
+                    kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
+                  }
+                  $('#' + currentCode +'km').html(formatThousands(kmTotal));
+                }).fail(function (xhr, status, error) {
+                  console.log('fail', status, error);
+                  console.log(currentCountry + " " + currentCode + " failed km test");
+                });
+                var distanceURL = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&userkeys=' + userkeys + '&iso_countries=' + currentCode;
+                var UTMTotal = 0;
+                var nonUTMTotal = 0;
+                var imageTotal = 0;
+                for (n = 0; n < stats.length; n++) {
+                  var user = stats[n]["username"];
+                  var imageCount = stats[n]["image_count"];
+                  imageTotal = imageTotal + imageCount;
+                  if ($.inArray(user, usersUTM) !== -1) {
+                    UTMTotal++;
+                  };
+                  if ($.inArray(user, usersNonUTM) !== -1) {
+                    nonUTMTotal++;
+                  };
+                }
+                imagesGrandTotal = imagesGrandTotal + imageTotal;
+                $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td id="' + currentCode +'km">' + 0 + '</td><td>' + UTMTotal + '</td><td>' + nonUTMTotal + '</td></tr>');
+              }).fail(function (xhr, status, error) {
+                console.log('fail', status, error);
+                console.log(currentCountry + " " + currentCode + " failed image test");
+              });
+              sum++;
+              done -= 1;
             });
-            $.post(
-              'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000',
-            {
-              userkeys: userkeys,
-              iso_countries: currentCode,
-            }).done(function (stats2) {
-              var kmTotal = 0;
-              for (n = 0; n < stats2.length; n++) {
-                var km = stats2[n]["total_distance"]/1000;
-                kmTotal = kmTotal + km;
-                kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
-              }
-              $('#' + currentCode +'km').html(formatThousands(kmTotal));
-            }).fail(function (xhr, status, error) {
-              console.log('fail', status, error);
-              console.log(currentCountry + " " + currentCode + " failed km test");
-            });
-            sum++;
-            done -= 1;
-            sortTable(0);
-          });
+
+/*            $([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).each(function() {
+              var c = this;
+              var currentCode = codes[c];
+              var currentCountry = countries[c];
+              var formatThousands = function(n, dp){
+                var s = ''+(Math.floor(n)), d = n % 1, i = s.length, r = '';
+                while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }
+                return s.substr(0, i + 3) + r +
+                  (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
+              };
+              sum++;
+              done -= 1;
+              sortTable(0);
+            }); */
+          }
 
           $(document).ready(function () {
               function exportTableToCSV($table, filename) {
