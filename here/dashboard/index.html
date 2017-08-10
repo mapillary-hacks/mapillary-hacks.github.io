@@ -227,6 +227,7 @@
                 var imageTotal = 0;
                 for (n = 0; n < stats.length; n++) {
                   var user = stats[n]["username"];
+                  console.log(user + " is in " + currentCountry);
                   var imageCount = stats[n]["image_count"];
                   imageTotal = imageTotal + imageCount;
                   if ($.inArray(user, usersUTM) !== -1) {
