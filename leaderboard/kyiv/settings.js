@@ -15,8 +15,8 @@ var docTitle = 'Complete the Map: Kyiv - Mapillary'; //text next to favicon on b
 
 var challengeLng = 30.449467; //center of the map
 var challengeLat = 50.417426; //center of the map
-var challengeZoom = 14; //zoom for desktop browser
-var mobileZoom = 12; //should be challengeZoom minus 2 usually
+var challengeZoom = 12; //zoom for desktop browser
+var mobileZoom = 10; //should be challengeZoom minus 2 usually
 
 var facebookShare = 'url.com'; //link for facebook sharing
 var twitterShare = 'url.com'; //link for twitter sharing
