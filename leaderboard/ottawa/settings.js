@@ -15,8 +15,8 @@ var docTitle = 'Complete the Map: Ottawa - Mapillary'; //text next to favicon on
 
 var challengeLng = -75.6972; //center of the map
 var challengeLat = 45.4215; //center of the map
-var challengeZoom = 14; //zoom for desktop browser
-var mobileZoom = 12; //should be challengeZoom minus 2 usually
+var challengeZoom = 10; //zoom for desktop browser
+var mobileZoom = 8; //should be challengeZoom minus 2 usually
 
 var facebookShare = 'url.com'; //link for facebook sharing
 var twitterShare = 'url.com'; //link for twitter sharing
