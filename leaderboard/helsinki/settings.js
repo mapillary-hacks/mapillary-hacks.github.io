@@ -11,7 +11,7 @@ var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
 
 var challengeTitle = 'Helsinki Challenge'; //text in the slider
 var challengeDate = 'August 15 - September 15, 2017'
-var docTitle = 'Complete the Map: Ottawa - Mapillary'; //text next to favicon on browser window
+var docTitle = 'Complete the Map: Helsinki - Mapillary'; //text next to favicon on browser window
 
 var challengeLng = 24.9384; //center of the map
 var challengeLat = 60.1699; //center of the map
