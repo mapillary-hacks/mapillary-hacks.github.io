@@ -13,8 +13,8 @@ var challengeTitle = 'Kyiv Challenge'; //text in the slider
 var challengeDate = 'August 18th - September 15th, 2017'
 var docTitle = 'Complete the Map: Kyiv - Mapillary'; //text next to favicon on browser window
 
-var challengeLng = 30.449467; //center of the map
-var challengeLat = 50.417426; //center of the map
+var challengeLng = 30.434661; //center of the map
+var challengeLat = 50.437582; //center of the map
 var challengeZoom = 12; //zoom for desktop browser
 var mobileZoom = 10; //should be challengeZoom minus 2 usually
 
