@@ -10,7 +10,7 @@ var partnerLogo = 'https://secure.meetupstatic.com/photos/event/f/7/a/highres_43
 var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
 
 var challengeTitle = 'Kyiv Challenge'; //text in the slider
-var challengeDate = 'Серпень 18th - Вересень 15th, 2017'
+var challengeDate = '18 серпня - 15 вересня 2017'
 var docTitle = 'Complete the Map: Kyiv - Mapillary'; //text next to favicon on browser window
 
 var challengeLng = 30.434661; //center of the map
