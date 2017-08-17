@@ -27,10 +27,15 @@ $.ajax({
   dataType: "script",
   success: function (data) {
     currentImage = images[0];
+    currentX = xcoords[0];
+    currentY = ycoords[0];
     var s = document.createElement("script");
     s.type = "text/javascript";
     s.src = "app.js";
     $("head").append(s);
-    mly.moveToKey(currentImage);
+    mly.moveToKey(currentImage).then(
+      function(node) {
+          mly.setCenter([currentX, currentY]);
+    });
   }
 });

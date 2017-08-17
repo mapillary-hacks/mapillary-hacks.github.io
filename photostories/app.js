@@ -97,6 +97,7 @@ function nextImage() {
     mly.moveToKey(currentImage).then(
     function(node) {
         mly.setCenter([currentX, currentY]);
+        console.log(currentX);
     },
     function(error) { console.error(error); });
     $("#place").empty().append("<h3 class='slideTitle'>" + titles[myImage] + "</h3>")
@@ -167,7 +168,8 @@ function prevImage() {
     mly.moveToKey(currentImage).then(
     function(node) {
         mly.setCenter([currentX, currentY]);
-    },
+        console.log(currentX);
+    }),
     $("#place").empty().append("<h3 class='slideTitle'>" + titles[myImage] + "</h3>")
     $("#content").empty().append("<p class='slideContent'>" + content[myImage] + "</p>")
 };
@@ -237,7 +239,8 @@ function loadImage(image) {
      mly.moveToKey(currentImage).then(
      function(node) {
          mly.setCenter([currentX, currentY]);
-     },
+         console.log(currentX);
+     }),
      $("#place").empty().append("<h3 class='slideTitle'>" + titles[image] + "</h3>")
      $("#content").empty().append("<h4 class='slideContent'>" + content[image] + "</h4>")
      image = 77777777777777;
