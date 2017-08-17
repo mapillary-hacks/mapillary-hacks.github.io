@@ -19,23 +19,23 @@
   <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
 
-  <meta name="description" content="A challenge to collect useful imagery and map data in Seattle." />
+  <meta name="description" content="A challenge to collect useful imagery and map data in Kyiv." />
 
   <!-- Twitter Card data -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@mapillary">
-  <meta name="twitter:title" content="#CompletetheMap Seattle Challenge">
-  <meta name="twitter:description" content="A challenge to collect useful imagery and map data in Seattle #CompletetheMap.">
+  <meta name="twitter:title" content="#CompletetheMap Kyiv Challenge">
+  <meta name="twitter:description" content="A challenge to collect useful imagery and map data in Kyiv #CompletetheMap.">
   <meta name="twitter:image" content="https://mapillary-hacks.github.io/leaderboard/seattle/Day_6_Coverage.JPG">
 
   <!-- Open Graph data -->
-  <meta property="og: title" content="#CompletetheMap Seattle Challenge"/>
+  <meta property="og: title" content="#CompletetheMap Kyiv Challenge"/>
   <meta property="og:type" content="article" />
   <meta property="og:image:width" content="200" />
   <meta property="og:image:height" content="200" />
-  <meta property="og: url" content="https://mapillary-hacks.github.io/leaderboard/seattle/" />
-  <meta property="og: image" content="https://mapillary-hacks.github.io/leaderboard/seattle/Day_6_Coverage.JPG" />
-  <meta property="og:description" content="A challenge to collect useful imagery and map data in Seattle #CompletetheMap." />
+  <meta property="og: url" content="https://mapillary-hacks.github.io/leaderboard/kyiv/" />
+  <meta property="og: image" content="https://mapillary-hacks.github.io/leaderboard/kyiv/Day_1_Coverage.JPG" />
+  <meta property="og:description" content="A challenge to collect useful imagery and map data in Kyiv #CompletetheMap." />
   <meta property="og:site_name" content="Mapillary" />
 
 
@@ -348,7 +348,7 @@
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
         </div> -->
         <div class='map-overlay-inner' id='menu2' style="width:50%;">
-                                   <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><a href ="http://bit.ly/2sPWCxq" target="_blank">Challenge Instructions</a><br><span id='slider-value'> </span></center></label>
+                                   <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><a href ="http://bit.ly/2sPWCxq" target="_blank">Правила Змагань</a><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='38' step='1' value='' style='margin-bottom:1vh;' />
             <script>
             var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
@@ -357,7 +357,7 @@
             document.getElementById('slider').max = Math.floor(Math.abs(days));
             console.log("The max value is now " + document.getElementById('slider').max)
             document.getElementById('slider').value = days;
-            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since challenge start';
+            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' днів від початку';
             document.getElementById('challengeTitle').innerHTML = challengeTitle;
             document.getElementById('docTitle').innerHTML = docTitle;
             document.getElementById('challengeDate').innerHTML = challengeDate;
@@ -371,11 +371,11 @@
           <div id='controls'style='align:center;font-size:24'><center>(click to toggle)</center></div>
 <!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
           <div id='satellite' class='btn2'>Basemap: satellite</div> -->
-          <div id='mly' class='mbtn' >Show all Mapillary coverage</div>
-          <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show challenge grid</div>
+          <div id='mly' class='mbtn' >Відобразити покриття Mapillary</div>
+          <div id='maptime' class='mbtn' onclick="maptimeAdd()">Відобразити сітку Змагань</div>
         </div>
 
-        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Click on the map to display an image!</h4>
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Натисніть тут, щоб подивитись зображення</h4>
           <script>
               var maxdate = Date.now();
               var mindate = (1498204800000) //set to show epoch milliseconds of the start date
@@ -891,11 +891,11 @@
     </div>
     <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:1000vh;">
       <div class="alt-grid row" style="min-height:87vh;">
-        <center><h2 style="color:white;">Leaderboard</h2></center>
+        <center><h2 style="color:white;">Таблиця учасників</h2></center>
         <br>
         <table id='table'>
           <tr>
-            <th>Username</th><th>Images</th>
+            <th>Ім’я учасника</th><th>Кількість зображень</th>
           </tr>
         </table>
       </div>
@@ -904,7 +904,7 @@
           <br><br>
       </div>
       <div class="alt-grid row"style="max-height:5vh;width:100%;" id="share">
-          <center><h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;" id='nominate'>Click here to nominate your city!</a></h4></center>
+          <center><h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;" id='nominate'>Натисніть тут, щоб запропонувати своє місто</a></h4></center>
           <script>
             $('.fa-facebook').attr('href', facebookShare);
             $('.fa-twitter').attr('href', twitterShare);
