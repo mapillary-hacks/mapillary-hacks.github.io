@@ -10,7 +10,7 @@ var partnerLogo = 'https://secure.meetupstatic.com/photos/event/f/7/a/highres_43
 var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
 
 var challengeTitle = 'Moscow Challenge'; //text in the slider
-var challengeDate = 'August 25th - September 22nd, 2017'
+var challengeDate = 'August 25th - September 24th, 2017'
 var docTitle = 'Complete the Map: Moscow - Mapillary'; //text next to favicon on browser window
 
 var challengeLng = 37.623281; //center of the map
