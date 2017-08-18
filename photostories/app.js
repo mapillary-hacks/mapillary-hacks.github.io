@@ -1,5 +1,7 @@
 var client_id = "UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkNTRmOTk5NzQ2N2E3ZDAy";
 var currentImage = images[0];
+var currentX = xcoords[0];
+var currentY = ycoords[0];
 
 if (qs["embed"] == 'true') {
   $(".hide").hide();
@@ -39,6 +41,8 @@ function nextImage() {
     }
   $("#image"+myImage).toggleClass("currImg");
   currentImage = images[myImage];
+  currentX = xcoords[myImage];
+  currentY = ycoords[myImage];
     var url = "https://a.mapillary.com/v3/images/" + images[myImage] + "?client_id=" + client_id;
     var lng;
     var lat;
@@ -90,7 +94,12 @@ function nextImage() {
         center: [lng, lat],
         zoom: 15,
     });
-    mly.moveToKey(currentImage);
+    mly.moveToKey(currentImage).then(
+    function(node) {
+        mly.setCenter([currentX, currentY]);
+        console.log(currentX);
+    },
+    function(error) { console.error(error); });
     $("#place").empty().append("<h3 class='slideTitle'>" + titles[myImage] + "</h3>")
     $("#content").empty().append("<h4 class='slideContent'>" + content[myImage] + "</h4>")
   };
@@ -106,6 +115,8 @@ function prevImage() {
   }
   $("#image"+myImage).toggleClass("currImg");
   currentImage = images[myImage];
+  currentX = xcoords[myImage];
+  currentY = ycoords[myImage];
     var url = "https://a.mapillary.com/v3/images/" + images[myImage] + "?client_id=" + client_id;
     $.ajax({
       dataType: "json",
@@ -154,7 +165,11 @@ function prevImage() {
         });
       }
     })
-    mly.moveToKey(currentImage);
+    mly.moveToKey(currentImage).then(
+    function(node) {
+        mly.setCenter([currentX, currentY]);
+        console.log(currentX);
+    }),
     $("#place").empty().append("<h3 class='slideTitle'>" + titles[myImage] + "</h3>")
     $("#content").empty().append("<p class='slideContent'>" + content[myImage] + "</p>")
 };
@@ -167,6 +182,9 @@ function loadImage(image) {
     $("#image"+myImage).toggleClass("currImg");
      currentImage = 0;
      currentImage = images[image];
+     currentImage = images[myImage];
+     currentX = xcoords[myImage];
+     currentY = ycoords[myImage];
      var url = "https://a.mapillary.com/v3/images/" + images[image] + "?client_id=" + client_id;
      $.ajax({
        dataType: "json",
@@ -218,7 +236,11 @@ function loadImage(image) {
      });
 
 //     $("#mly").empty().append("<script>var mly = new Mapillary.Viewer('mly','UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkNTRmOTk5NzQ2N2E3ZDAy',currentImage,{component: {attribution: false,cover: false,direction: {distinguishSequence: true,maxWidth: 460,minWidth: 180},imagePlane: {imageTiling: true},stats: true},renderMode: Mapillary.RenderMode.Fill});</script>");
-     mly.moveToKey(currentImage);
+     mly.moveToKey(currentImage).then(
+     function(node) {
+         mly.setCenter([currentX, currentY]);
+         console.log(currentX);
+     }),
      $("#place").empty().append("<h3 class='slideTitle'>" + titles[image] + "</h3>")
      $("#content").empty().append("<h4 class='slideContent'>" + content[image] + "</h4>")
      image = 77777777777777;
