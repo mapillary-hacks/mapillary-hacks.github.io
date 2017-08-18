@@ -1,7 +1,17 @@
 var client_id = "UTZhSnNFdGpxSEFFREUwb01GYzlXZzpkNTRmOTk5NzQ2N2E3ZDAy";
 var currentImage = images[0];
-var currentX = xcoords[0];
-var currentY = ycoords[0];
+if (typeof xcoords !== 'undefined') {
+  var currentX = xcoords[0];
+}
+if (typeof ycoords !== 'undefined') {
+  var currentY = ycoords[0];
+}
+if (typeof xcoords == 'undefined') {
+  var currentX = '';
+}
+if (typeof ycoords == 'undefined') {
+  var currentY = '';
+}
 
 if (qs["embed"] == 'true') {
   $(".hide").hide();
@@ -41,8 +51,12 @@ function nextImage() {
     }
   $("#image"+myImage).toggleClass("currImg");
   currentImage = images[myImage];
-  currentX = xcoords[myImage];
-  currentY = ycoords[myImage];
+  if (typeof xcoords !== 'undefined') {
+    currentX = xcoords[myImage];
+  }
+  if (typeof ycoords !== 'undefined') {
+    currentY = ycoords[myImage];
+  }
     var url = "https://a.mapillary.com/v3/images/" + images[myImage] + "?client_id=" + client_id;
     var lng;
     var lat;
@@ -115,8 +129,12 @@ function prevImage() {
   }
   $("#image"+myImage).toggleClass("currImg");
   currentImage = images[myImage];
-  currentX = xcoords[myImage];
-  currentY = ycoords[myImage];
+  if (typeof xcoords !== 'undefined') {
+    currentX = xcoords[myImage];
+  }
+  if (typeof ycoords !== 'undefined') {
+    currentY = ycoords[myImage];
+  }
     var url = "https://a.mapillary.com/v3/images/" + images[myImage] + "?client_id=" + client_id;
     $.ajax({
       dataType: "json",
@@ -183,8 +201,12 @@ function loadImage(image) {
      currentImage = 0;
      currentImage = images[image];
      currentImage = images[myImage];
-     currentX = xcoords[myImage];
-     currentY = ycoords[myImage];
+     if (typeof xcoords !== 'undefined') {
+       currentX = xcoords[myImage];
+     }
+     if (typeof ycoords !== 'undefined') {
+       currentY = ycoords[myImage];
+     }
      var url = "https://a.mapillary.com/v3/images/" + images[image] + "?client_id=" + client_id;
      $.ajax({
        dataType: "json",

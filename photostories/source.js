@@ -27,8 +27,18 @@ $.ajax({
   dataType: "script",
   success: function (data) {
     currentImage = images[0];
-    currentX = xcoords[0];
-    currentY = ycoords[0];
+    if (typeof xcoords !== 'undefined') {
+      currentX = xcoords[0];
+    }
+    if (typeof ycoords !== 'undefined') {
+      currentY = ycoords[0];
+    }
+    if (typeof xcoords == 'undefined') {
+      currentX = '';
+    }
+    if (typeof ycoords == 'undefined') {
+      currentY = '';
+    }
     var s = document.createElement("script");
     s.type = "text/javascript";
     s.src = "app.js";
