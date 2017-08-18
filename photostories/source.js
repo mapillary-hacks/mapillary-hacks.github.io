@@ -34,10 +34,10 @@ $.ajax({
       currentY = ycoords[0];
     }
     if (typeof xcoords == 'undefined') {
-      currentX = '';
+      currentX = '.5';
     }
     if (typeof ycoords == 'undefined') {
-      currentY = '';
+      currentY = '.5';
     }
     var s = document.createElement("script");
     s.type = "text/javascript";

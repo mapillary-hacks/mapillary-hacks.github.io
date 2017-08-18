@@ -7,10 +7,10 @@ if (typeof ycoords !== 'undefined') {
   var currentY = ycoords[0];
 }
 if (typeof xcoords == 'undefined') {
-  var currentX = '';
+  var currentX = '.5';
 }
 if (typeof ycoords == 'undefined') {
-  var currentY = '';
+  var currentY = '.5';
 }
 
 if (qs["embed"] == 'true') {

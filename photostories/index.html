@@ -9,8 +9,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
-  <script src='https://unpkg.com/mapillary-js@2.3.0/dist/mapillary.min.js'></script>
-  <link href='https://unpkg.com/mapillary-js@2.3.0/dist/mapillary.min.css' rel='stylesheet' />
+  <script src='https://unpkg.com/mapillary-js@2.7.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.7.0/dist/mapillary.min.css' rel='stylesheet' />
   <script src="source.js"></script>
 
 
@@ -160,7 +160,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6 tall nopadding" width=100% id="mly">
+    <div class="col-sm-6 nopadding" width=100% style="height:400px;" id="mly">
       <script>
         var mly = new Mapillary.Viewer(
             "mly",
@@ -179,8 +179,7 @@
                         imageTiling: true
                     },
                     stats: true
-                },
-                renderMode: Mapillary.RenderMode.Fill
+                }
             }
         );
         mly.on('nodechanged', function (node) {
