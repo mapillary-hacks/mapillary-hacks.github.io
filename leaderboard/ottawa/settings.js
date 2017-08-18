@@ -1,10 +1,6 @@
-var high = [];
-var med = [];
-var low = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
-
 var maxdate = Date.now(); //don't change this
-var mindate = (1502769600000); //set to show epoch milliseconds of the start date
-var mindate2 = new Date(mindate).toISOString();
+var mindate = (1471552114000); //(1502769600000); //set to show epoch milliseconds of the start date
+var mindateISO = new Date(mindate).toISOString();
 
 var partnerLogo = 'https://secure.meetupstatic.com/photos/event/f/7/a/highres_438483962.jpeg';
 var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
@@ -15,8 +11,8 @@ var docTitle = 'Complete the Map: Ottawa - Mapillary'; //text next to favicon on
 
 var challengeLng = -75.6972; //center of the map
 var challengeLat = 45.4215; //center of the map
-var challengeZoom = 11; //zoom for desktop browser
-var mobileZoom = 9; //should be challengeZoom minus 2 usually
+var challengeZoom = 9; //zoom for desktop browser
+var mobileZoom = 7; //should be challengeZoom minus 2 usually
 
 var facebookShare = 'url.com'; //link for facebook sharing
 var twitterShare = 'url.com'; //link for twitter sharing

@@ -327,6 +327,25 @@
   #nominate {
     font-size: 1vw;
   }
+  .modal {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 0, 0, 0, .8 )
+              url('ajax-loader.gif')
+              50% 50%
+              no-repeat;
+  }
+  body.loading {
+      overflow: hidden;
+  }
+  body.loading .modal {
+      display: block;
+  }
   </style>
 
 </head>
@@ -378,10 +397,9 @@
         <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Click on the map to display an image!</h4>
           <script>
               var maxdate = Date.now();
-              var mindate = (1498204800000) //set to show epoch milliseconds of the start date
               var mjs = new Mapillary.Viewer(
                   'mjs',
-                  'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
+                  'MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi',
                   null,
                   {
                       component: {
@@ -437,6 +455,12 @@
       var slider = document.getElementById('slider');
       var sliderValue = document.getElementById('slider-value');
 
+      $body = $("body");
+      $(document).on({
+          ajaxStart: function() {  },
+          ajaxStop: function() {  }
+      });
+
       $(document).ready( function() {
         var bbox;
         //bbox to find users
@@ -448,8 +472,8 @@
             bbox = turf.bbox(square);
           }
         });
-        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindate2 + '&bbox=' + bbox;
-        console.log(url);
+        $body.addClass("loading");
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
         //user scores
         $.ajax({
           dataType: "json",
@@ -528,8 +552,74 @@
             };
         };
 
+        var high = [];
+        var med = [];
+        var low = [];
+        var potentials = [];
+        var unique_distances = [];
+        var ottawa;
+        var gridcalc = function() {
+          $.ajax({
+            dataType: "json",
+            async: false, // Makes sure to wait for load
+            url: 'square.geojson',
+            success: function (square) {
+              ottawa = square;
+              console.log('bbox is ' + turf.bbox(ottawa));
+            }
+          });
+          var N = ottawa.features.length;
+          var numbers = Array.apply(null, {length: N}).map(Number.call, Number);
+          $(numbers).each(function() {
+//          for (s = 0; s < ottawa.features.length; s++) {
+            var s = this;
+            var feature = ottawa.features[s];
+            var bbox = turf.bbox(feature);
+            var gridnumber = feature.properties.id_1;
+            var potentialdistance = feature.properties.meters;
+            var unique_distance = 0;
+            var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=' + mindateISO + '&bbox=' + bbox;
+            $.ajax({
+              dataType: "json",
+//              async: false, // Makes sure to wait for load
+              url: distanceurl,
+              success: function (stats) {
+                for (g = 0; g < stats.length; g++) {
+                  var distance = stats[g]["unique_distance"]
+                  unique_distance = unique_distance + distance;
+    //              console.log("Unique distance for square " + gridnumber + " is " + unique_distance + ".")
+  //                console.log("Square " + gridnumber + " is " + (unique_distance/potentialdistance * 100) + " percent mapped.");
+                }
+                var ratio = (unique_distance/potentialdistance * 100);
+                if (ratio > 90) {
+                  high.push(gridnumber);
+                }
+                if (ratio > 30 && ratio < 90) {
+                  med.push(gridnumber);
+                }
+                if (ratio < 30) {
+                  low.push(gridnumber);
+                }
+                if (ratio > 0) {
+                  console.log("Grid " + gridnumber + ": " + ratio + "% mapped.");
+                }
+              }
+            }).done(function() {
+              var sum = (low.length + med.length + high.length);
+              if ( sum == N-1) {
+                maptimeAdd();
+                $body.removeClass("loading");
+              }
+            });
+          })
+        };
+
+
+
         function maptimeAdd() {
-            console.log(count2);
+            var lowfilter = ["in", "id_1",...low];
+            var medfilter = ["in", "id_1",...med];
+            var highfilter = ["in", "id_1",...high];
             switch (count2) {
               case 0:
                 maptime.style.backgroundColor = "#FF861B";
@@ -587,7 +677,7 @@
                   "type": "symbol",
                   "source": "maptime",
                   "layout": {
-                    "text-field": "{Id}",
+                    "text-field": "{id_01}",
                     "text-font": [
                       "DIN Offc Pro Medium",
                       "Arial Unicode MS Bold"
@@ -666,9 +756,6 @@
       var low = Array.apply(null, {length: N}).map(Number.call, Number)
       var med = [];
       var high = []; */
-      lowfilter = ["in", "Id",...low]
-      medfilter = ["in", "Id",...med]
-      highfilter = ["in", "Id",...high]
 
 
       //
@@ -708,7 +795,8 @@
                'line-width':   2
            }
        });
-        maptimeAdd();
+
+        gridcalc();
         mly.onclick = mlyAdd;
         maptime.onclick = maptimeAdd;
 
@@ -787,7 +875,7 @@
               zoom: 15,
           });
 
-          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=" + mindate2 + "&closeto="+ lng + "," + lat;
+          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=" + mindateISO + "&closeto="+ lng + "," + lat;
 
           $.ajax({
               dataType: "json",
@@ -915,7 +1003,7 @@
   </div>
 </div>
 
-
+<div class="modal"><!-- Place at bottom of page --></div>
 
 </body>
 </html>
