@@ -184,8 +184,11 @@
             var sum = 0;
             var from = a;
             var to = b;
-            $([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).each(function() {
-              var c = this;
+            var N = countries.length;
+            var numbers = Array.apply(null, {length: N}).map(Number.call, Number);
+            $(numbers).each(function() {
+              var c = (this);
+              console.log(c);
               var currentCode = codes[c];
               var currentCountry = countries[c];
               var formatThousands = function(n, dp){
@@ -195,50 +198,52 @@
                   (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
               };
               var image_url = 'https://a.mapillary.com/v3/leaderboard/images?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + from + to;
-
               $.post(
                 image_url,
               {
                 userkeys: userkeys,
                 iso_countries: currentCode,
               }).done(function (stats) {
+//                console.log(currentCode + " has " + stats.length + " users.")
                 sortTable(0);
-                var distance_url = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + from + to;
-                $.post(
-                  distance_url,
-                {
-                  userkeys: userkeys,
-                  iso_countries: currentCode,
-                }).done(function (stats2) {
-                  var kmTotal = 0;
-                  for (n = 0; n < stats2.length; n++) {
-                    var km = stats2[n]["total_distance"]/1000;
-                    kmTotal = kmTotal + km;
-                    kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
+                if (stats.length > 0 && currentCode !== 'FO' && currentCode !== 'TF' && currentCode !== 'HM' && currentCode !== 'SJ' && currentCode !== 'SH' && currentCode !== 'GI') {
+                  var distance_url = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + from + to;
+                  $.post(
+                    distance_url,
+                  {
+                    userkeys: userkeys,
+                    iso_countries: currentCode,
+                  }).done(function (stats2) {
+                    var kmTotal = 0;
+                    for (n = 0; n < stats2.length; n++) {
+                      var km = stats2[n]["total_distance"]/1000;
+                      kmTotal = kmTotal + km;
+                      kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
+                    }
+                    $('#' + currentCode +'km').html(formatThousands(kmTotal));
+                  }).fail(function (xhr, status, error) {
+                    console.log('fail', status, error);
+                    console.log(currentCountry + " " + currentCode + " failed km test");
+                  });
+                  var distanceURL = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&userkeys=' + userkeys + '&iso_countries=' + currentCode;
+                  var UTMTotal = 0;
+                  var nonUTMTotal = 0;
+                  var imageTotal = 0;
+                  for (n = 0; n < stats.length; n++) {
+                    var user = stats[n]["username"];
+//                    console.log(user + " is in " + currentCountry);
+                    var imageCount = stats[n]["image_count"];
+                    imageTotal = imageTotal + imageCount;
+                    if ($.inArray(user, usersUTM) !== -1) {
+                      UTMTotal++;
+                    };
+                    if ($.inArray(user, usersNonUTM) !== -1) {
+                      nonUTMTotal++;
+                    };
                   }
-                  $('#' + currentCode +'km').html(formatThousands(kmTotal));
-                }).fail(function (xhr, status, error) {
-                  console.log('fail', status, error);
-                  console.log(currentCountry + " " + currentCode + " failed km test");
-                });
-                var distanceURL = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?per_page=1000&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&userkeys=' + userkeys + '&iso_countries=' + currentCode;
-                var UTMTotal = 0;
-                var nonUTMTotal = 0;
-                var imageTotal = 0;
-                for (n = 0; n < stats.length; n++) {
-                  var user = stats[n]["username"];
-                  console.log(user + " is in " + currentCountry);
-                  var imageCount = stats[n]["image_count"];
-                  imageTotal = imageTotal + imageCount;
-                  if ($.inArray(user, usersUTM) !== -1) {
-                    UTMTotal++;
-                  };
-                  if ($.inArray(user, usersNonUTM) !== -1) {
-                    nonUTMTotal++;
-                  };
+                  imagesGrandTotal = imagesGrandTotal + imageTotal;
+                  $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td id="' + currentCode +'km">' + 0 + '</td><td>' + UTMTotal + '</td><td>' + nonUTMTotal + '</td></tr>');
                 }
-                imagesGrandTotal = imagesGrandTotal + imageTotal;
-                $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td id="' + currentCode +'km">' + 0 + '</td><td>' + UTMTotal + '</td><td>' + nonUTMTotal + '</td></tr>');
               }).fail(function (xhr, status, error) {
                 console.log('fail', status, error);
                 console.log(currentCountry + " " + currentCode + " failed image test");
