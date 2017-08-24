@@ -10,7 +10,7 @@ var partnerLogo = 'https://d3rqg5ndc8pbid.cloudfront.net/original/1X/695bb1b1264
 var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
 
 var challengeTitle = 'Helsinki Challenge'; //text in the slider
-var challengeDate = 'August 15 - September 15, 2017'
+var challengeDate = 'August 25 - September 17, 2017'
 var docTitle = 'Complete the Map: Helsinki - Mapillary'; //text next to favicon on browser window
 
 var challengeLng = 24.9384; //center of the map
