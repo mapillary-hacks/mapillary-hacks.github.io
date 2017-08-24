@@ -7,7 +7,7 @@ var mindate = (1503608400000); //set to show epoch milliseconds of the start dat
 var mindate2 = new Date(mindate).toISOString();
 
 var partnerLogo = 'https://d3rqg5ndc8pbid.cloudfront.net/original/1X/695bb1b126407a23bf745acfa61fcb3b9682debd.png';
-var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
+var partnerLink = ''
 
 var challengeTitle = 'Helsinki Challenge'; //text in the slider
 var challengeDate = 'August 25 - September 17, 2017'
