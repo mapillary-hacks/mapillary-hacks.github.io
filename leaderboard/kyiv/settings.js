@@ -1,13 +1,13 @@
 var high = [];
-var med = [];
-var low = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+var med = [11];
+var low = [1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20];
 
 var maxdate = Date.now(); //don't change this
 var mindate = (1503003600000); //set to show epoch milliseconds of the start date
 var mindate2 = new Date(mindate).toISOString();
 
-var partnerLogo = 'https://secure.meetupstatic.com/photos/event/f/7/a/highres_438483962.jpeg';
-var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
+var partnerLogo = 'https://d3rqg5ndc8pbid.cloudfront.net/original/1X/98510c0e2e8e88d6261cf6a6ed29da36a492a5d1.png';
+var partnerLink = ''
 
 var challengeTitle = 'Kyiv Challenge'; //text in the slider
 var challengeDate = '18 серпня - 15 вересня 2017'
