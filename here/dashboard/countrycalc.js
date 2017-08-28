@@ -24,18 +24,5 @@ function countryCalc(c) {
       });
     totals.push(imageTotal);
     usertotals.push(userTotal);
-    $.ajax({
-        dataType: "json",
-        url: testurl2,
-        async: false,
-        success: function (stats) {
-          user2Total = stats.length;
-          for (n = 0; n < stats.length; n++) {
-            var imageCount = stats[n]["image_count"];
-            imageTotal = imageTotal + imageCount;
-            console.log(currentCountry + ' count is ' + imageTotal);
-            }
-        }
-      });
     $('#table').append('<tr id="subtr"><td>' + currentCountry + '</td><td>' + imageTotal + '</td><td>' + kmTotal + '</td><td>' + userTotal + '</td><td>' + user2Total + '</td></tr>');
 }
