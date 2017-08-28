@@ -578,7 +578,7 @@
             var gridnumber = feature.properties.id_1;
             var potentialdistance = feature.properties.meters;
             var unique_distance = 0;
-            var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=' + mindateISO + '&bbox=' + bbox;
+            var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
             $.ajax({
               dataType: "json",
 //              async: false, // Makes sure to wait for load
@@ -591,13 +591,13 @@
   //                console.log("Square " + gridnumber + " is " + (unique_distance/potentialdistance * 100) + " percent mapped.");
                 }
                 var ratio = (unique_distance/potentialdistance * 100);
-                if (ratio > 90) {
+                if (ratio > 80) {
                   high.push(gridnumber);
                 }
-                if (ratio > 30 && ratio < 90) {
+                if (ratio > 20 && ratio < 80) {
                   med.push(gridnumber);
                 }
-                if (ratio < 30) {
+                if (ratio < 20) {
                   low.push(gridnumber);
                 }
                 if (ratio > 0) {
