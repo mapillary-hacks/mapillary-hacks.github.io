@@ -591,6 +591,7 @@
     //              console.log("Unique distance for square " + gridnumber + " is " + unique_distance + ".")
   //                console.log("Square " + gridnumber + " is " + (unique_distance/potentialdistance * 100) + " percent mapped.");
                 }
+                feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
                 if(ratio>100) ratio=100;
 				ratio = Math.round(ratio / 10);
@@ -835,7 +836,30 @@
             });
         });
 
-        map.on('click', function (e) {
+				var popup = new mapboxgl.Popup({
+			closeButton: true,
+			closeOnClick: false
+		});
+
+		map.on('click', function(e) {
+			
+			var pt = [e.lngLat["lng"],e.lngLat["lat"]];
+			
+			for(var i=0; i<ottawa.features.length; i++)
+			{
+				if(turf.inside(pt, ottawa.features[i])) 
+				{
+					var feature = ottawa.features[i];
+					var total_km = Math.round(feature.properties.meters/100)/10;
+					var covered_km = Math.round(feature.properties.covered_meters/100)/10;
+					var ratio = Math.round(100*feature.properties.covered_meters/feature.properties.meters);
+					popup.setLngLat(e.lngLat)
+						.setHTML('#'+i+'<br>Total: <b>'+total_km+' km</b><br>Covered: <b>'+covered_km+' km</b><br>Progress: <b>'+ratio+'%</b>')
+						.addTo(map);
+				}
+			}
+		});
+        map.on('doubleclick', function (e) {
           var lng = JSON.stringify(e.lngLat["lng"]);
           var lat = JSON.stringify(e.lngLat["lat"]);
           var sequenceComponent = mjs.getComponent("sequence");
