@@ -2,8 +2,8 @@ var maxdate = Date.now(); //don't change this
 var mindate = (1503633600000); //(1502769600000); //set to show epoch milliseconds of the start date
 var mindateISO = new Date(mindate).toISOString();
 
-var partnerLogo = 'https://secure.meetupstatic.com/photos/event/f/7/a/highres_438483962.jpeg';
-var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
+var partnerLogo = 'https://mapillarydiscourse.s3-eu-west-1.amazonaws.com/optimized/1X/b88062c9c9aa64867b2287b3f6ed48d44415b697_1_690x393.png';
+var partnerLink = 'www.bikeottawa.ca'
 
 var challengeTitle = 'Ottawa Challenge'; //text in the slider
 var challengeDate = 'August 25 - September 17, 2017'
