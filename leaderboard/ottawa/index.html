@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
   <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
@@ -426,13 +426,14 @@
       mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
       var map = new mapboxgl.Map({
           container: 'map',
-          style: 'homebrew-streets-v8.json',
+          style: 'mapbox://styles/mapbox/streets-v9',
           center: [challengeLng,
           challengeLat],
           zoom: challengeZoom
       });
 
-      map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
+      map.addControl(new mapboxgl.NavigationControl({position: 'top-right'}));
+      map.addControl(new mapboxgl.ScaleControl());  
 
       var layerList = document.getElementById('menu');
       var inputs = layerList.getElementsByClassName('btn2');
@@ -695,7 +696,7 @@
 
         function switchLayer(layer) {
             var layerId = layer.target.id;
-            map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+            //map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
             switch (layerId) {
               case 'streets':
                 streets.style.backgroundColor = "#333333";
