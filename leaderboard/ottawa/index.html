@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
   <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
@@ -426,13 +426,14 @@
       mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
       var map = new mapboxgl.Map({
           container: 'map',
-          style: 'homebrew-streets-v8.json',
+          style: 'mapbox://styles/mapbox/streets-v9',
           center: [challengeLng,
           challengeLat],
           zoom: challengeZoom
       });
 
-      map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
+      map.addControl(new mapboxgl.NavigationControl({position: 'top-right'}));
+      map.addControl(new mapboxgl.ScaleControl({position: 'bottom-right'}));  
 
       var layerList = document.getElementById('menu');
       var inputs = layerList.getElementsByClassName('btn2');
@@ -581,7 +582,7 @@
             var unique_distance = 0;
                         
             var imagesurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
-            //pull image count for each square, find leader/runner-up
+            //user scores
             $.ajax({
               dataType: "json",
               //async: false, // Makes sure to wait for load
@@ -591,7 +592,11 @@
                 feature.properties.leader_count = stats.length<1?"0":stats[0]["image_count"];
                 feature.properties.runnerup = stats.length<2?"N/A":stats[1]["username"];
                 feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
-                
+                /*for (n = 0; n < stats.length; n++) {
+                  var u = stats[n]["username"];
+                  $('#table').append('<tr><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td></tr>');
+                }
+                */
               }
             }).done(function() {  
               if(feature.properties.leader!="N/A")  //increment "squares" cell for the leader
@@ -695,7 +700,7 @@
 
         function switchLayer(layer) {
             var layerId = layer.target.id;
-            map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+            //map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
             switch (layerId) {
               case 'streets':
                 streets.style.backgroundColor = "#333333";
@@ -857,6 +862,35 @@
             });
         });
 
+                var popup = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: false
+        });
+
+        map.on('click', function(e) {
+            
+            var pt = [e.lngLat["lng"],e.lngLat["lat"]];
+            
+            for(var i=0; i<ottawa.features.length; i++)
+            {
+                if(turf.inside(pt, ottawa.features[i])) 
+                {
+                    var feature = ottawa.features[i];
+                    var total_km = Math.round(feature.properties.meters/100)/10;
+                    var covered_km = Math.round(feature.properties.covered_meters/100)/10;
+                    var ratio = Math.round(100*feature.properties.covered_meters/feature.properties.meters);
+                    popup.setLngLat(e.lngLat)
+                        .setHTML('#'+i+
+                            '<br>Total: <b>'+total_km+' km</b>'+
+                            '<br>Covered: <b>'+covered_km+' km</b>'+
+                            '<br>Progress: <b>'+ratio+'%</b>'+
+                            (feature.properties.leader_count==0?'':('<br>Leader: <b>'+feature.properties.leader+'</b> (<b>'+feature.properties.leader_count+'</b> photos)'))+
+                            (feature.properties.runnerup_count==0?'':('<br>Runner-up: <b>'+feature.properties.runnerup+'</b> (<b>'+feature.properties.runnerup_count+'</b> photos)'))
+                            )
+                        .addTo(map);
+                }
+            }
+        });
         map.on('dblclick', function (e) {
           var lng = JSON.stringify(e.lngLat["lng"]);
           var lat = JSON.stringify(e.lngLat["lat"]);
@@ -924,35 +958,6 @@
 
               }
           });
-        });
-
-        var popup = new mapboxgl.Popup({
-            closeButton: true,
-            closeOnClick: false
-        });
-
-        map.on('click', function(e) {
-            var pt = [e.lngLat["lng"],e.lngLat["lat"]];
-            
-            for(var i=0; i<ottawa.features.length; i++)
-            {
-                if(turf.inside(pt, ottawa.features[i])) 
-                {
-                    var feature = ottawa.features[i];
-                    var total_km = Math.round(feature.properties.meters/100)/10;
-                    var covered_km = Math.round(feature.properties.covered_meters/100)/10;
-                    var ratio = Math.round(100*feature.properties.covered_meters/feature.properties.meters);
-                    popup.setLngLat(e.lngLat)
-                        .setHTML('#'+i+
-                            '<br>Total: <b>'+total_km+' km</b>'+
-                            '<br>Covered: <b>'+covered_km+' km</b>'+
-                            '<br>Progress: <b>'+ratio+'%</b>'+
-                            (feature.properties.leader_count==0?'':('<br>Leader: <b>'+feature.properties.leader+'</b> (<b>'+feature.properties.leader_count+'</b> photos)'))+
-                            (feature.properties.runnerup_count==0?'':('<br>Runner-up: <b>'+feature.properties.runnerup+'</b> (<b>'+feature.properties.runnerup_count+'</b> photos)'))
-                            )
-                        .addTo(map);
-                }
-            }
         });
 
         slider.addEventListener('input', function(e) {
