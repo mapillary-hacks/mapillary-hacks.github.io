@@ -555,6 +555,7 @@
 
         var total_levels = 11;    //0,10,20,...,100, rounding down
         var levels = [[],[],[],[],[],[],[],[],[],[],[]];
+        var user_squares = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //2-dim array of squares owned by each user; [0]=1st in the leaderboard, [1]=2nd, etc
         
         var potentials = [];
         var unique_distances = [];
@@ -598,6 +599,8 @@
               if(feature.properties.leader!="N/A")  //increment "squares" cell for the leader
               {
                 $('#'+feature.properties.leader).find("td:eq(2)").text(parseInt($('#'+feature.properties.leader).find("td:eq(2)").text())+1);
+                var row = $('#'+feature.properties.leader).prevAll().length;
+                user_squares[row].push(gridnumber);
               }  
             });
             
@@ -680,6 +683,22 @@
                           'text-color': 'white'
                   }
                 });
+                $('#table tr').click(function() {
+                    var rowIndex = $(this).prevAll().length;
+                    for(var i=0; i<11; i++)
+                    {
+                        var filters = map.getFilter('maptimelayer-'+i);
+                        var newfilter = ["in", "id_1",...user_squares[rowIndex]];
+                        if(JSON.stringify(newfilter)==JSON.stringify(filters[2])) {
+                            filters.splice(2, 1);
+                        }
+                        else {
+                            filters[2]=newfilter;                        
+                        }    
+                            
+                        map.setFilter('maptimelayer-'+i, filters);
+                    }
+                });
                 break;
               case 1:
                 maptime.style.backgroundColor = "#36AF6D";
@@ -692,6 +711,7 @@
                 map.removeSource('maptime');
                 break;
             };
+            
         };
 
         function switchLayer(layer) {
@@ -996,6 +1016,7 @@
                 // Value indicator
                 sliderValue.textContent = e.target.value + ' days since competition start';
             });
+           
         });
       </script>
     </div>
@@ -1003,6 +1024,7 @@
       <div class="alt-grid row" style="min-height:87vh;">
         <center><h2 style="color:white;">Leaderboard</h2></center>
         <br>
+        <div style='align:center;color:white;'><center>click on a row to toggle territory</center></div><br>
         <table id='table'>
           <tr>
             <th>Username</th><th>Images</th><th>Squares</th>
