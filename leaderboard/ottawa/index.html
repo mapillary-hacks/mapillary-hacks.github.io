@@ -482,7 +482,7 @@
           success: function (stats) {
             for (n = 0; n < stats.length; n++) {
               var u = stats[n]["username"];
-              $('#table').append('<tr><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td></tr>');
+              $('#table').append('<tr id="'+u+'"><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td><td>0</td></tr>');
             }
           }
         });
@@ -579,6 +579,31 @@
             var gridnumber = feature.properties.id_1;
             var potentialdistance = feature.properties.meters;
             var unique_distance = 0;
+                        
+            var imagesurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
+            //user scores
+            $.ajax({
+              dataType: "json",
+              //async: false, // Makes sure to wait for load
+              url: imagesurl,
+              success: function (stats) {
+                feature.properties.leader = stats.length<1?"N/A":stats[0]["username"];
+                feature.properties.leader_count = stats.length<1?"0":stats[0]["image_count"];
+                feature.properties.runnerup = stats.length<2?"N/A":stats[1]["username"];
+                feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
+                /*for (n = 0; n < stats.length; n++) {
+                  var u = stats[n]["username"];
+                  $('#table').append('<tr><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td></tr>');
+                }
+                */
+              }
+            }).done(function() {  
+              if(feature.properties.leader!="N/A")  //increment "squares" cell for the leader
+              {
+                $('#'+feature.properties.leader).find("td:eq(2)").text(parseInt($('#'+feature.properties.leader).find("td:eq(2)").text())+1);
+              }  
+            });
+            
             var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
             $.ajax({
               dataType: "json",
@@ -597,15 +622,15 @@
                 ratio = Math.round(ratio / 10);
                 levels[ratio].push(gridnumber);
                 if (ratio > 0) {
-                  console.log("Grid " + gridnumber + ": " + ratio + "% mapped.");
+                  console.log("Grid " + gridnumber + ": " + ratio*10 + "% mapped.");
                 }
               }
-            }).done(function() {
+            }).done(function() {  
               if ( Ncount++ == N-1) 
               {
                 maptimeAdd();
                 $body.removeClass("loading");
-              }
+              }                
             });
           })
         };
@@ -836,7 +861,7 @@
             });
         });
 
-        var popup = new mapboxgl.Popup({
+                var popup = new mapboxgl.Popup({
             closeButton: true,
             closeOnClick: false
         });
@@ -854,7 +879,13 @@
                     var covered_km = Math.round(feature.properties.covered_meters/100)/10;
                     var ratio = Math.round(100*feature.properties.covered_meters/feature.properties.meters);
                     popup.setLngLat(e.lngLat)
-                        .setHTML('#'+i+'<br>Total: <b>'+total_km+' km</b><br>Covered: <b>'+covered_km+' km</b><br>Progress: <b>'+ratio+'%</b>')
+                        .setHTML('#'+i+
+                            '<br>Total: <b>'+total_km+' km</b>'+
+                            '<br>Covered: <b>'+covered_km+' km</b>'+
+                            '<br>Progress: <b>'+ratio+'%</b>'+
+                            (feature.properties.leader_count==0?'':('<br>Leader: <b>'+feature.properties.leader+'</b> (<b>'+feature.properties.leader_count+'</b> photos)'))+
+                            (feature.properties.runnerup_count==0?'':('<br>Runner-up: <b>'+feature.properties.runnerup+'</b> (<b>'+feature.properties.runnerup_count+'</b> photos)'))
+                            )
                         .addTo(map);
                 }
             }
@@ -977,7 +1008,7 @@
         <br>
         <table id='table'>
           <tr>
-            <th>Username</th><th>Images</th>
+            <th>Username</th><th>Images</th><th>Squares</th>
           </tr>
         </table>
       </div>
