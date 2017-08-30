@@ -193,7 +193,7 @@ function play() {
                'line-color':   'rgb(53, 175, 109)',
                'line-width':   2
            }
-       });
+       }, 'airport-label');
        map.addLayer({
            'id': 'mapillary-o',
            'type': 'circle',
@@ -207,7 +207,7 @@ function play() {
                'circle-color':   'rgb(53, 175, 109)',
                'circle-radius':   2
            }
-      });
+      }, 'airport-label');
       x++;
       if (x < days) {
         myLoop();
@@ -316,7 +316,7 @@ function addMapillary() {
          'line-color':   'rgb(53, 175, 109)',
          'line-width':   2
      }
- });
+ }, 'airport-label');
  map.addLayer({
      'id': 'mapillary-o',
      'type': 'circle',
@@ -330,7 +330,7 @@ function addMapillary() {
          'circle-color':   'rgb(53, 175, 109)',
          'circle-radius':   2
      }
- });
+ }, 'airport-label');
 }
 
 map.on('style.load', function () {
@@ -357,7 +357,7 @@ map.on('style.load', function () {
                    'line-color':   'rgb(53, 175, 109)',
                    'line-width':   2
                }
-           });
+           }, 'airport-label');
            map.addLayer({
                'id': 'mapillary-o',
                'type': 'circle',
@@ -371,7 +371,7 @@ map.on('style.load', function () {
                    'circle-color':   'rgb(53, 175, 109)',
                    'circle-radius':   2
                }
-           });
+           }, 'airport-label');
           // Value indicator
           sliderValue.textContent = e.target.value + ' days since ' + start_time;
 
