@@ -14,6 +14,6 @@ var challengeLat = 45.4215; //center of the map
 var challengeZoom = 9; //zoom for desktop browser
 var mobileZoom = 7; //should be challengeZoom minus 2 usually
 
-var facebookShare = 'url.com'; //link for facebook sharing
-var twitterShare = 'url.com'; //link for twitter sharing
-var emailShare = 'mail.com'; //link for email sharing
+var facebookShare = 'http://www.facebook.com/sharer.php?u=https%3A%2F%2Fmapillary-hacks.github.io%2Fleaderboard%2Fottawa%2F&p[title]=Complete%20the%20Map%20Ottawa%20challenge%3A%20'; //link for facebook sharing
+var twitterShare = 'https://twitter.com/intent/tweet?text=Complete%20the%20Map%20Ottawa%20challenge%3A%20&url=https%3A%2F%2Fmapillary-hacks.github.io%2Fleaderboard%2Fottawa%2F'; //link for twitter sharing
+var emailShare = 'mailto:someone@example.com?Subject=Complete%20the%20Map%20Ottawa%20challenge%3A%20&body=https%3A%2F%2Fmapillary-hacks.github.io%2Fleaderboard%2Fottawa%2F'; //link for email sharing
