@@ -15,7 +15,7 @@ var docTitle = 'Complete the Map: Helsinki - Mapillary'; //text next to favicon 
 
 var challengeLng = 24.9384; //center of the map
 var challengeLat = 60.1699; //center of the map
-var challengeZoom = 11; //zoom for desktop browser
+var challengeZoom = 12; //zoom for desktop browser
 var mobileZoom = 10; //should be challengeZoom minus 2 usually
 
 var facebookShare = 'url.com'; //link for facebook sharing
