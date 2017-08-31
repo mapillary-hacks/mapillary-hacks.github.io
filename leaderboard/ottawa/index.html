@@ -60,11 +60,11 @@
   .map-overlay {
       font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
       position: absolute;
-      width: 30vw;
+      width: 20vw;
       top: 0;
       left: 0;
       color: "#fff";
-      height: 100vh;
+      height: 40vh;
       font-weight: bold;
       z-index: 2;
   }
@@ -97,7 +97,6 @@
   #menu {
       position: absolute;
       background: #36AF6D;
-      width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
@@ -107,7 +106,6 @@
   #menu2 {
       position: relative;
       background: #36AF6D;
-      width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
@@ -366,7 +364,7 @@
         <div id='logo' style="margin-left:10%;">
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
         </div> -->
-        <div class='map-overlay-inner' id='menu2' style="width:50%;">
+        <div class='map-overlay-inner' id='menu2'>
                                    <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><a href ="http://bit.ly/2vjd9ww" target="_blank">Challenge Instructions</a><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='38' step='1' value='' style='margin-bottom:1vh;' />
             <script>
@@ -485,6 +483,7 @@
               var u = stats[n]["username"];
               $('#table').append('<tr id="'+u+'"><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td><td>0</td></tr>');
             }
+            $('#table').append('<tr id="unclaimed"><td  id="ltd">[unclaimed]</td><td  id="ltd"></td><td>0</td></tr>');
           }
         });
       });
@@ -589,14 +588,14 @@
               //async: false, // Makes sure to wait for load
               url: imagesurl,
               success: function (stats) {
-                feature.properties.leader = stats.length<1?"N/A":stats[0]["username"];
+                feature.properties.leader = stats.length<1?"unclaimed":stats[0]["username"];
                 feature.properties.leader_count = stats.length<1?"0":stats[0]["image_count"];
-                feature.properties.runnerup = stats.length<2?"N/A":stats[1]["username"];
+                feature.properties.runnerup = stats.length<2?"unclaimed":stats[1]["username"];
                 feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
                 
               }
             }).done(function() {  
-              if(feature.properties.leader!="N/A")  //increment "squares" cell for the leader
+              //if(feature.properties.leader!="unclaimed")  //increment "squares" cell for the leader
               {
                 $('#'+feature.properties.leader).find("td:eq(2)").text(parseInt($('#'+feature.properties.leader).find("td:eq(2)").text())+1);
                 var row = $('#'+feature.properties.leader).prevAll().length;
