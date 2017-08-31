@@ -334,14 +334,24 @@
   height:     100%;
   width:      100%;
   background: rgba( 0, 0, 0, .8 )
-              url('ajax-loader.gif')
-              50% 50%
-              no-repeat;
+              
   }
   body.loading {
       overflow: hidden;
   }
   body.loading .modal {
+      display: block;
+  }
+  .prog {
+      display:    none;
+      z-index:    1001;
+      position: absolute;
+      width: 200px;
+      top: 50%;
+      left: 50%;
+      margin: 0 0 0 -100px;      
+  }
+  body.loading .prog {
       display: block;
   }
   </style>
@@ -617,15 +627,17 @@
                 }
                 feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
+                if (ratio > 0) {
+                  console.log("Grid " + gridnumber + ": " + ratio + "% mapped.");
+                }
                 if(ratio>100) ratio=100;
                 ratio = Math.round(ratio / 10);
                 levels[ratio].push(gridnumber);
-                if (ratio > 0) {
-                  console.log("Grid " + gridnumber + ": " + ratio*10 + "% mapped.");
-                }
+                
               }
             }).always(function() {  
-              if ( Ncount++ == N-1) 
+              $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');  
+              if ( Ncount++ == N-1)  
               {
                 maptimeAdd();
                 $body.removeClass("loading");
@@ -1046,6 +1058,13 @@
   </div>
 </div>
 
+
+<div id='prog' class="prog">
+    <div class="progress progress-striped active">
+        <div style="text-align:left;vertical-align:middle;padding-left:3px" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div>
+</div>
 <div class="modal"><!-- Place at bottom of page --></div>
 
 </body>
