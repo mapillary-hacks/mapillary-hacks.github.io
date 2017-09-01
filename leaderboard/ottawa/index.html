@@ -597,20 +597,15 @@
               dataType: "json",
               //async: false, // Makes sure to wait for load
               url: imagesurl,
-              success: function (stats) {
+            }).done(function(stats) {  
                 feature.properties.leader = stats.length<1?"unclaimed":stats[0]["username"];
                 feature.properties.leader_count = stats.length<1?"0":stats[0]["image_count"];
                 feature.properties.runnerup = stats.length<2?"unclaimed":stats[1]["username"];
                 feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
-                
-              }
-            }).done(function() {  
-              //if(feature.properties.leader!="unclaimed")  //increment "squares" cell for the leader
-              {
+
                 $('#'+feature.properties.leader).find("td:eq(2)").text(parseInt($('#'+feature.properties.leader).find("td:eq(2)").text())+1);
                 var row = $('#'+feature.properties.leader).prevAll().length;
                 user_squares[row].push(gridnumber);
-              }  
             });
             
             var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
@@ -618,12 +613,18 @@
               dataType: "json",
 //              async: false, // Makes sure to wait for load
               url: distanceurl,
-              success: function (stats) {
+            }).always(function() {  
+              $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');  
+              if ( Ncount++ == N-1)  
+              {
+                maptimeAdd();
+                $body.removeClass("loading");
+                $('#total_progress').text("Total covered: "+Math.round(total_unique_distances/1000)+" km of "+Math.round(total_potentials/1000)+" km");
+              }                
+            }).done(function(stats) {
                 for (g = 0; g < stats.length; g++) {
                   var distance = stats[g]["unique_distance"]
                   unique_distance = unique_distance + distance;
-    //              console.log("Unique distance for square " + gridnumber + " is " + unique_distance + ".")
-  //                console.log("Square " + gridnumber + " is " + (unique_distance/potentialdistance * 100) + " percent mapped.");
                 }
                 feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
@@ -635,15 +636,6 @@
                 levels[ratio].push(gridnumber);
                 total_unique_distances += unique_distance;        
                 total_potentials += potentialdistance;                
-              }
-            }).always(function() {  
-              $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');  
-              if ( Ncount++ == N-1)  
-              {
-                maptimeAdd();
-                $body.removeClass("loading");
-                $('#total_progress').text("Total covered: "+Math.round(total_unique_distances/1000)+" km of "+Math.round(total_potentials/1000)+" km");
-              }                
             });
           })
         };
