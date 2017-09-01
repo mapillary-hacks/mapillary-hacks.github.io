@@ -491,9 +491,9 @@
           success: function (stats) {
             for (n = 0; n < stats.length; n++) {
               var u = stats[n]["username"];
-              $('#table').append('<tr id="'+u+'"><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td><td>0</td></tr>');
+              $('#table').append('<tr id="'+u+'"><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td><td id="ltd">0</td></tr>');
             }
-            $('#table').append('<tr id="unclaimed"><td  id="ltd">[unclaimed]</td><td  id="ltd"></td><td>0</td></tr>');
+            $('#table').append('<tr id="unclaimed"><td  id="ltd">[unclaimed]</td><td  id="ltd"></td><td id="ltd">0</td></tr>');
           }
         });
       });
@@ -565,7 +565,8 @@
         var total_levels = 11;    //0,10,20,...,100, rounding down
         var levels = [[],[],[],[],[],[],[],[],[],[],[]];
         var user_squares = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //2-dim array of squares owned by each user; [0]=1st in the leaderboard, [1]=2nd, etc
-        
+        var total_unique_distances=0;
+        var total_potentials=0;
         var potentials = [];
         var unique_distances = [];
         var ottawa;
@@ -590,7 +591,6 @@
             var gridnumber = feature.properties.id_1;
             var potentialdistance = feature.properties.meters;
             var unique_distance = 0;
-                        
             var imagesurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
             //pull image count for each square, find leader/runner-up
             $.ajax({
@@ -633,7 +633,8 @@
                 if(ratio>100) ratio=100;
                 ratio = Math.round(ratio / 10);
                 levels[ratio].push(gridnumber);
-                
+                total_unique_distances += unique_distance;        
+                total_potentials += potentialdistance;                
               }
             }).always(function() {  
               $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');  
@@ -641,6 +642,7 @@
               {
                 maptimeAdd();
                 $body.removeClass("loading");
+                $('#total_progress').text("Total covered: "+Math.round(total_unique_distances/1000)+" km of "+Math.round(total_potentials/1000)+" km");
               }                
             });
           })
@@ -1031,16 +1033,16 @@
         });
       </script>
     </div>
-    <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:1000vh;">
+    <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:100vh;">
       <div class="alt-grid row" style="min-height:87vh;">
         <center><h2 style="color:white;">Leaderboard</h2></center>
-        <br>
         <div style='align:center;color:white;'><center>click on a row to toggle territory</center></div><br>
         <table id='table'>
           <tr>
             <th>Username</th><th>Images</th><th>Squares</th>
           </tr>
         </table>
+        <div class="alt-grid row" style="height:30px;width:100%;color:white;font-weight:bold;text-align:center" id="total_progress">  </div>      
       </div>
       <div class="alt-grid row"style="max-height:8vh;width:100%;" id="share">
           <center><a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a></center>
