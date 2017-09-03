@@ -431,6 +431,29 @@
 
       <script>
 
+      function setCookie(cname, cvalue, exdays) {
+          var d = new Date();
+          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+          var expires = "expires="+d.toUTCString();
+          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+
+      function getCookie(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i = 0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+              }
+          }
+          return "";
+      }
+      
+
       mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
       var map = new mapboxgl.Map({
           container: 'map',
@@ -491,9 +514,28 @@
           success: function (stats) {
             for (n = 0; n < stats.length; n++) {
               var u = stats[n]["username"];
-              $('#table').append('<tr id="'+u+'"><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td><td id="ltd">0</td></tr>');
+              var old_photos = getCookie(u);
+              var new_photos = '';
+              if(old_photos!='' && old_photos<stats[n]["image_count"])
+              {
+                new_photos = "<span style='font-size:xx-small;color:red'>+"+(stats[n]["image_count"]-old_photos)+'</span>';
+              }
+              $('#table').append('<tr id="'+u+'"><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+              setCookie(u, stats[n]["image_count"], 30);
+              
             }
-            $('#table').append('<tr id="unclaimed"><td  id="ltd">[unclaimed]</td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+            $('#table').append('<tr id="unclaimed"><td  id="ltd">[unclaimed]</td><td  id="ltd"></td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+          }
+        });
+        url = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: url,
+          success: function (stats) {
+            for (n = 0; n < stats.length; n++) {
+              $('#'+stats[n]["username"]).find("td:eq(2)").text(Math.round(stats[n]["unique_distance"]/1000)+' km');
+            }            
           }
         });
       });
@@ -603,7 +645,7 @@
                 feature.properties.runnerup = stats.length<2?"unclaimed":stats[1]["username"];
                 feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
 
-                $('#'+feature.properties.leader).find("td:eq(2)").text(parseInt($('#'+feature.properties.leader).find("td:eq(2)").text())+1);
+                $('#'+feature.properties.leader).find("td:eq(3)").text(parseInt($('#'+feature.properties.leader).find("td:eq(3)").text())+1);
                 var row = $('#'+feature.properties.leader).prevAll().length;
                 user_squares[row].push(gridnumber);
             });
@@ -1023,7 +1065,7 @@
             });
            
         });
-      </script>
+      </script> 
     </div>
     <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:100vh;">
       <div class="alt-grid row" style="min-height:87vh;">
@@ -1031,7 +1073,7 @@
         <div style='align:center;color:white;'><center>click on a row to toggle territory</center></div><br>
         <table id='table'>
           <tr>
-            <th>Username</th><th>Images</th><th>Squares</th>
+            <th>Username</th><th>Images</th><th>KMs</th><th>&#9638</th>
           </tr>
         </table>
         <div class="alt-grid row" style="height:30px;width:100%;color:white;font-weight:bold;text-align:center" id="total_progress">  </div>      
