@@ -177,7 +177,8 @@
     height: 15px;
     width: 49%;
     float: center;
-    padding: 5px;
+    padding: 3px;
+    text-align: center;
   }
   tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -191,9 +192,10 @@
   #ltd {
     height: 10px;
     width: 49%;
-    border: 2;
     border-color: white;
-    padding: 5px;
+    border-left: 1px solid white;
+    padding: 3px;
+    text-align: right;
   }
   #shtd {
     height: 10px;
@@ -520,11 +522,11 @@
               {
                 new_photos = "<span style='font-size:xx-small;color:red'>+"+(stats[n]["image_count"]-old_photos)+'</span>';
               }
-              $('#table').append('<tr id="'+u+'"><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+              $('#table').append('<tr id="'+u+'"><td  id="ltd" style="text-align: left;"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd"></td><td id="ltd">0</td></tr>');
               setCookie(u, stats[n]["image_count"], 30);
               
             }
-            $('#table').append('<tr id="unclaimed"><td  id="ltd">[unclaimed]</td><td  id="ltd"></td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+            $('#table').append('<tr id="unclaimed"><td  id="ltd" style="text-align: left">[unclaimed]</td><td  id="ltd"></td><td  id="ltd"></td><td id="ltd">0</td></tr>');
           }
         });
         url = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
