@@ -673,7 +673,7 @@
                 feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
                 if (ratio > 0) {
-                  console.log("Grid " + gridnumber + ": " + ratio + "% mapped.");
+                  console.log("Grid " + gridnumber + ": "+unique_distance +" of "+potentialdistance +"(" + ratio + "%) mapped. Call: "+distanceurl); 
                 }
                 if(ratio>100) ratio=100;
                 ratio = Math.round(ratio / 10);
