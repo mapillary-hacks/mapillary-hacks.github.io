@@ -209,7 +209,7 @@ function fly(id) {
       map.fitBounds([[-5.142222,41.338779],[9.561556,51.092804]]);
       break;
     case 'spain':
-      map.fitBounds([[-18.167226,27.642239],[4.337087,43.793443]]);
+      map.fitBounds([[-9.290778,35.937668],[4.315389,43.791721]]);
       break;
     case 'morocco':
       map.fitBounds([[-17.013743,21.419971],[-1.031999,35.926519]]);
@@ -257,7 +257,7 @@ function fly(id) {
       map.fitBounds([[19.998903,-26.907545],[29.375304,-17.778158]]);
       break;
     case 'zafrica':
-      map.fitBounds([[16.47055,-46.965814],[37.978281,-22.126452]]);
+      map.fitBounds([[13.47055,-34.965814],[29.978281,-24.126452]]);
       break;
   }
 
@@ -355,7 +355,7 @@ map.on('click', function (e) {
   sequenceComponent.stop();
   map.flyTo({
       center: [lng,lat],
-      zoom: 15,
+      zoom: 14,
   });
 
   var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&closeto="+ lng + "," + lat;
