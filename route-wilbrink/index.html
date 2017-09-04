@@ -165,7 +165,8 @@ td {
     </div>
   </div>
 </div>
-<div id='mly'><script>
+<div id='mly'>
+  <script>
       var mly = new Mapillary.Viewer(
           'mly',
           'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
@@ -182,7 +183,10 @@ td {
               renderMode: Mapillary.RenderMode.Fill
           }
       );
-  </script></div>
+
+  </script>
+  <center><div id='mjsinfo' style="display:inline-block;margin-top:48%;position:relative;vertical-align: middle;">Click on the map to view nearby images</div></center>
+</div>
 <script>
 var currentLocation = ''
 function fly(id) {
@@ -331,6 +335,17 @@ map.on('style.load', function () {
       }
   }, 'waterway-label');
   map.addLayer({
+      'id': 'mapillary-overview',
+      'type': 'circle',
+      'source': 'mapillary2',
+      'source-layer': 'mapillary-sequence-overview',
+      'paint': {
+          'circle-opacity': 0.5,
+          'circle-color':   'rgb(53, 175, 109)',
+          'circle-radius':   3
+      }
+  }, 'waterway-label');
+  map.addLayer({
        'id': 'mapillary',
        'type': 'circle',
        'source': 'mapillary',
@@ -353,6 +368,11 @@ map.on('click', function (e) {
   var lat = JSON.stringify(e.lngLat["lat"]);
   var sequenceComponent = mly.getComponent("sequence");
   sequenceComponent.stop();
+  try {
+    $("#mjsinfo").hide();
+  } catch(err) {
+    //do nothing
+  }
   map.flyTo({
       center: [lng,lat],
       zoom: 14,
