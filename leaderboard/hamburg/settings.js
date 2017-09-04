@@ -1,6 +1,6 @@
 var high = [];
-var med = [];
-var low = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+var med = [4,8,9,12,13,14,16];
+var low = [1,2,3,5,6,7,10,11,15];
 
 var maxdate = Date.now(); //don't change this
 var mindate = (1503655200000); //set to show epoch milliseconds of the start date
