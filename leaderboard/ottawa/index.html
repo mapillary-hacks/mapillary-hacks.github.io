@@ -524,7 +524,7 @@
               {
                 new_photos = "<span style='font-size:xx-small;color:red'>+"+(stats[n]["image_count"]-old_photos)+'</span>';
               }
-              $('#table').append('<tr id="'+u+'"><td  id="ltd" style="text-align: left;"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+              $('#table').append('<tr id="'+u+'"><td  id="ltd" style="text-align: left;"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd">0</td><td id="ltd">0</td></tr>');
               setCookie(u, stats[n]["image_count"], 30);
               total_new_photos+=stats[n]["image_count"];
               
@@ -539,7 +539,7 @@
           url: url,
           success: function (stats) {
             for (n = 0; n < stats.length; n++) {
-              $('#'+stats[n]["username"]).find("td:eq(2)").text(Math.round(stats[n]["unique_distance"]/1000)+' km');
+              $('#'+stats[n]["username"]).find("td:eq(2)").text(Math.round(stats[n]["unique_distance"]/100)/10);
               total_new_meters+=stats[n]["unique_distance"];
             }            
           }
@@ -668,7 +668,7 @@
                 maptimeAdd();
                 $body.removeClass("loading");
                 $('#total_progress').html("Total covered: "+Math.round(total_unique_distances/1000)+" of "+Math.round(total_potentials/1000)+" km" +
-                "<br>Challenge: "+total_new_photos+" images, "+Math.round(total_new_meters/1000)+" km");
+                "<br>Challenge: "+total_new_photos+" images, "+Math.round(total_new_meters/1000)+" new km");
               }                
             }).done(function(stats) {
                 for (g = 0; g < stats.length; g++) {
