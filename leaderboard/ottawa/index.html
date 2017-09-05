@@ -610,7 +610,7 @@
             };
         };
 
-        var total_levels = 11;    //0,10,20,...,100, rounding down
+        var total_levels = 5;    //0,10,20,...,100, rounding down
         var levels = [[],[],[],[],[],[],[],[],[],[],[]];
         var user_squares = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //2-dim array of squares owned by each user; [0]=1st in the leaderboard, [1]=2nd, etc
         var total_unique_distances=0;
@@ -678,10 +678,10 @@
                 feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
                 if (ratio > 0) {
-                  console.log("Grid " + gridnumber + ": "+unique_distance +" of "+potentialdistance +"(" + ratio + "%) mapped. Call: "+distanceurl); 
+                  //console.log("Grid " + gridnumber + ": "+unique_distance +" of "+potentialdistance +"(" + ratio + "%) mapped. Call: "+distanceurl); 
                 }
-                if(ratio>100) ratio=100;
-                ratio = Math.round(ratio / 10);
+                if(ratio>99) ratio=99;
+                ratio = Math.floor(ratio / 20);
                 levels[ratio].push(gridnumber);
                 total_unique_distances += unique_distance;        
                 total_potentials += potentialdistance;                
@@ -719,7 +719,7 @@
                         'fill-opacity': .65
                         }
                     });
-                    //console.log('Added layer for '+i*10+'%. Color: '+[(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') );
+                    //console.log('Added layer for '+i*20+'%. Color: '+[(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') );
                 }
                 map.addLayer({
                   "id": "maptime-label",
@@ -739,7 +739,7 @@
                 });
                 $('#table tr').click(function() {
                     var rowIndex = $(this).prevAll().length;
-                    for(var i=0; i<11; i++)
+                    for(var i=0; i<total_levels; i++)
                     {
                         var filters = map.getFilter('maptimelayer-'+i);
                         var newfilter = ["in", "id_1",...user_squares[rowIndex]];
