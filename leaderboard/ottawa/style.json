@@ -3272,6 +3272,11 @@
                         "service:parking_aisle"
                     ],
                     [
+                        "!=",
+                        "type",
+                        "service:drive_through"
+                    ],
+                    [
                         "!in",
                         "structure",
                         "bridge",
