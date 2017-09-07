@@ -1,6 +1,6 @@
 var high = [11];
-var med = [1,2,4,5,6,7,8,10,];
-var low = [3,9,12];
+var med = [2,3,4,5,7,10];
+var low = [1,6,8,9,12];
 
 var maxdate = Date.now(); //don't change this
 var mindate = (1503608400000); //set to show epoch milliseconds of the start date
@@ -15,8 +15,8 @@ var docTitle = 'Complete the Map: Helsinki - Mapillary'; //text next to favicon 
 
 var challengeLng = 24.9384; //center of the map
 var challengeLat = 60.1699; //center of the map
-var challengeZoom = 14; //zoom for desktop browser
-var mobileZoom = 12; //should be challengeZoom minus 2 usually
+var challengeZoom = 12; //zoom for desktop browser
+var mobileZoom = 10; //should be challengeZoom minus 2 usually
 
 var facebookShare = 'url.com'; //link for facebook sharing
 var twitterShare = 'url.com'; //link for twitter sharing

@@ -459,7 +459,7 @@
       mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
       var map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9',
+          style: 'style.json',
           center: [challengeLng,
           challengeLat],
           zoom: challengeZoom
@@ -657,6 +657,7 @@
             });
             
             var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
+            
             $.ajax({
               dataType: "json",
 //              async: false, // Makes sure to wait for load
@@ -677,6 +678,7 @@
                 }
                 feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
+
                 if (ratio > 0) {
                   //console.log("Grid " + gridnumber + ": "+unique_distance +" of "+potentialdistance +"(" + ratio + "%) mapped. Call: "+distanceurl); 
                 }
@@ -957,7 +959,6 @@
                 console.log(url);
                 if (!data.features[0]) {
                   $("#mjstext").text("There are no new challenge images in this area. Go map it!");
-                  console.log("test");
                 } else {
                   $("#mjstext").remove();
                 };

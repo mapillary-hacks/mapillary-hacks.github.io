@@ -378,7 +378,7 @@
         <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Click on the map to display an image!</h4>
           <script>
               var maxdate = Date.now();
-              var mindate = (1498204800000) //set to show epoch milliseconds of the start date
+ //             var mindate = (1498204800000) //set to show epoch milliseconds of the start date
               var mjs = new Mapillary.Viewer(
                   'mjs',
                   'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
@@ -587,7 +587,7 @@
                   "type": "symbol",
                   "source": "maptime",
                   "layout": {
-                    "text-field": "{Id}",
+                    "text-field": "{id}",
                     "text-font": [
                       "DIN Offc Pro Medium",
                       "Arial Unicode MS Bold"
@@ -666,9 +666,9 @@
       var low = Array.apply(null, {length: N}).map(Number.call, Number)
       var med = [];
       var high = []; */
-      lowfilter = ["in", "Id",...low]
-      medfilter = ["in", "Id",...med]
-      highfilter = ["in", "Id",...high]
+      lowfilter = ["in", "id",...low]
+      medfilter = ["in", "id",...med]
+      highfilter = ["in", "id",...high]
 
 
       //

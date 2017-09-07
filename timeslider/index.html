@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Time Slider</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel='shortcut icon' type='image/x-icon' href='favicon.png'>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js'></script>
+  <style>
+    #map {
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:100%;
+      height:100%;
+      z-index: -1;
+    }
+    html, body {
+       position:fixed;
+       top:0;
+       bottom:0;
+       left:0;
+       right:0;
+       background-color: black;
+    }
+    .map-overlay {
+        font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        position: relative;
+        width: 15vw;
+        top: 0;
+        left: 1vh;
+        font-weight: bold;
+    }
+    .map-overlay .map-overlay-inner {
+        background-color: #a9a9a9;
+        box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+        border-radius: 3px;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    .map-overlay label {
+        display: block;
+        margin: 0 0 10px;
+    }
+
+    .map-overlay input {
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        margin: 0;
+        cursor: ew-resize;
+    }
+    #menu {
+        position: relative;
+        background: #a9a9a9;
+        width: 15vh;
+        left: 1vh;
+        padding: 5px;
+        font-family: 'Open Sans', sans-serif;
+        box-shadow:0;
+    }
+    input {
+        border: 0px solid;
+        padding: 1px;
+        font-weight: bold;
+    }
+    .btn {
+      padding: 5px;
+      cursor: pointer;
+    }
+    .mbtn {
+      padding: 5px;
+      cursor: pointer;
+    }
+    #dateselect {
+      padding: 5px;
+      left: 1vh;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      background: 'white';
+      color: 'white';
+      width: 15vh;
+      height: 15vh;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class='map-overlay top'>
+    <div id='dateselect'>
+      <font color='white'>From: </font><input type="date" id="start_date" style='color:black;' />
+      <font color='white'>To: </font><input type="date" id="end_date" style='color:black;' /><br><br>
+      <button onclick='addMapillary()'><b>Apply Date Filter</b></button>
+    </div><br>
+    <div class='map-overlay-inner'>
+        <label>Mapillary Progress: <br><span id='slider-value'> </span></label>
+        <input id='slider' type='range' min='1' max='' step='1' value='1' /><br>
+        <button onclick='play()'><b>Play</b></button>
+        <script>
+        var start_time = new Date("January 1, 2010");
+        var end_time = new Date();
+        var maxdate = end_time.getTime();
+        var mindate = start_time.getTime();
+        var days = (maxdate - mindate)/86400000;
+        console.log(days);
+        document.getElementById('slider').max = days;
+        document.getElementById('slider').value = days;
+        document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since ' + start_time;
+        function applyDates() {
+          if ($('#start_date').val()) {
+            start_time = $('#start_date').val();
+            mindate = new Date(start_time).getTime();
+          } else {
+            start_time = new Date("January 1, 2010");
+            mindate = start_time.getTime();
+          }
+          if ($('#end_date').val()) {
+            end_time = $('#end_date').val();
+            maxdate = new Date(end_time).getTime();
+          } else {
+            end_time = new Date();
+            maxdate = end_time.getTime();
+          }
+          days = (maxdate - mindate)/86400000;
+          document.getElementById('slider').max = days;
+          document.getElementById('slider').value = days;
+          document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since ' + start_time;
+        }
+        </script>
+    </div>
+
+    <div class='map-overlay-inner'>
+      <div id='dark' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: Dark</div>
+      <div id='streets' class='btn'>Basemap: Streets</div>
+    </div>
+</div>
+<div id='map'></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v9',
+    center: [0,
+          0],
+    zoom: 2
+});
+
+var layerList = document.getElementById('menu');
+var inputs = $('.btn');
+var count = 0
+
+var mapillarySource = {
+    type: 'vector',
+    tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+    minzoom: 0,
+    maxzoom: 14,
+};
+
+function play() {
+  var x = 1;
+  sliderValue.textContent = 1 + ' days since ' + start_time;
+  slider.value = 1;
+  console.log (days + " days in date range while playing.");
+  function myLoop() {
+    setTimeout( function() {
+      var daysleft = days - x;
+      sliderValue.textContent = x + ' days since ' + start_time;
+      slider.value = x;
+      console.log(daysleft);
+      var newDate = (mindate + (86400000 * x));
+      map.removeLayer('mapillary','mapillary-o');
+      map.addLayer({
+           'id': 'mapillary',
+           'type': 'line',
+           'source': 'mapillary',
+           'source-layer': 'mapillary-sequences',
+           'filter': ['all',
+                   ['>=', 'captured_at', mindate],
+                   ['<=', 'captured_at', newDate]],
+           'layout': {
+               'line-cap': 'round',
+               'line-join': 'round'
+           },
+           'paint': {
+               'line-opacity': 0.75,
+               'line-color':   'rgb(53, 175, 109)',
+               'line-width':   2
+           }
+       }, 'airport-label');
+       map.addLayer({
+           'id': 'mapillary-o',
+           'type': 'circle',
+           'source': 'mapillary',
+           'source-layer': 'mapillary-sequence-overview',
+           'filter': ['all',
+                   ['>=', 'captured_at', mindate],
+                   ['<=', 'captured_at', newDate]],
+           'paint': {
+               'circle-opacity': 0.75,
+               'circle-color':   'rgb(53, 175, 109)',
+               'circle-radius':   2
+           }
+      }, 'airport-label');
+      x++;
+      if (x < days) {
+        myLoop();
+      }
+    }, 200);
+  }
+  myLoop();
+}
+  /*
+  for (x = 1; x < days; x++) {
+    setTimeout(function () {
+        var daysleft = days - x;
+        $('slider').value = 20;
+        console.log(x);
+        var newDate = (maxdate-(86400000 * daysleft));
+        map.removeLayer('mapillary','mapillary-o');
+        map.addLayer({
+             'id': 'mapillary',
+             'type': 'line',
+             'source': 'mapillary',
+             'source-layer': 'mapillary-sequences',
+             'filter': ['all',
+                     ['>=', 'captured_at', newDate],
+                     ['<=', 'captured_at', maxdate]],
+             'layout': {
+                 'line-cap': 'round',
+                 'line-join': 'round'
+             },
+             'paint': {
+                 'line-opacity': 0.75,
+                 'line-color':   'rgb(53, 175, 109)',
+                 'line-width':   2
+             }
+         });
+         map.addLayer({
+             'id': 'mapillary-o',
+             'type': 'circle',
+             'source': 'mapillary',
+             'source-layer': 'mapillary-sequence-overview',
+             'filter': ['all',
+                     ['>=', 'captured_at', mindate],
+                     ['<=', 'captured_at', maxdate]],
+             'paint': {
+                 'circle-opacity': 0.75,
+                 'circle-color':   'rgb(53, 175, 109)',
+                 'circle-radius':   2
+             }
+         });
+        var sliderValue = document.getElementById('slider-value');
+        sliderValue.textContent = x + ' days since ' + start_time;
+      }, 3000);
+  }
+  */
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+    switch (layerId) {
+      case 'dark':
+        dark.style.backgroundColor = "#333333";
+        dark.style.color = "#FFF";
+        streets.style.backgroundColor = "#a9a9a9";
+        streets.style.color = "#000";
+        break;
+      case 'streets':
+        streets.style.backgroundColor = "#333333";
+        streets.style.color = "#FFF";
+        dark.style.backgroundColor = "#a9a9a9";
+        dark.style.color = "#000";
+        break;
+    };
+};
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+
+var slider = document.getElementById('slider');
+var sliderValue = document.getElementById('slider-value');
+
+function addMapillary() {
+  applyDates();
+  days = (maxdate - mindate)/86400000;
+  try {
+    map.removeLayer('mapillary','mapillary-o');
+    map.removeSource('mapillary');
+  } catch(err) {
+    //do nothing
+  }
+  console.log("Dates are from " + start_time + " until " + end_time);
+  map.addSource('mapillary', mapillarySource);
+  map.addLayer({
+     'id': 'mapillary',
+     'type': 'line',
+     'source': 'mapillary',
+     'source-layer': 'mapillary-sequences',
+     'filter': ['all',
+             ['>=', 'captured_at', mindate],
+             ['<=', 'captured_at', maxdate]],
+     'layout': {
+         'line-cap': 'round',
+         'line-join': 'round'
+     },
+     'paint': {
+         'line-opacity': 0.75,
+         'line-color':   'rgb(53, 175, 109)',
+         'line-width':   2
+     }
+ }, 'airport-label');
+ map.addLayer({
+     'id': 'mapillary-o',
+     'type': 'circle',
+     'source': 'mapillary',
+     'source-layer': 'mapillary-sequence-overview',
+     'filter': ['all',
+             ['>=', 'captured_at', mindate],
+             ['<=', 'captured_at', maxdate]],
+     'paint': {
+         'circle-opacity': 0.75,
+         'circle-color':   'rgb(53, 175, 109)',
+         'circle-radius':   2
+     }
+ }, 'airport-label');
+}
+
+map.on('style.load', function () {
+
+  addMapillary()
+
+  slider.addEventListener('input', function(e) {
+          var newDate = (maxdate-(86400000 * e.target.value))
+          map.removeLayer('mapillary','mapillary-o');
+          map.addLayer({
+               'id': 'mapillary',
+               'type': 'line',
+               'source': 'mapillary',
+               'source-layer': 'mapillary-sequences',
+               'filter': ['all',
+                       ['>=', 'captured_at', newDate],
+                       ['<=', 'captured_at', maxdate]],
+               'layout': {
+                   'line-cap': 'round',
+                   'line-join': 'round'
+               },
+               'paint': {
+                   'line-opacity': 0.75,
+                   'line-color':   'rgb(53, 175, 109)',
+                   'line-width':   2
+               }
+           }, 'airport-label');
+           map.addLayer({
+               'id': 'mapillary-o',
+               'type': 'circle',
+               'source': 'mapillary',
+               'source-layer': 'mapillary-sequence-overview',
+               'filter': ['all',
+                       ['>=', 'captured_at', mindate],
+                       ['<=', 'captured_at', maxdate]],
+               'paint': {
+                   'circle-opacity': 0.75,
+                   'circle-color':   'rgb(53, 175, 109)',
+                   'circle-radius':   2
+               }
+           }, 'airport-label');
+          // Value indicator
+          sliderValue.textContent = e.target.value + ' days since ' + start_time;
+
+      });
+
+});
+
+  map.addControl(new mapboxgl.Navigation());
+</script>
+</body>
+</html>

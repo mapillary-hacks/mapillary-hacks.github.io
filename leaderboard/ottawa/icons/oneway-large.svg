@@ -1,0 +1,8 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="19.135" height="10.482" viewBox="0 0 19.135 10.482">
+  <title>oneway-large</title>
+  <g opacity="0.65">
+    <path d="M17.8,5.6,13,2v2.55H2.2A1.081,1.081,0,0,0,1,5.6c0,.663.537.95,1.2.95H13V9.2Z" transform="translate(0 -0.358)" fill="#fff"/>
+    <path d="M12,10.48V7.549H2.2A1.975,1.975,0,0,1,0,5.6a2.082,2.082,0,0,1,2.2-2.05H12V.718a.36.36,0,0,1,.575-.288L18.936,5.2a.5.5,0,0,1,0,.8l-6.361,4.771A.36.36,0,0,1,12,10.48ZM2.2,5.549H14V7.2l2.133-1.6L14,4v1.55Z" transform="translate(0 -0.358)" fill="#fff"/>
+  </g>
+  <path d="M17.8,5.6,13,2v2.55H2.2A1.081,1.081,0,0,0,1,5.6c0,.663.537.95,1.2.95H13V9.2Z" transform="translate(0 -0.358)" fill="#2e5ae5"/>
+</svg>
