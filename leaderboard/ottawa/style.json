@@ -1005,6 +1005,98 @@
             "interactive": true
         },
         {
+            "interactive": true,
+            "layout": {
+                "visibility": "visible",
+                "line-cap": "butt",
+                "line-join": "round"
+            },
+            "metadata": {
+                "mapbox:group": "1444855786460.0557"
+            },
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "class",
+                    "path"
+                ],
+                [
+                    "!in",
+                    "structure",
+                    "bridge",
+                    "tunnel"
+                ]
+            ],
+            "type": "line",
+            "source": "composite",
+            "id": "road-path",
+            "minzoom": 10,
+            "paint": {
+                "line-width": {
+                    "base": 1.5,
+                    "stops": [
+                        [
+                            15,
+                            1
+                        ],
+                        [
+                            18,
+                            4
+                        ]
+                    ]
+                },
+                "line-color": "#fff",
+                "line-dasharray": {
+                    "base": 1,
+                    "stops": [
+                        [
+                            14,
+                            [
+                                1,
+                                0
+                            ]
+                        ],
+                        [
+                            15,
+                            [
+                                1.75,
+                                1
+                            ]
+                        ],
+                        [
+                            16,
+                            [
+                                1,
+                                0.75
+                            ]
+                        ],
+                        [
+                            17,
+                            [
+                                1,
+                                0.5
+                            ]
+                        ]
+                    ]
+                },
+                "line-opacity": {
+                    "base": 1,
+                    "stops": [
+                        [
+                            14,
+                            0
+                        ],
+                        [
+                            14.25,
+                            1
+                        ]
+                    ]
+                }
+            },
+            "source-layer": "road"
+        },
+        {
             "id": "building-line",
             "type": "line",
             "source": "composite",
@@ -1054,7 +1146,8 @@
                 }
             },
             "interactive": true
-        },
+        }
+        ,
         {
             "id": "tunnel-street-low",
             "type": "line",
@@ -3164,7 +3257,7 @@
             },
             "source": "composite",
             "source-layer": "road",
-            "minzoom": 15,
+            "minzoom": 13,
             "filter": [
                 "all",
                 [
@@ -3178,6 +3271,11 @@
                         "!=",
                         "type",
                         "service:driveway"
+                    ],
+                    [
+                        "!=",
+                        "type",
+                        "service:parking_aisle"
                     ],
                     [
                         "!in",
