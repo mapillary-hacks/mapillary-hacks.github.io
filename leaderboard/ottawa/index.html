@@ -60,11 +60,11 @@
   .map-overlay {
       font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
       position: absolute;
-      width: 30vw;
+      width: 20vw;
       top: 0;
       left: 0;
       color: "#fff";
-      height: 100vh;
+      height: 40vh;
       font-weight: bold;
       z-index: 2;
   }
@@ -97,7 +97,6 @@
   #menu {
       position: absolute;
       background: #36AF6D;
-      width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
@@ -107,7 +106,6 @@
   #menu2 {
       position: relative;
       background: #36AF6D;
-      width: 50%;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
       box-shadow:0;
@@ -179,7 +177,8 @@
     height: 15px;
     width: 49%;
     float: center;
-    padding: 5px;
+    padding: 3px;
+    text-align: center;
   }
   tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -193,9 +192,10 @@
   #ltd {
     height: 10px;
     width: 49%;
-    border: 2;
     border-color: white;
-    padding: 5px;
+    border-left: 1px solid white;
+    padding: 3px;
+    text-align: right;
   }
   #shtd {
     height: 10px;
@@ -336,14 +336,24 @@
   height:     100%;
   width:      100%;
   background: rgba( 0, 0, 0, .8 )
-              url('ajax-loader.gif')
-              50% 50%
-              no-repeat;
+              
   }
   body.loading {
       overflow: hidden;
   }
   body.loading .modal {
+      display: block;
+  }
+  .prog {
+      display:    none;
+      z-index:    1001;
+      position: absolute;
+      width: 200px;
+      top: 50%;
+      left: 50%;
+      margin: 0 0 0 -100px;      
+  }
+  body.loading .prog {
       display: block;
   }
   </style>
@@ -366,7 +376,7 @@
         <div id='logo' style="margin-left:10%;">
           <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
         </div> -->
-        <div class='map-overlay-inner' id='menu2' style="width:50%;">
+        <div class='map-overlay-inner' id='menu2'>
                                    <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><a href ="http://bit.ly/2vjd9ww" target="_blank">Challenge Instructions</a><br><span id='slider-value'> </span></center></label>
             <input id='slider' type='range' min='1' max='38' step='1' value='' style='margin-bottom:1vh;' />
             <script>
@@ -394,7 +404,7 @@
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show challenge grid</div>
         </div>
 
-        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Click on the map to display an image!</h4>
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Double-click on the map to display an image!</h4>
           <script>
               var maxdate = Date.now();
               var mjs = new Mapillary.Viewer(
@@ -423,6 +433,29 @@
 
       <script>
 
+      function setCookie(cname, cvalue, exdays) {
+          var d = new Date();
+          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+          var expires = "expires="+d.toUTCString();
+          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+
+      function getCookie(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i = 0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+              }
+          }
+          return "";
+      }
+      
+
       mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
       var map = new mapboxgl.Map({
           container: 'map',
@@ -432,12 +465,15 @@
           zoom: challengeZoom
       });
 
-    //  map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
+      map.addControl(new mapboxgl.NavigationControl({position: 'top-right'}));
+      map.addControl(new mapboxgl.ScaleControl());  
 
       var layerList = document.getElementById('menu');
       var inputs = layerList.getElementsByClassName('btn2');
       var count = 0;
       var count2 = 0;
+      var total_new_photos = 0;
+      var total_new_meters = 0;
 
       var userjson = "usernames.json";
       var url;
@@ -482,8 +518,30 @@
           success: function (stats) {
             for (n = 0; n < stats.length; n++) {
               var u = stats[n]["username"];
-              $('#table').append('<tr><td  id="ltd"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + '</td></tr>');
+              var old_photos = getCookie(u);
+              var new_photos = '';
+              if(old_photos!='' && old_photos<stats[n]["image_count"])
+              {
+                new_photos = "<span style='font-size:xx-small;color:red'>+"+(stats[n]["image_count"]-old_photos)+'</span>';
+              }
+              $('#table').append('<tr id="'+u+'"><td  id="ltd" style="text-align: left;"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd">0</td><td id="ltd">0</td></tr>');
+              setCookie(u, stats[n]["image_count"], 30);
+              total_new_photos+=stats[n]["image_count"];
+              
             }
+            $('#table').append('<tr id="unclaimed"><td  id="ltd" style="text-align: left">[unclaimed]</td><td  id="ltd"></td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+          }
+        });
+        url = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: url,
+          success: function (stats) {
+            for (n = 0; n < stats.length; n++) {
+              $('#'+stats[n]["username"]).find("td:eq(2)").text(Math.round(stats[n]["unique_distance"]/100)/10);
+              total_new_meters+=stats[n]["unique_distance"];
+            }            
           }
         });
       });
@@ -552,9 +610,11 @@
             };
         };
 
-        var high = [];
-        var med = [];
-        var low = [];
+        var total_levels = 5;    //0,10,20,...,100, rounding down
+        var levels = [[],[],[],[],[],[],[],[],[],[],[]];
+        var user_squares = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //2-dim array of squares owned by each user; [0]=1st in the leaderboard, [1]=2nd, etc
+        var total_unique_distances=0;
+        var total_potentials=0;
         var potentials = [];
         var unique_distances = [];
         var ottawa;
@@ -569,6 +629,7 @@
             }
           });
           var N = ottawa.features.length;
+          var Ncount=0;
           var numbers = Array.apply(null, {length: N}).map(Number.call, Number);
           $(numbers).each(function() {
 //          for (s = 0; s < ottawa.features.length; s++) {
@@ -578,38 +639,54 @@
             var gridnumber = feature.properties.id_1;
             var potentialdistance = feature.properties.meters;
             var unique_distance = 0;
-            var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
+            var imagesurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
+            //pull image count for each square, find leader/runner-up
+            $.ajax({
+              dataType: "json",
+              //async: false, // Makes sure to wait for load
+              url: imagesurl,
+            }).done(function(stats) {  
+                feature.properties.leader = stats.length<1?"unclaimed":stats[0]["username"];
+                feature.properties.leader_count = stats.length<1?"0":stats[0]["image_count"];
+                feature.properties.runnerup = stats.length<2?"unclaimed":stats[1]["username"];
+                feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
+
+                $('#'+feature.properties.leader).find("td:eq(3)").text(parseInt($('#'+feature.properties.leader).find("td:eq(3)").text())+1);
+                var row = $('#'+feature.properties.leader).prevAll().length;
+                user_squares[row].push(gridnumber);
+            });
+            
+            var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
+            
             $.ajax({
               dataType: "json",
 //              async: false, // Makes sure to wait for load
               url: distanceurl,
-              success: function (stats) {
+            }).always(function() {  
+              $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');  
+              if ( Ncount++ == N-1)  
+              {
+                maptimeAdd();
+                $body.removeClass("loading");
+                $('#total_progress').html("Total covered: "+Math.round(total_unique_distances/1000)+" of "+Math.round(total_potentials/1000)+" km" +
+                "<br>Challenge: "+total_new_photos+" images, "+Math.round(total_new_meters/1000)+" new km");
+              }                
+            }).done(function(stats) {
                 for (g = 0; g < stats.length; g++) {
                   var distance = stats[g]["unique_distance"]
                   unique_distance = unique_distance + distance;
-    //              console.log("Unique distance for square " + gridnumber + " is " + unique_distance + ".")
-  //                console.log("Square " + gridnumber + " is " + (unique_distance/potentialdistance * 100) + " percent mapped.");
                 }
+                feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
-                if (ratio > 70) {
-                  high.push(gridnumber);
-                }
-                if (ratio > 20 && ratio < 70) {
-                  med.push(gridnumber);
-                }
-                if (ratio < 20) {
-                  low.push(gridnumber);
-                }
+
                 if (ratio > 0) {
-//                  console.log("Grid " + gridnumber + ": " + ratio + "% mapped.");
+                  //console.log("Grid " + gridnumber + ": "+unique_distance +" of "+potentialdistance +"(" + ratio + "%) mapped. Call: "+distanceurl); 
                 }
-              }
-            }).done(function() {
-              var sum = (low.length + med.length + high.length);
-              if ( sum == N-1) {
-                maptimeAdd();
-                $body.removeClass("loading");
-              }
+                if(ratio>99) ratio=99;
+                ratio = Math.floor(ratio / 20);
+                levels[ratio].push(gridnumber);
+                total_unique_distances += unique_distance;        
+                total_potentials += potentialdistance;                
             });
           })
         };
@@ -617,10 +694,7 @@
 
 
         function maptimeAdd() {
-            var lowfilter = ["in", "id_1",...low];
-            var medfilter = ["in", "id_1",...med];
-            var highfilter = ["in", "id_1",...high];
-            switch (count2) {
+           switch (count2) {
               case 0:
                 maptime.style.backgroundColor = "#FF861B";
                 count2 = 1;
@@ -628,51 +702,27 @@
                     'type': 'geojson',
                     'data': 'square.geojson'
                 });
-                map.addLayer({
-                    'id': 'maptimelayer-low',
+                var half = Math.floor(total_levels/2);
+                for(var i=0; i<total_levels; i++)
+                {    
+                    map.addLayer({
+                    'id': 'maptimelayer-'+i,
                     'type': 'fill',
                     'source': 'maptime',
                     'filter': ['all',
-                            lowfilter],
+                            ["in", "id_1",...levels[i]]],
                     'paint': {
-                        'fill-color': 'red',
+                        'fill-color': 'rgb(' + [(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') + ')',    //gradient red->yellow->green
                         'fill-outline-color' : "white",
         //                {
         //                  'property': 'fill',
         //                  'type': 'identity'
         //                },
                         'fill-opacity': .65
-                    }
-                });
-                map.addLayer({
-                    'id': 'maptimelayer-med',
-                    'type': 'fill',
-                    'source': 'maptime',
-                    'filter': ['all',
-                            medfilter],
-                    'paint': {
-                        'fill-color': 'gold',
-                        'fill-outline-color' : "white",
-                        'fill-opacity': .65
-                    }
-                });
-                map.addLayer({
-                    'id': 'maptimelayer-high',
-                    'type': 'fill',
-                    'source': 'maptime',
-                    'filter': ['all',
-                            highfilter],
-                    'paint': {
-                        'fill-color': 'green',
-                        'fill-outline-color' : "white",
-        //                {
-        //                  'property': 'fill',
-        //                  'type': 'identity'
-        //                },
-                        'fill-opacity': .65
-                    }
-                });
-                console.log(high);
+                        }
+                    });
+                    //console.log('Added layer for '+i*20+'%. Color: '+[(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') );
+                }
                 map.addLayer({
                   "id": "maptime-label",
                   "type": "symbol",
@@ -689,22 +739,40 @@
                           'text-color': 'white'
                   }
                 });
+                $('#table tr').click(function() {
+                    var rowIndex = $(this).prevAll().length;
+                    for(var i=0; i<total_levels; i++)
+                    {
+                        var filters = map.getFilter('maptimelayer-'+i);
+                        var newfilter = ["in", "id_1",...user_squares[rowIndex]];
+                        if(JSON.stringify(newfilter)==JSON.stringify(filters[2])) {
+                            filters.splice(2, 1);
+                        }
+                        else {
+                            filters[2]=newfilter;                        
+                        }    
+                            
+                        map.setFilter('maptimelayer-'+i, filters);
+                    }
+                });
                 break;
               case 1:
                 maptime.style.backgroundColor = "#36AF6D";
                 count2 = 0;
-                map.removeLayer('maptimelayer-low');
-                map.removeLayer('maptimelayer-med');
-                map.removeLayer('maptimelayer-high');
+                for(var i=0; i<total_levels; i++)
+                {
+                    map.removeLayer('maptimelayer-'+i);
+                } 
                 map.removeLayer('maptime-label');
                 map.removeSource('maptime');
                 break;
             };
+            
         };
 
         function switchLayer(layer) {
             var layerId = layer.target.id;
-            map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+            //map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
             switch (layerId) {
               case 'streets':
                 streets.style.backgroundColor = "#333333";
@@ -866,7 +934,7 @@
             });
         });
 
-        map.on('click', function (e) {
+        map.on('dblclick', function (e) {
           var lng = JSON.stringify(e.lngLat["lng"]);
           var lat = JSON.stringify(e.lngLat["lat"]);
           var sequenceComponent = mjs.getComponent("sequence");
@@ -934,6 +1002,35 @@
           });
         });
 
+        var popup = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: false
+        });
+
+        map.on('click', function(e) {
+            var pt = [e.lngLat["lng"],e.lngLat["lat"]];
+            
+            for(var i=0; i<ottawa.features.length; i++)
+            {
+                if(turf.inside(pt, ottawa.features[i])) 
+                {
+                    var feature = ottawa.features[i];
+                    var total_km = Math.round(feature.properties.meters/100)/10;
+                    var covered_km = Math.round(feature.properties.covered_meters/100)/10;
+                    var ratio = Math.round(100*feature.properties.covered_meters/feature.properties.meters);
+                    popup.setLngLat(e.lngLat)
+                        .setHTML('#'+i+
+                            '<br>Total: <b>'+total_km+' km</b>'+
+                            '<br>Covered: <b>'+covered_km+' km</b>'+
+                            '<br>Progress: <b>'+ratio+'%</b>'+
+                            (feature.properties.leader_count==0?'':('<br>Leader: <b>'+feature.properties.leader+'</b> (<b>'+feature.properties.leader_count+'</b> photos)'))+
+                            (feature.properties.runnerup_count==0?'':('<br>Runner-up: <b>'+feature.properties.runnerup+'</b> (<b>'+feature.properties.runnerup_count+'</b> photos)'))
+                            )
+                        .addTo(map);
+                }
+            }
+        });
+
         slider.addEventListener('input', function(e) {
                 var newDate = (mindate+(86400000 * e.target.value))
                 console.log(new Date(newDate));
@@ -974,18 +1071,20 @@
                 // Value indicator
                 sliderValue.textContent = e.target.value + ' days since competition start';
             });
+           
         });
-      </script>
+      </script> 
     </div>
-    <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:1000vh;">
+    <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:100vh;">
       <div class="alt-grid row" style="min-height:87vh;">
         <center><h2 style="color:white;">Leaderboard</h2></center>
-        <br>
+        <div style='align:center;color:white;'><center>click on a row to toggle territory</center></div><br>
         <table id='table'>
           <tr>
-            <th>Username</th><th>Images</th>
+            <th>Username</th><th>Images</th><th>km</th><th>&#9638</th>
           </tr>
         </table>
+        <div class="alt-grid row" style="height:30px;width:100%;color:white;font-weight:bold;text-align:center" id="total_progress">  </div>      
       </div>
       <div class="alt-grid row"style="max-height:8vh;width:100%;" id="share">
           <center><a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a></center>
@@ -1003,6 +1102,13 @@
   </div>
 </div>
 
+
+<div id='prog' class="prog">
+    <div class="progress progress-striped active">
+        <div style="text-align:left;vertical-align:middle;padding-left:5px;text-shadow: 1px 1px 1px #000;" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div>
+</div>
 <div class="modal"><!-- Place at bottom of page --></div>
 
 </body>
