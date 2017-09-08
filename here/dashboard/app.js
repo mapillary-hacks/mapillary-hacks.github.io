@@ -21,25 +21,24 @@ $(document).on("click", "#close", function() {
 
 $(document).on("click", "#table td", function (e) {
   document.getElementById('byCountry').style.display = "block";
-
   var code = this.id;
   var country;
   var countryDates;
   console.log(code);
   var modalURL1 = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + starttime + endtime;
   $('#tableUsers').empty();
-  $('#tableUsers').append('<tr><th>Username</th><th>Images</th><th>Kilometers</th><th>UTM User</th></tr>');
+  $('#export2').empty();
   $('#countryName').empty();
   $('#countryDates').empty();
+  $('#countryName').append('<img src="ajax-loader.gif" />');
   $.post(
     modalURL1,
   {
     iso_countries: code,
     userkeys: userkeys
   }, "json").done(function (data) {
-
+      $('#tableUsers').append('<tr><th>Username</th><th>Images</th><th>Kilometers</th><th>UTM User</th></tr>');
       for (i = 0; i < data.length; i++) {
-        $('#countryName').append('<img src="ajax-loader.gif" />');
         if (data[i]) {
           var item = data[i];
           var user = item.username;
@@ -76,8 +75,9 @@ $(document).on("click", "#table td", function (e) {
               }
           });
         }
-        $('#countryName').empty();
       }
+      $('#countryName').empty();
+      $('#export2').append('<button><b>Export CSV</b></button>');
       $('#countryName').append(document.getElementById(code).innerText);
       if ($('#start_date').val() || $('#end_date').val()) {
           $('#countryDates').append($('#start_date').val() + ' through ' + $('#end_date').val());
