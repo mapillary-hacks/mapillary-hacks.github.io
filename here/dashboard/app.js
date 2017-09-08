@@ -15,6 +15,75 @@ var imagesGrandTotal = 0;
 var kmGrandTotal = 0;
 var starttime = '';
 var endtime = '';
+$(document).on("click", "#close", function() {
+    document.getElementById('byCountry').style.display = "none";
+});
+
+$(document).on("click", "#table td", function (e) {
+  document.getElementById('byCountry').style.display = "block";
+
+  var code = this.id;
+  var country;
+  var countryDates;
+  console.log(code);
+  var modalURL1 = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + starttime + endtime;
+  $('#tableUsers').empty();
+  $('#tableUsers').append('<tr><th>Username</th><th>Images</th><th>Kilometers</th><th>UTM User</th></tr>');
+  $('#countryName').empty();
+  $('#countryDates').empty();
+  $.post(
+    modalURL1,
+  {
+    iso_countries: code,
+    userkeys: userkeys
+  }, "json").done(function (data) {
+
+      for (i = 0; i < data.length; i++) {
+        $('#countryName').append('<img src="ajax-loader.gif" />');
+        if (data[i]) {
+          var item = data[i];
+          var user = item.username;
+          var userkey = item.user_key;
+          var distance = item.total_distance/1000;
+          var images = 0;
+          var color;
+          var modalURL2 = 'https://a.mapillary.com/v3/leaderboard/images?client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000&usernames=' + user + '&iso_countries=' + code + starttime + endtime;
+          $.ajax({
+              dataType: "json",
+              url: modalURL2,
+              async: false,
+              success: function (data) {
+                console.log(data);
+                try {
+                  images = data[0]['image_count'];
+                  console.log(user,distance);
+                  var UTM;
+                  if ($.inArray(userkey, keysUTM) !== -1) {
+                    UTM = true;
+                    color = 'green';
+                  }
+                  if ($.inArray(userkey, keysNonUTM) !== -1) {
+                    UTM = false;
+                    color = 'red';
+                  }
+                  if (images > 0) {
+                    $('#tableUsers').append('<tr><td>' + user + '</td><td>' + formatThousands(images) + '</td><td>' + formatThousands(distance) + '</td><td style="color:' + color + ';">' + UTM + '</td></tr>');
+                    sortTable3(1);
+                  }
+                } catch (err) {
+                  //next operation
+                }
+              }
+          });
+        }
+        $('#countryName').empty();
+      }
+      $('#countryName').append(document.getElementById(code).innerText);
+      if ($('#start_date').val() || $('#end_date').val()) {
+          $('#countryDates').append($('#start_date').val() + ' through ' + $('#end_date').val());
+      }
+    });
+});
 
 function getUsers() {
   $.ajax({
@@ -80,6 +149,41 @@ function sortTable(col) {
   }
 }
 
+function sortTable3(col) {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("tableUsers");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.getElementsByTagName("TR");
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[col];
+      y = rows[i + 1].getElementsByTagName("TD")[col];
+      //check if the two rows should switch place:
+      if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+        //if so, mark as a switch and break the loop:
+        shouldSwitch= true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+
 function sortTable2(col) {
   var table, rows, switching, i, x, y, shouldSwitch;
   table = document.getElementById("table");
@@ -129,14 +233,14 @@ function calculateTotals() {
 
 function applyDates() {
   if ($('#start_date').val()) {
-    var starttime = '&start_time=' + $('#start_date').val();
+    starttime = '&start_time=' + $('#start_date').val();
   } else {
-    var starttime = '';
+    starttime = '';
   }
   if ($('#end_date').val()) {
-    var endtime = '&end_time=' + $('#end_date').val();
+    endtime = '&end_time=' + $('#end_date').val();
   } else {
-    var endtime = '';
+    endtime = '';
   }
   console.log(starttime);
   runAjax(starttime, endtime);
