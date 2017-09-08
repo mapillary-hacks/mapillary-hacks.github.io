@@ -9,9 +9,9 @@ var mindate2 = new Date(mindate).toISOString();
 var partnerLogo = 'https://secure.meetupstatic.com/photos/event/f/7/a/highres_438483962.jpeg';
 var partnerLink = 'https://www.meetup.com/MaptimeSEA/'
 
-var challengeTitle = 'Moscow Challenge'; //text in the slider
-var challengeDate = 'August 25th - September 24th, 2017'
-var docTitle = 'Complete the Map: Moscow - Mapillary'; //text next to favicon on browser window
+var challengeTitle = 'Moscow #CompletetheMap Challenge'; //text in the slider
+var challengeDate = '11 сентября — 12 октября 2017 года'
+var docTitle = 'CompletetheMap: Moscow - Mapillary'; //text next to favicon on browser window
 
 var challengeLng = 37.623281; //center of the map
 var challengeLat = 55.756486; //center of the map
