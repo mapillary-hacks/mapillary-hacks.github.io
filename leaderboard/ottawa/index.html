@@ -1019,7 +1019,7 @@
                     var covered_km = Math.round(feature.properties.covered_meters/100)/10;
                     var ratio = Math.round(100*feature.properties.covered_meters/feature.properties.meters);
                     popup.setLngLat(e.lngLat)
-                        .setHTML('#'+i+
+                        .setHTML('#'+(i+1)+
                             '<br>Total: <b>'+total_km+' km</b>'+
                             '<br>Covered: <b>'+covered_km+' km</b>'+
                             '<br>Progress: <b>'+ratio+'%</b>'+
