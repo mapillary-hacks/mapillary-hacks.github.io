@@ -4,10 +4,6 @@ var count3 = 0;
 var count4 = 0;
 var count5 = 0;
 
-lowfilter = ["in", "Id",...low]
-medfilter = ["in", "Id",...med]
-highfilter = ["in", "Id",...high]
-
 function mlyInit() {
   console.log("adding Mapillary source");
   var mapillarySource = {
@@ -16,12 +12,16 @@ function mlyInit() {
       minzoom: 0,
       maxzoom: 14,
   };
-  map.addSource('mapillary', mapillarySource);
-  map.addSource('mapillarySlider', mapillarySource);
-  map.addSource('maptime', {
-      'type': 'geojson',
-      'data': '../square.geojson'
-  });
+  try {
+    map.addSource('mapillary', mapillarySource);
+    map.addSource('mapillarySlider', mapillarySource);
+    map.addSource('maptime', {
+        'type': 'geojson',
+        'data': '../square.geojson'
+    });
+  } catch (err) {
+    // Do nothing the layer already exists
+  }
 }
 
 function mlyAdd() {
@@ -163,56 +163,35 @@ function maptimeAdd() {
         });
         count2 = 1;
         count4 = 4;
-        map.addLayer({
-            'id': 'maptimelayer-low',
+
+        var half = Math.floor(total_levels/2);
+        for(var i=0; i<total_levels; i++)
+        {    
+            map.addLayer({
+            'id': 'maptimelayer-'+i,
             'type': 'fill',
             'source': 'maptime',
             'filter': ['all',
-                    lowfilter],
+                    ["in", "id_1",...levels[i]]],
             'paint': {
-                'fill-color': 'red',
+                'fill-color': 'rgb(' + [(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') + ')',    //gradient red->yellow->green
                 'fill-outline-color' : "white",
 //                {
 //                  'property': 'fill',
 //                  'type': 'identity'
 //                },
                 'fill-opacity': .65
-            }
-        });
-        map.addLayer({
-            'id': 'maptimelayer-med',
-            'type': 'fill',
-            'source': 'maptime',
-            'filter': ['all',
-                    medfilter],
-            'paint': {
-                'fill-color': 'gold',
-                'fill-outline-color' : "white",
-                'fill-opacity': .65
-            }
-        });
-        map.addLayer({
-            'id': 'maptimelayer-high',
-            'type': 'fill',
-            'source': 'maptime',
-            'filter': ['all',
-                    highfilter],
-            'paint': {
-                'fill-color': 'green',
-                'fill-outline-color' : "white",
-//                {
-//                  'property': 'fill',
-//                  'type': 'identity'
-//                },
-                'fill-opacity': .65
-            }
-        });
+                }
+            });
+            //console.log('Added layer for '+i*20+'%. Color: '+[(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') );
+        }
+/*
         map.addLayer({
           "id": "maptime-label",
           "type": "symbol",
           "source": "maptime",
           "layout": {
-            "text-field": "{Id}",
+            "text-field": "{id_1}",
             "text-font": [
               "DIN Offc Pro Medium",
               "Arial Unicode MS Bold"
@@ -222,7 +201,7 @@ function maptimeAdd() {
           'paint': {
                   'text-color': 'white'
           }
-        });
+        }); */
         break;
       case 4:
         challengeBtn.style.backgroundColor = "#5D6671";
@@ -230,10 +209,11 @@ function maptimeAdd() {
         count2 = 0;
         count4 = 0;
         console.log(count4);
-        map.removeLayer('maptimelayer-low');
-        map.removeLayer('maptimelayer-med');
-        map.removeLayer('maptimelayer-high');
-        map.removeLayer('maptime-label');
+        for(var i=0; i<total_levels; i++)
+        {
+            map.removeLayer('maptimelayer-'+i);
+        }
+//        map.removeLayer('maptime-label');
         map.removeSource('maptime');
         break;
     };
