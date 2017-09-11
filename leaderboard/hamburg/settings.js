@@ -1,5 +1,5 @@
-var high = [];
-var med = [1,3,4,5,7,8,9,11,12,13,14,15,16];
+var high = [13];
+var med = [1,3,4,5,7,8,9,11,12,14,15,16];
 var low = [2,6,10];
 
 var maxdate = Date.now(); //don't change this
