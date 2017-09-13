@@ -138,7 +138,7 @@ td {
         <td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td><div style='display:inline-block;width:2vw;vertical-align:middle;'><center><img src='location.png' / style='height:2.5vh'></center></td><td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td> Mapillary Location</td>
         </tr>
         <tr>
-        <td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td><div style='display:inline-block;width:2vw;vertical-align:middle;'><center></center></td><td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td> Wilbrink Location</td>
+        <td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td><center><div style='display:inline-block;width:65%;padding-top:50%;background-color:#FF6666;vertical-align:middle;border-radius:50%;border:2px solid white'></center></td><td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td> Wilbrink Location</td>
         </tr>
 
       </table>
@@ -304,6 +304,60 @@ map.on('style.load', function () {
             "type": "geojson",
             "data": "route.geojson"
   };
+
+  var jurglocation = 'https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/04nCWQ5X8n9yySPrvOS6PTjZLpqjXmXoa/message.json'
+  var jlon;
+  var jlat;
+  var jlayer;
+  $.ajax({
+	  url: jurglocation,
+	  dataType: 'json',
+	  async: false,
+	  success: function(data){
+  		var messages = data.response.feedMessageResponse.messages;
+      console.log(messages);
+      var latest = Object.values(messages)[0][0];
+      jlon = latest['longitude'];
+      jlat = latest['latitude'];
+      console.log(latest);
+      console.log('Current coordinates are: ' + latest['longitude'] + ', ' + latest['latitude']);
+      jlayer = {
+          "type": "FeatureCollection",
+          "features": [{
+              "type": "Feature",
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": [jlon, jlat]
+              }
+          }]
+      };
+      map.addSource('wilbrink', {
+      "type": "geojson",
+      "data": jlayer
+      });
+      map.addLayer({
+        "id": "wilbrink",
+        "type": "circle",
+        "source": "wilbrink",
+        "paint": {
+                "circle-color": '#FFF',
+                "circle-radius": 10,
+            },
+      },'route');
+      map.addLayer({
+        "id": "wilbrink2",
+        "type": "circle",
+        "source": "wilbrink",
+        "paint": {
+                "circle-color": '#FF6666',
+                "circle-radius": 8,
+                "circle-opacity": 1
+            },
+      },'mapillary');
+
+	  }
+	});
+  var filter = ['all',['==', 'userkey', '3sL-aXOWnD2h_x50934wbA']]
   map.addSource('route', route);
   map.addLayer({
       'id': 'route',
@@ -318,7 +372,7 @@ map.on('style.load', function () {
           'line-color':   '#FF6666',
           'line-width':   3
       }
-  });
+  },'mapillary');
   map.addSource('mapillary', mapillarySource);
   map.addSource('mapillary2', mapillarySource);
   map.addLayer({
@@ -330,10 +384,11 @@ map.on('style.load', function () {
           'line-cap': 'round',
           'line-join': 'round'
       },
+      'filter': filter,
       'paint': {
           'line-opacity': 0.5,
           'line-color':   'rgb(53, 175, 109)',
-          'line-width':   3
+          'line-width':   5
       }
   }, 'waterway-label');
   map.addLayer({
@@ -341,10 +396,11 @@ map.on('style.load', function () {
       'type': 'circle',
       'source': 'mapillary2',
       'source-layer': 'mapillary-sequence-overview',
+      'filter': filter,
       'paint': {
           'circle-opacity': 0.5,
           'circle-color':   'rgb(53, 175, 109)',
-          'circle-radius':   3
+          'circle-radius':   5
       }
   }, 'waterway-label');
   map.addLayer({
@@ -355,6 +411,7 @@ map.on('style.load', function () {
        'layout': {
            'visibility': 'visible'
        },
+       'filter': filter,
        'paint': {
            'circle-opacity': 0.45,
            'circle-radius': 6,
@@ -427,7 +484,7 @@ map.on('click', function (e) {
           "layout": {
               "icon-image": "cur-ca-{angle}"
           }
-        });
+        }, 'mapillary');
 
       }
   });
