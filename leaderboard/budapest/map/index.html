@@ -428,6 +428,9 @@
           url: 'square.geojson',
           success: function (square) {
             console.log("There are " + square.features.length + " squares in the grid!");
+            var bbox = turf.bbox(square);
+            var unique = 'a.mapillary.com/v3/leaderboard/unique_distances?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=2017-06-09&end_time=2017-07-09&bbox=' + bbox;
+            console.log("Unique: " + unique);
           /*  for ( i = 0; i < square.features.length; i++) {
               x = square.features[i]["geometry"]["coordinates"][0][0];
               y = square.features[i]["geometry"]["coordinates"][0][2];
