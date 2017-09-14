@@ -545,9 +545,9 @@
             }            
           }
         });
-      });
+      /*});
 
-      map.on('style.load', function () {
+      map.on('style.load', function () {*/
         var mapillarySource = {
             type: 'vector',
             tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
@@ -654,10 +654,13 @@
                 feature.properties.leader_count = stats.length<1?"0":stats[0]["image_count"];
                 feature.properties.runnerup = stats.length<2?"unclaimed":stats[1]["username"];
                 feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
-
+                //console.log("#"+gridnumber + " is owned by "+feature.properties.leader);
+                
                 $('#'+feature.properties.leader).find("td:eq(3)").text(parseInt($('#'+feature.properties.leader).find("td:eq(3)").text())+1);
                 var row = $('#'+feature.properties.leader).prevAll().length;
                 user_squares[row].push(gridnumber);
+            }).fail(function(jqXHR, textStatus) {
+              $('#table').append('<tr id="failed"><td  id="ltd" style="text-align: left;color:red">Failed </td><td  id="ltd">#' + gridnumber+'</td><td  id="ltd">' + textStatus+'</td><td id="ltd"></td></tr>');
             });
             
             var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
