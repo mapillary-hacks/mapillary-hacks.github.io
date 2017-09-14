@@ -503,10 +503,11 @@
         $.ajax({
           dataType: "json",
           async: false, // Makes sure to wait for load
-          url: 'square.geojson',
-          success: function (square) {
+          url: 'square.geojson'
+        }).done(function(square) {
             bbox = turf.bbox(square);
-          }
+        }).fail(function(jqXHR, textStatus) {
+          $('#table').append('<tr id="failed"><td  id="ltd" style="text-align: left;color:red">Failed to load squares.geojson</td><td  id="ltd">' + textStatus+'</td><td  id="ltd"></td><td id="ltd"></td></tr>');
         });
         $body.addClass("loading");
         var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
@@ -622,13 +623,16 @@
           $.ajax({
             dataType: "json",
             async: false, // Makes sure to wait for load
-            url: 'square.geojson',
-            success: function (square) {
-              ottawa = square;
-              console.log('bbox is ' + turf.bbox(ottawa));
-            }
-          });
-          var N = ottawa.features.length;
+            url: 'square.geojson'
+            }).done(function(square) {
+                ottawa = square;
+                console.log('bbox is ' + turf.bbox(ottawa));
+            }).fail(function(jqXHR, textStatus) {
+                //alert( "square.geojson request failed: " + textStatus );
+                $body.removeClass("loading");
+            });
+          
+          var N = (ottawa===undefined)?0:ottawa.features.length;
           var Ncount=0;
           var numbers = Array.apply(null, {length: N}).map(Number.call, Number);
           $(numbers).each(function() {
@@ -662,15 +666,6 @@
               dataType: "json",
 //              async: false, // Makes sure to wait for load
               url: distanceurl,
-            }).always(function() {  
-              $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');  
-              if ( Ncount++ == N-1)  
-              {
-                maptimeAdd();
-                $body.removeClass("loading");
-                $('#total_progress').html("Total covered: "+Math.round(total_unique_distances/1000)+" of "+Math.round(total_potentials/1000)+" km" +
-                "<br>Challenge: "+total_new_photos+" images, "+Math.round(total_new_meters/1000)+" new km");
-              }                
             }).done(function(stats) {
                 for (g = 0; g < stats.length; g++) {
                   var distance = stats[g]["unique_distance"]
@@ -679,7 +674,7 @@
                 feature.properties.covered_meters = unique_distance;
                 var ratio = (unique_distance/potentialdistance * 100);
 
-                if (ratio > 0) {
+                if (ratio >= 0) {
                   //console.log("Grid " + gridnumber + ": "+unique_distance +" of "+potentialdistance +"(" + ratio + "%) mapped. Call: "+distanceurl); 
                 }
                 if(ratio>99) ratio=99;
@@ -687,6 +682,16 @@
                 levels[ratio].push(gridnumber);
                 total_unique_distances += unique_distance;        
                 total_potentials += potentialdistance;                
+            }).always(function() {  
+              $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');  
+              if ( Ncount++ == N-1)  
+              {
+                maptimeAdd();
+                $body.removeClass("loading");
+                $('#total_progress').html("Total covered: "+Math.round(total_unique_distances/1000)+" of "+Math.round(total_potentials/1000)+" km" +
+                "<br>Challenge: "+total_new_photos+" images, "+Math.round(total_new_meters/1000)+" new km" +
+                "<br>Distance is updated irregularly");
+              }                
             });
           })
         };
@@ -1079,7 +1084,7 @@
     <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:100vh;">
       <div class="alt-grid row" style="min-height:87vh;">
         <center><h2 style="color:white;">Leaderboard</h2></center>
-        <div style='align:center;color:white;'><center>click on a row to toggle territory</center></div><br>
+        <div style='color:white;font-size:24'><center>click on a row to toggle territory</center></div><br>
         <table id='table'>
           <tr>
             <th>Username</th><th>Images</th><th>km</th><th>&#9638</th>
