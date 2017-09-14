@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title id='docTitle'></title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src='settings.js'></script>
+  <script src='mobileredirect.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
+
+  <meta name="description" content="A challenge to collect street-level imagery of bike friendly roads and paths in Ottawa." />
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@mapillary">
+  <meta name="twitter:title" content="#CompletetheMap Ottawa Challenge">
+  <meta name="twitter:description" content="A challenge to collect street-level imagery of bike friendly roads and paths in Ottawa.">
+  <meta name="twitter:image" content="">
+
+  <!-- Open Graph data -->
+  <meta property="og: title" content="#CompletetheMap Ottawa Challenge"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image:width" content="200" />
+  <meta property="og:image:height" content="200" />
+  <meta property="og: url" content="https://mapillary-hacks.github.io/leaderboard/ottawa/" />
+  <meta property="og: image" content="" />
+  <meta property="og:description" content="A challenge to collect street-level imagery of bike friendly roads and paths in Ottawa." />
+  <meta property="og:site_name" content="Mapillary" />
+
+
+  <style>
+  #map {
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:100%;
+    height:100%;
+    min-height: 100vh;
+    z-index: 1;
+  }
+  html, body {
+     position:fixed;
+     top:0;
+     bottom:0;
+     left:0;
+     right:0;
+     background-color: black;
+  }
+  .map-overlay {
+      font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      position: absolute;
+      width: 20vw;
+      top: 0;
+      left: 0;
+      color: "#fff";
+      height: 40vh;
+      font-weight: bold;
+      z-index: 2;
+  }
+
+  .map-overlay .map-overlay-inner {
+      background-color: #36AF6D;
+      box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+      border-radius: 3px;
+      padding: 5px;
+      width: 100%;
+      margin-bottom: 10px;
+      margin-left: 5px;
+  }
+
+  .map-overlay label {
+      display: block;
+      margin: 0 0 10px;
+      z-index: 2;
+  }
+
+  .map-overlay input {
+      background-color: transparent;
+      display: inline-block;
+      width: 100%;
+      position: relative;
+      margin: 0;
+      cursor: ew-resize;
+      z-index: 2;
+  }
+  #menu {
+      position: absolute;
+      background: #36AF6D;
+      padding: 5px;
+      font-family: 'Open Sans', sans-serif;
+      box-shadow:0;
+      z-index: 2;
+      color: white;
+  }
+  #menu2 {
+      position: relative;
+      background: #36AF6D;
+      padding: 5px;
+      font-family: 'Open Sans', sans-serif;
+      box-shadow:0;
+      z-index: 2;
+      color: white;
+  }
+  #leaderboard {
+    background: #36AF6D;
+    font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif
+    min-height: 100vh;
+    padding-left: 15;
+    padding-right: 15;
+    margin: 30 0 0 0;
+    color: gray;
+  }
+  .alt-grid [class*="col-"] {
+    padding-left:0;
+    padding-right:0;
+  }
+  .alt-grid .row {
+    margin-left:0;
+    margin-right:0;
+  }
+  /* container adjusted */
+  .alt-grid .container {
+    width:100%;
+    max-width:none;
+    padding:30;
+  }
+  input {
+      border: 0px solid;
+      padding: 0px;
+      font-weight: bold;
+      z-index: 2;
+  }
+  .btn {
+    padding: 5px;
+    cursor: pointer;
+  }
+  .mbtn {
+    padding: 1vh;
+    cursor: pointer;
+    border-color:white;border:1px solid white;
+  }
+  .btn2 {
+    padding: 5px;
+    cursor: pointer;
+    border-color:white;border:1px solid white;
+  }
+  /*.btn:hover {
+    color: #FFF;
+    background: #333333;
+    cursor: pointer;
+  }
+  .mbtn:hover {
+    color: #FFF;
+    background: #9933ff;
+    cursor: pointer;
+  } */
+  #logo {
+    padding: 10px;
+    position: relative;
+    margin-bottom: 0px;
+    margin-left:0px;
+    border-radius: 3px;
+    z-index: 2;
+  }
+  th {
+    height: 15px;
+    width: 49%;
+    float: center;
+    padding: 3px;
+    text-align: center;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+    width: 100%;
+  }
+
+  tr:nth-child(odd) {
+    background-color: #d3d3d3;
+    width: 100%;
+  }
+  #ltd {
+    height: 10px;
+    width: 49%;
+    border-color: white;
+    border-left: 1px solid white;
+    padding: 3px;
+    text-align: right;
+  }
+  #shtd {
+    height: 10px;
+    width: 33%;
+    border: 2;
+    border-color: white;
+    padding: 5px;
+  }
+  table {
+    float:left;
+    margin-left:5px;
+    margin-right: 5px;
+    border: 2;
+    border-color: white;
+    padding: 5px;
+    width: 97%;
+  }
+  #share {
+    float:center;
+    margin-left:5px;
+    margin-right: 5px;
+    padding: 5px;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 12px;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {display:none;}
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 9px;
+    width: 9px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #E6E9ED;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: #36AF6D;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #36AF6D;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(8px);
+    -ms-transform: translateX(8px);
+    transform: translateX(8px);
+  }
+
+  /* Rounded sliders */
+  input[type='range'] {
+    -webkit-appearance: none !important;
+    background: #ffc01b;
+    height: calc(1px + 1vmin);
+    border: 0px;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #e05643;
+    border: 2px solid #e05643;
+    width: calc(3px + 3vmin);
+    height: calc(1px + 2vmin);
+    border-radius: 0px;
+    cursor: pointer;
+  }
+  .coveragetext {
+    font-size: 16;
+  }
+  .fa {
+      padding: 3vh;
+      font-size: 3vh;
+      width: 5vw;
+      height: 8vh;
+      text-align: center;
+      text-decoration: none;
+  }
+  .fa:hover {
+      opacity: 0.7;
+  }
+  .fa-facebook {
+      background: #3B5998;
+      color: white;
+  }
+  .fa-envelope {
+      background: #333333;
+      color: white;
+  }
+
+  .fa-twitter {
+      background: #55ACEE;
+      color: white;
+  }
+  #mjs {
+    position: absolute;
+    top: 69vh;
+    left: 0px;
+    bottom: 1vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    width:20vw;
+    height:30vh;
+    border: 5px solid gray;
+    z-index: 2;
+    padding: 0px;
+  }
+  #nominate {
+    font-size: 1vw;
+  }
+  .modal {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 0, 0, 0, .8 )
+
+  }
+  body.loading {
+      overflow: hidden;
+  }
+  body.loading .modal {
+      display: block;
+  }
+  .prog {
+      display:    none;
+      z-index:    1001;
+      position: absolute;
+      width: 200px;
+      top: 50%;
+      left: 50%;
+      margin: 0 0 0 -100px;
+  }
+  body.loading .prog {
+      display: block;
+  }
+  </style>
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+  <div class="alt-grid row" style="height:100%">
+    <div class="col-sm-10">
+      <div class='map-overlay top'>
+        <div id='logo'>
+          <img src='https://www.mapillary.com/assets/static/images/landing/capture-images.png' width=0 height=0 />
+          <a href='https://www.mapillary.com' target='_blank'><img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=50% style="margin-top:3vh;"></a>
+        </div>
+<!--        <div id='logo' style="display:inline-block;margin-right:10%;margin-left:10%;">
+          <a id='partnerLink' href=''><img id='partnerlogo' src='' width=10vw height=10vh></a>
+        </div>
+        <div id='logo' style="margin-left:10%;">
+          <a href='https://openstreetmap.org' target='_blank'><img src='https://wiki.openstreetmap.org/w/images/c/c8/Public-images-osm_logo.png' width=10vw height=10vh></a>
+        </div> -->
+        <div class='map-overlay-inner' id='menu2'>
+                                   <label style='margin-top:1vh;'><font style="font-size:2vw;"><center><span id="challengeTitle" style="font-size:1.3vw;"></span><br> <span id="challengeDate" style="font-size:1vw;"></span></font><br><a href ="http://bit.ly/2vjd9ww" target="_blank">Challenge Instructions</a><br><span id='slider-value'> </span></center></label>
+            <input id='slider' type='range' min='1' max='38' step='1' value='' style='margin-bottom:1vh;' />
+            <script>
+            var days = (Date.now()-mindate)/86400000; //CurrentDate - StartDate / days to convert from milliseconds to exact number of days
+            console.log("Current date is " + Date.now());
+            console.log("value of days is " + days);
+            document.getElementById('slider').max = Math.floor(Math.abs(days));
+            console.log("The max value is now " + document.getElementById('slider').max)
+            document.getElementById('slider').value = days;
+            document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since challenge start';
+            document.getElementById('challengeTitle').innerHTML = challengeTitle;
+            document.getElementById('docTitle').innerHTML = docTitle;
+            document.getElementById('challengeDate').innerHTML = challengeDate;
+            $('#partnerlogo').attr('src', partnerLogo);
+            $('#partnerLink').attr('href', partnerLink);
+
+            </script>
+        </div>
+
+        <div id='menu' class='map-overlay-inner'>
+          <div id='controls'style='align:center;font-size:24'><center>(click to toggle)</center></div>
+<!--         <div id='streets' class='btn2' style='background-color:#333333;color:#FFF;'>Basemap: streets</div>
+          <div id='satellite' class='btn2'>Basemap: satellite</div> -->
+          <div id='mly' class='mbtn' >Show all Mapillary coverage</div>
+          <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show challenge grid</div>
+        </div>
+
+        <div id='mjs' class='map-overlay-inner'><h4 style="text-align:center;z-index:1;margin-top:32%;" id="mjstext">Double-click on the map to display an image!</h4>
+          <script>
+              var maxdate = Date.now();
+              var mjs = new Mapillary.Viewer(
+                  'mjs',
+                  'MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi',
+                  null,
+                  {
+                      component: {
+                          attribution: true,
+                          cover: true,
+                          imagePlane: {
+                              imageTiling: true
+                          },
+                          stats: true
+                      },
+                      renderMode: Mapillary.RenderMode.Fill
+                  }
+              );
+              mjs.setFilter([['>=', 'captured_at', mindate],['<=', 'captured_at', maxdate]]);;
+          </script>
+        </div>
+
+      </div>
+
+      <div id='map'></div>
+
+      <script>
+
+      function setCookie(cname, cvalue, exdays) {
+          var d = new Date();
+          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+          var expires = "expires="+d.toUTCString();
+          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+
+      function getCookie(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i = 0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+              }
+          }
+          return "";
+      }
+
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+      var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'style.json',
+          center: [challengeLng,
+          challengeLat],
+          zoom: challengeZoom
+      });
+
+      map.addControl(new mapboxgl.NavigationControl({position: 'top-right'}));
+      map.addControl(new mapboxgl.ScaleControl());
+
+      var layerList = document.getElementById('menu');
+      var inputs = layerList.getElementsByClassName('btn2');
+      var count = 0;
+      var count2 = 0;
+      var total_new_photos = 0;
+      var total_new_meters = 0;
+
+      var userjson = "usernames.json";
+      var url;
+      var users = [];
+      var userkeys = [];
+//      var lowfilter = [];
+//      var medfilter = [];
+//      var highfilter = [];
+
+      console.log(users);
+      console.log(userkeys);
+      var myfilter = ["in", "userkey",...userkeys]
+      console.log(myfilter);
+
+      var slider = document.getElementById('slider');
+      var sliderValue = document.getElementById('slider-value');
+
+      $body = $("body");
+      $(document).on({
+          ajaxStart: function() {  },
+          ajaxStop: function() {  }
+      });
+
+      $(document).ready( function() {
+        var bbox;
+        //bbox to find users
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: 'square.geojson'
+        }).done(function(square) {
+            bbox = turf.bbox(square);
+        }).fail(function(jqXHR, textStatus) {
+          $('#table').append('<tr id="failed"><td  id="ltd" style="text-align: left;color:red">Failed to load squares.geojson</td><td  id="ltd">' + textStatus+'</td><td  id="ltd"></td><td id="ltd"></td></tr>');
+        });
+        $body.addClass("loading");
+        var url = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
+        //user scores
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: url,
+          success: function (stats) {
+            for (n = 0; n < stats.length; n++) {
+              var u = stats[n]["username"];
+              var old_photos = getCookie(u);
+              var new_photos = '';
+              if(old_photos!='' && old_photos<stats[n]["image_count"])
+              {
+                new_photos = "<span style='font-size:xx-small;color:red'>+"+(stats[n]["image_count"]-old_photos)+'</span>';
+              }
+              $('#table').append('<tr id="'+u+'"><td  id="ltd" style="text-align: left;"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd">0</td><td id="ltd">0</td></tr>');
+              setCookie(u, stats[n]["image_count"], 30);
+              total_new_photos+=stats[n]["image_count"];
+
+            }
+            $('#table').append('<tr id="unclaimed"><td  id="ltd" style="text-align: left">[unclaimed]</td><td  id="ltd"></td><td  id="ltd"></td><td id="ltd">0</td></tr>');
+          }
+        });
+        url = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
+        $.ajax({
+          dataType: "json",
+          async: false, // Makes sure to wait for load
+          url: url,
+          success: function (stats) {
+            for (n = 0; n < stats.length; n++) {
+              $('#'+stats[n]["username"]).find("td:eq(2)").text(Math.round(stats[n]["unique_distance"]/100)/10);
+              total_new_meters+=stats[n]["unique_distance"];
+            }
+          }
+        });
+      /*});
+
+      map.on('style.load', function () {*/
+        var mapillarySource = {
+            type: 'vector',
+            tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+            minzoom: 0,
+            maxzoom: 14,
+        };
+
+        function caFind(num) {
+            var angles = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
+            var curr = angles[0];
+            var diff = Math.abs (num - curr);
+            for (var val = 0; val < angles.length; val++) {
+                var newdiff = Math.abs (num - angles[val]);
+                if (newdiff < diff) {
+                    diff = newdiff;
+                    curr = angles[val];
+                }
+            }
+            return curr;
+        }
+
+        function mlyAdd() {
+            console.log(count);
+            switch (count) {
+              case 0:
+                mly.style.backgroundColor = "#FF861B";
+                map.addLayer({
+                    'id': 'mapillary-all',
+                    'type': 'circle',
+                    'source': 'mapillary',
+                    'source-layer': 'mapillary-sequence-overview',
+                    'paint': {
+                        'circle-opacity': 0.75,
+                        'circle-color':   'rgb(53, 175, 109)',
+                        'circle-radius':   2
+                    }
+                }, 'mapillary-o');
+                map.addLayer({
+                   'id': 'mapillary-all2',
+                   'type': 'line',
+                   'source': 'mapillary',
+                   'source-layer': 'mapillary-sequences',
+                   'layout': {
+                       'line-cap': 'round',
+                       'line-join': 'round'
+                   },
+                   'paint': {
+                       'line-opacity': 0.75,
+                       'line-color':   'rgb(53, 175, 109)',
+                       'line-width':   2
+                   }
+                }, 'mapillary');
+                count = 1;
+                break;
+              case 1:
+                mly.style.backgroundColor = "rgb(53, 175, 109)";
+                map.removeLayer('mapillary-all');
+                map.removeLayer('mapillary-all2');
+                count = 0;
+                break;
+            };
+        };
+
+        var total_levels = 5;    //0,10,20,...,100, rounding down
+        var levels = [[],[],[],[],[],[],[],[],[],[],[]];
+        var user_squares = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //2-dim array of squares owned by each user; [0]=1st in the leaderboard, [1]=2nd, etc
+        var total_unique_distances=0;
+        var total_potentials=0;
+        var potentials = [];
+        var unique_distances = [];
+        var ottawa;
+        var gridcalc = function() {
+          $.ajax({
+            dataType: "json",
+            async: false, // Makes sure to wait for load
+            url: 'square.geojson'
+            }).done(function(square) {
+                ottawa = square;
+                console.log('bbox is ' + turf.bbox(ottawa));
+            }).fail(function(jqXHR, textStatus) {
+                //alert( "square.geojson request failed: " + textStatus );
+                $body.removeClass("loading");
+            });
+
+          var N = (ottawa===undefined)?0:ottawa.features.length;
+          var Ncount=0;
+          var numbers = Array.apply(null, {length: N}).map(Number.call, Number);
+          $(numbers).each(function() {
+//          for (s = 0; s < ottawa.features.length; s++) {
+            var s = this;
+            var feature = ottawa.features[s];
+            var bbox = turf.bbox(feature);
+            var gridnumber = feature.properties.id_1;
+            var potentialdistance = feature.properties.meters;
+            var unique_distance = 0;
+            var imagesurl = 'https://a.mapillary.com/v3/leaderboard/images?&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=' + mindateISO + '&bbox=' + bbox;
+            //pull image count for each square, find leader/runner-up
+            $.ajax({
+              dataType: "json",
+              //async: false, // Makes sure to wait for load
+              url: imagesurl,
+            }).done(function(stats) {
+                feature.properties.leader = stats.length<1?"unclaimed":stats[0]["username"];
+                feature.properties.leader_count = stats.length<1?"0":stats[0]["image_count"];
+                feature.properties.runnerup = stats.length<2?"unclaimed":stats[1]["username"];
+                feature.properties.runnerup_count = stats.length<2?"0":stats[1]["image_count"];
+                //console.log("#"+gridnumber + " is owned by "+feature.properties.leader);
+
+                $('#'+feature.properties.leader).find("td:eq(3)").text(parseInt($('#'+feature.properties.leader).find("td:eq(3)").text())+1);
+                var row = $('#'+feature.properties.leader).prevAll().length;
+                user_squares[row].push(gridnumber);
+            }).fail(function(jqXHR, textStatus) {
+              $('#table').append('<tr id="failed"><td  id="ltd" style="text-align: left;color:red">Failed </td><td  id="ltd">#' + gridnumber+'</td><td  id="ltd">' + textStatus+'</td><td id="ltd"></td></tr>');
+            });
+
+            var distanceurl = 'https://a.mapillary.com/v3/leaderboard/unique_distances?&client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&bbox=' + bbox;
+
+            $.ajax({
+              dataType: "json",
+//              async: false, // Makes sure to wait for load
+              url: distanceurl,
+            }).done(function(stats) {
+                for (g = 0; g < stats.length; g++) {
+                  var distance = stats[g]["unique_distance"]
+                  unique_distance = unique_distance + distance;
+                }
+                feature.properties.covered_meters = unique_distance;
+                var ratio = (unique_distance/potentialdistance * 100);
+
+                if (ratio >= 0) {
+                  //console.log("Grid " + gridnumber + ": "+unique_distance +" of "+potentialdistance +"(" + ratio + "%) mapped. Call: "+distanceurl);
+                }
+                if(ratio>99) ratio=99;
+                ratio = Math.floor(ratio / 20);
+                levels[ratio].push(gridnumber);
+                total_unique_distances += unique_distance;
+                total_potentials += potentialdistance;
+            }).always(function() {
+              $('.progress-bar').css('width', 100*Ncount/N+'%').attr('aria-valuenow', 100*Ncount/N).text(Math.round(100*Ncount/N)+'%');
+              if ( Ncount++ == N-1)
+              {
+                maptimeAdd();
+                $body.removeClass("loading");
+                $('#total_progress').html("Total covered: "+Math.round(total_unique_distances/1000)+" of "+Math.round(total_potentials/1000)+" km" +
+                "<br>Challenge: "+total_new_photos+" images, "+Math.round(total_new_meters/1000)+" new km" +
+                "<br>Distance is updated irregularly");
+              }
+            });
+          })
+        };
+
+
+
+        function maptimeAdd() {
+           switch (count2) {
+              case 0:
+                maptime.style.backgroundColor = "#FF861B";
+                count2 = 1;
+                map.addSource('maptime', {
+                    'type': 'geojson',
+                    'data': 'square.geojson'
+                });
+                var half = Math.floor(total_levels/2);
+                for(var i=0; i<total_levels; i++)
+                {
+                    console.log("levels["+i+"] = ["+levels[i]+"];");
+                    map.addLayer({
+                    'id': 'maptimelayer-'+i,
+                    'type': 'fill',
+                    'source': 'maptime',
+                    'filter': ['all',
+                            ["in", "id_1",...levels[i]]],
+                    'paint': {
+                        'fill-color': 'rgb(' + [(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') + ')',    //gradient red->yellow->green
+                        'fill-outline-color' : "white",
+        //                {
+        //                  'property': 'fill',
+        //                  'type': 'identity'
+        //                },
+                        'fill-opacity': .65
+                        }
+                    });
+                    //console.log('Added layer for '+i*20+'%. Color: '+[(i<half)?255:(255-(i-half)*255/half),(i<half)?(i*255/half):(255-(i-half)*128/half),0].join(',') );
+                }
+                map.addLayer({
+                  "id": "maptime-label",
+                  "type": "symbol",
+                  "source": "maptime",
+                  "layout": {
+                    "text-field": "{id_01}",
+                    "text-font": [
+                      "DIN Offc Pro Medium",
+                      "Arial Unicode MS Bold"
+                    ],
+                    "text-size": 12
+                  },
+                  'paint': {
+                          'text-color': 'white'
+                  }
+                });
+                $('#table tr').click(function() {
+                    var rowIndex = $(this).prevAll().length;
+                    for(var i=0; i<total_levels; i++)
+                    {
+                        var filters = map.getFilter('maptimelayer-'+i);
+                        var newfilter = ["in", "id_1",...user_squares[rowIndex]];
+                        if(JSON.stringify(newfilter)==JSON.stringify(filters[2])) {
+                            filters.splice(2, 1);
+                        }
+                        else {
+                            filters[2]=newfilter;
+                        }
+
+                        map.setFilter('maptimelayer-'+i, filters);
+                    }
+                });
+                break;
+              case 1:
+                maptime.style.backgroundColor = "#36AF6D";
+                count2 = 0;
+                for(var i=0; i<total_levels; i++)
+                {
+                    map.removeLayer('maptimelayer-'+i);
+                }
+                map.removeLayer('maptime-label');
+                map.removeSource('maptime');
+                break;
+            };
+
+        };
+
+        function switchLayer(layer) {
+            var layerId = layer.target.id;
+            //map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+            switch (layerId) {
+              case 'streets':
+                streets.style.backgroundColor = "#333333";
+                streets.style.color = "#FFF";
+                satellite.style.backgroundColor = "#a9a9a9";
+                satellite.style.color = "#000";
+                count = Math.abs(count-1);
+                count2 = Math.abs(count2-1);
+                break;
+              case 'satellite':
+                satellite.style.backgroundColor = "#333333";
+                satellite.style.color = "#FFF";
+                streets.style.backgroundColor = "#a9a9a9";
+                streets.style.color = "#000";
+                count = Math.abs(count-1);
+                count2 = Math.abs(count2-1);
+                break;
+            };
+        };
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].onclick = switchLayer;
+        };
+
+/*        var max = sums.reduce(function(a, b) {
+            return Math.max(a, b);
+        });
+        console.log(totals);
+        console.log("The highest value is " + max);
+        var step1 = max/3;
+        var step2 = step1*2;
+        var step3= max;
+
+        var low = [];
+        var med = [];
+        var high = [];
+
+        for (i = 0; i < totals.length; i++) {
+          if (sums[i] < step1 || sums[i] == step1) {
+            low.push(ids[i])
+          } else if (sums[i] > step1 && sums[i] < step2 || sums[i] == step2) {
+            med.push(ids[i]);
+          } else {
+            high.push(ids[i]);
+          }
+        };
+*/
+
+  /*    var N = 121;
+      var low = Array.apply(null, {length: N}).map(Number.call, Number)
+      var med = [];
+      var high = []; */
+
+
+      //
+
+
+        map.addSource('mapillary', mapillarySource);
+
+        map.addLayer({
+            'id': 'mapillary-o',
+            'type': 'circle',
+            'source': 'mapillary',
+            'source-layer': 'mapillary-sequence-overview',
+            'filter': ['all',
+                    ['>=', 'captured_at', mindate],
+                    ['<=', 'captured_at', maxdate]],
+            'paint': {
+                'circle-opacity': 0.75,
+                'circle-color':   'purple',
+                'circle-radius':   2
+            }
+        });
+        map.addLayer({
+           'id': 'mapillary',
+           'type': 'line',
+           'source': 'mapillary',
+           'source-layer': 'mapillary-sequences',
+           'filter': ['all',
+                   ['>=', 'captured_at', mindate],
+                   ['<=', 'captured_at', maxdate]],
+           'layout': {
+               'line-cap': 'round',
+               'line-join': 'round'
+           },
+           'paint': {
+               'line-opacity': 0.75,
+               'line-color':   'purple',
+               'line-width':   2
+           }
+       });
+
+        gridcalc();
+        mly.onclick = mlyAdd;
+        maptime.onclick = maptimeAdd;
+
+        mjs.on('nodechanged', function (node) {
+            try {
+                map.removeLayer("point");
+                map.removeSource("point");
+            } catch (err) {
+                // Do nothing the layers just does not exists
+            }
+            var lng = node.originalLatLon.lon;
+            var lat = node.originalLatLon.lat;
+            var ca = node.ca;
+            var currCa = caFind(ca);
+            map.flyTo({
+                center: [lng, lat],
+                pitch: 0
+            });
+            var currCa = caFind(ca);
+
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [lng, lat]
+                    },
+                    "properties": {
+                              "angle": currCa
+                    }
+                }]
+            };
+
+            map.addSource('point', {
+            "type": "geojson",
+            "data": geojson
+            });
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-{angle}"
+              }
+            });
+        });
+
+        mjs.on(
+        Mapillary.Viewer.bearingchanged,
+        function(bearing) {
+            console.log('bearing changed:', bearing);
+            map.removeLayer("point");
+
+            var currCa = caFind(bearing);
+            console.log(currCa);
+
+            map.addLayer({
+              "id": "point",
+              "type": "symbol",
+              "source": "point",
+              "layout": {
+                  "icon-image": "cur-ca-" + currCa
+              }
+            });
+        });
+
+        map.on('dblclick', function (e) {
+          var lng = JSON.stringify(e.lngLat["lng"]);
+          var lat = JSON.stringify(e.lngLat["lat"]);
+          var sequenceComponent = mjs.getComponent("sequence");
+          sequenceComponent.stop();
+          map.flyTo({
+              center: [lng,lat],
+              zoom: 15,
+          });
+
+          var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=" + mindateISO + "&closeto="+ lng + "," + lat;
+
+          $.ajax({
+              dataType: "json",
+              url: url,
+              success: function(data) {
+                try {
+                    map.removeLayer("point");
+                    map.removeSource("point");
+                } catch (err) {
+                    // Do nothing the layers just does not exists
+                }
+                console.log(url);
+                if (!data.features[0]) {
+                  $("#mjstext").text("There are no new challenge images in this area. Go map it!");
+                } else {
+                  $("#mjstext").remove();
+                };
+                var imgkey = data.features[0]["properties"]["key"];
+                var ca = data.features[0]["properties"]["ca"];
+                lng = data.features[0]["geometry"]["coordinates"][0];
+                lat = data.features[0]["geometry"]["coordinates"][1];
+                var currCa = caFind(ca);
+                console.log("Camera angle " + ca + " converted to " + currCa);
+                console.log(imgkey);
+                mjs.moveToKey(imgkey);
+                geojson = {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [lng, lat]
+                        },
+                        "properties": {
+                                  "angle": currCa
+                        }
+                    }]
+                };
+
+                map.addSource('point', {
+                "type": "geojson",
+                "data": geojson
+                });
+
+                map.addLayer({
+                  "id": "point",
+                  "type": "symbol",
+                  "source": "point",
+                  "layout": {
+                      "icon-image": "cur-ca-{angle}"
+                  }
+                });
+
+              }
+          });
+        });
+
+        var popup = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: false
+        });
+
+        map.on('click', function(e) {
+            var pt = [e.lngLat["lng"],e.lngLat["lat"]];
+
+            for(var i=0; i<ottawa.features.length; i++)
+            {
+                if(turf.inside(pt, ottawa.features[i]))
+                {
+                    var feature = ottawa.features[i];
+                    var total_km = Math.round(feature.properties.meters/100)/10;
+                    var covered_km = Math.round(feature.properties.covered_meters/100)/10;
+                    var ratio = Math.round(100*feature.properties.covered_meters/feature.properties.meters);
+                    popup.setLngLat(e.lngLat)
+                        .setHTML('#'+(i+1)+
+                            '<br>Total: <b>'+total_km+' km</b>'+
+                            '<br>Covered: <b>'+covered_km+' km</b>'+
+                            '<br>Progress: <b>'+ratio+'%</b>'+
+                            (feature.properties.leader_count==0?'':('<br>Leader: <b>'+feature.properties.leader+'</b> (<b>'+feature.properties.leader_count+'</b> photos)'))+
+                            (feature.properties.runnerup_count==0?'':('<br>Runner-up: <b>'+feature.properties.runnerup+'</b> (<b>'+feature.properties.runnerup_count+'</b> photos)'))
+                            )
+                        .addTo(map);
+                }
+            }
+        });
+
+        slider.addEventListener('input', function(e) {
+                var newDate = (mindate+(86400000 * e.target.value))
+                console.log(new Date(newDate));
+                map.removeLayer('mapillary','mapillary-o');
+                map.addLayer({
+                    'id': 'mapillary-o',
+                    'type': 'circle',
+                    'source': 'mapillary',
+                    'source-layer': 'mapillary-sequence-overview',
+                    'filter': ['all',
+                            ['>=', 'captured_at', mindate],
+                            ['<=', 'captured_at', newDate]],
+                    'paint': {
+                        'circle-opacity': 0.75,
+                        'circle-color':   'purple',
+                        'circle-radius':   2
+                    }
+                },'exzona');
+                map.addLayer({
+                     'id': 'mapillary',
+                     'type': 'line',
+                     'source': 'mapillary',
+                     'source-layer': 'mapillary-sequences',
+                     'filter': ['all',
+                             ['>=', 'captured_at', mindate],
+                             ['<=', 'captured_at', newDate]],
+                     'layout': {
+                         'line-cap': 'round',
+                         'line-join': 'round'
+                     },
+                     'paint': {
+                         'line-opacity': 0.75,
+                         'line-color':   'purple',
+                         'line-width':   2
+                     }
+                 }, 'exzona');
+
+                // Value indicator
+                sliderValue.textContent = e.target.value + ' days since competition start';
+            });
+
+        });
+      </script>
+    </div>
+    <div class="col-sm-2" id="leaderboard" style="margin-left:30;min-height:100vh;">
+      <div class="alt-grid row" style="min-height:87vh;">
+        <center><h2 style="color:white;">Leaderboard</h2></center>
+        <div style='color:white;font-size:24'><center>click on a row to toggle territory</center></div><br>
+        <table id='table'>
+          <tr>
+            <th>Username</th><th>Images</th><th>km</th><th>&#9638</th>
+          </tr>
+        </table>
+        <div class="alt-grid row" style="height:30px;width:100%;color:white;font-weight:bold;text-align:center" id="total_progress">  </div>
+      </div>
+      <div class="alt-grid row"style="max-height:8vh;width:100%;" id="share">
+          <center><a href="" target="_blank" class="fa fa-facebook"></a><a href="" target="_blank" class="fa fa-twitter"></a><a href="" target="_blank" class="fa fa-envelope"></a></center>
+          <br><br>
+      </div>
+      <div class="alt-grid row"style="max-height:5vh;width:100%;" id="share">
+          <center><h4><a href="https://docs.google.com/a/mapillary.com/forms/d/e/1FAIpQLSdQe3TmJ_qQoFy8yDFCVnz9dsZpsWXgQ-OW7mZ6HAagKOfdgA/viewform?usp=sf_link" target="_blank" style="color:white;font-weight:bold;" id='nominate'>Click here to nominate your city!</a></h4></center>
+          <script>
+            $('.fa-facebook').attr('href', facebookShare);
+            $('.fa-twitter').attr('href', twitterShare);
+            $('.fa-envelope').attr('href', emailShare);
+          </script>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id='prog' class="prog">
+    <div class="progress progress-striped active">
+        <div style="text-align:left;vertical-align:middle;padding-left:5px;text-shadow: 1px 1px 1px #000;" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div>
+</div>
+<div class="modal"><!-- Place at bottom of page --></div>
+
+</body>
+</html>
