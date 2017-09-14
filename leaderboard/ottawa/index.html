@@ -497,7 +497,8 @@
           ajaxStop: function() {  }
       });
 
-      $(document).ready( function() {
+      //$(document).ready( function() {
+      map.on('style.load', function () {
         var bbox;
         //bbox to find users
         $.ajax({
