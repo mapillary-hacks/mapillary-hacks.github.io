@@ -526,7 +526,7 @@
               {
                 new_photos = "<span style='font-size:xx-small;color:red'>+"+(stats[n]["image_count"]-old_photos)+'</span>';
               }
-              $('#table').append('<tr id="'+u+'"><td  id="ltd" style="text-align: left;"><a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd">0</td><td id="ltd">0</td></tr>');
+              $('#table').append('<tr id="'+u+'"><td nowrap id="ltd" style="text-align: left;">'+(n+1)+'. <a href="https://www.mapillary.com/app/user/' + u + '" target="_blank">' + u + '</a></td><td  id="ltd">' + stats[n]["image_count"] + new_photos+'</td><td  id="ltd">0</td><td id="ltd">0</td></tr>');
               setCookie(u, stats[n]["image_count"], 30);
               total_new_photos+=stats[n]["image_count"];
               
