@@ -15,7 +15,7 @@ var partnerLogo = 'https://mapillarydiscourse.s3-eu-west-1.amazonaws.com/optimiz
 var partnerLink = 'www.bikeottawa.ca'
 
 var challengeTitle = 'Ottawa Challenge'; //text in the slider
-var challengeDate = 'August 25 - September 17, 2017'
+var challengeDate = 'August 25 - September 30th, 2017'
 var docTitle = 'Complete the Map: Ottawa - Mapillary'; //text next to favicon on browser window
 
 var challengeLng = -75.6972; //center of the map
