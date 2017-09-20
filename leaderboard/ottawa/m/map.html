@@ -5,11 +5,11 @@
   mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
   var map = new mapboxgl.Map({
       container: 'map',
-      style: '../homebrew-streets-v8.json',
+      style: 'mapbox://styles/mapbox/streets-v9',
       center: [ challengeLng, challengeLat],
       zoom: mobileZoom
   });
-  map.addControl(new mapboxgl.Navigation({position: 'top-left'}));
+  map.addControl(new mapboxgl.NavigationControl({position: 'top-left'}));
   map.dragRotate.disable();
   map.touchZoomRotate.disableRotation();
   mlyInit();
