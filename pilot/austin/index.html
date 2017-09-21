@@ -353,6 +353,7 @@
           <div id='satellite' class='btn2'>Basemap: satellite</div> -->
           <div id='mly' class='mbtn' >Show all Mapillary coverage</div>
           <div id='maptime' class='mbtn' onclick="maptimeAdd()">Show grid layer</div>
+          <div id='grid' class='mbtn' onclick="gridAdd()">Show grid outline</div>
           <div id='county' class='mbtn' onclick="travisAdd()">Show Travis County</div>
           <div id='roads' class='mbtn' onclick="roadsAdd()">Show roads layer</div><br>
           <div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></div><div style='display:inline-block;width:1vw;height:1vw;background-color:#d7191c;vertical-align:middle;'></div><div style='display:inline-block;width:1vw;height:1vw;background-color:none;vertical-align:middle;'></div><div style='display:inline-block;background-color:none;float:center;'>  Outside City Limits</div><br>
@@ -526,6 +527,50 @@
                 break;
             };
         };
+        var count5 = 0;
+        function gridAdd() {
+          switch(count5) {
+            case 0:
+              map.addSource('maptime2', {
+                  'type': 'geojson',
+                  'data': 'square.geojson'
+              });
+              map.addLayer({
+                  'id': 'maptimegrid',
+                  'type': 'line',
+                  'source': 'maptime2',
+                  'paint': {
+                      'line-color': 'red',
+                      'line-opacity': .6
+                  }
+              });
+              map.addLayer({
+                "id": "maptime-label2s",
+                "type": "symbol",
+                "source": "maptime2",
+                "layout": {
+                  "text-field": "{Id}",
+                  "text-font": [
+                    "DIN Offc Pro Medium",
+                    "Arial Unicode MS Bold"
+                  ],
+                  "text-size": 12
+                },
+                'paint': {
+                        'text-color': 'red'
+                }
+              });
+              count5 = 1;
+              break;
+            case 1:
+              map.removeSource('maptime2');
+              map.removeLayer('maptimegrid');
+              map.removeLayer('maptime-label2s');
+              count5 = 0;
+              break;
+          }
+
+        }
 
         function maptimeAdd() {
             console.log(count2);
@@ -794,6 +839,7 @@
         maptimeAdd();
         mly.onclick = mlyAdd;
         maptime.onclick = maptimeAdd;
+        grid.onclick = gridAdd;
         county.onclick = travisAdd;
         roads.onclick = roadsAdd;
 
