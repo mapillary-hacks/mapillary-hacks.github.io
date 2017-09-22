@@ -4,8 +4,10 @@
   <meta charset='utf-8' />
   <title>Mapillary</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <style>
 #map {
   position:absolute;
@@ -36,6 +38,19 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/mapbox/streets-v9',
     center: [-97.818,30.293],
     zoom: 10
+});
+var austin;
+var bbox;
+//bbox to find users
+$.ajax({
+  dataType: "json",
+  async: false, // Makes sure to wait for load
+  url: 'square.geojson',
+  success: function (square) {
+//    bbox = turf.bbox(square);
+    austin = square;
+    console.log('There are ' + austin.features.length + ' features');
+  }
 });
 var mindate = new Date("01/01/2016").getTime()
 var maxdate = new Date("06/22/2016").getTime()
@@ -96,6 +111,50 @@ map.on('style.load', function () {
   });
 });
 
+var popup = new mapboxgl.Popup({
+    closeButton: true,
+    closeOnClick: false
+});
+
+map.on('click', function(e) {
+    var pt = [e.lngLat["lng"],e.lngLat["lat"]];
+
+    for(var i=0; i<austin.features.length; i++) {
+        if(turf.inside(pt, austin.features[i])) {
+            var feature = austin.features[i];
+            var featurebbox = turf.bbox(feature);
+            var total_km = Math.round(feature.properties.km * 100)/100;
+            var total_mi = Math.round(feature.properties.mi * 100)/100;
+            var covered_km = 0;
+            var ratio = covered_km / total_km;
+            var mindate = (1506063600000); //set to show epoch milliseconds of the start date
+            var mindateISO = new Date(mindate).toISOString();
+            var usernames = ['mly_aus01','mly_aus02','mly_aus03','mly_aus04'];
+            var featureURL = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&start_time=' + mindateISO + '&usernames=' + usernames.toString();
+            console.log(featureURL);
+            $.ajax({
+              dataType: "json",
+              url: featureURL,
+              success: function (data) {
+                if (data.length) {
+                  for (i = 0; i < data.length; i++) {
+                    covered_km = covered_km + data[i]['total_distance'];
+                  }
+                }
+                ratio = covered_km / total_km;
+                popup.setLngLat(e.lngLat)
+                    .setHTML('#'+feature.properties.Id+
+                        '<br>Total: <b>'+total_km+' km</b>'+
+                        '<br>Covered: <b>'+covered_km+' km</b>'+
+                        '<br>Progress: <b>'+ratio+'%</b>'
+                        )
+                    .addTo(map);
+              }
+            });
+
+        }
+    }
+});
 
 
 </script>
