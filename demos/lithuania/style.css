@@ -2,24 +2,35 @@
   color: white;
   text-align: center;
   z-index: 1;
-  position:absolute;
+  position: absolute;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 #map {
-  position:absolute;
+  position: absolute;
   top:0;
   bottom:0;
   width:100%;
   height:99vh;
-  z-index: 1;
+  z-index: -1;
   padding: 0px;
 }
-#map-holder{
+#map-holder {
   height: 99%;
   padding: 0px;
   top:0;
   bottom:0;
   background-color: #35af6d;
+}
+#black {
+  display: inline-block;
+  color: black;
+  background: black;
+  min-width: 5vw;
+  min-height: 5vh;
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 .fill
 {
