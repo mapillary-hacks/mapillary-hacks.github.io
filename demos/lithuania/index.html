@@ -10,6 +10,7 @@
   <link href='style.css' rel='stylesheet' />
   <script src='https://unpkg.com/mapillary-js@2.6.0/dist/mapillary.min.js'></script>
   <link href='https://unpkg.com/mapillary-js@2.6.0/dist/mapillary.min.css' rel='stylesheet' />
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 </head>
 
 <body>
@@ -21,14 +22,30 @@
 
 <script src='toggle.js'></script>
 <script>
+var bbox;
+var ltu;
+//bbox to lock panning
+$.ajax({
+  dataType: "json",
+  async: false, // Makes sure to wait for load
+  url: 'diff.geojson',
+  success: function (square) {
+    bbox = turf.bbox(square);
+    ltu = square;
+    console.log('There are ' + ltu.features.length + ' features');
+  }
+});
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v9',
     center: [24.10400390625,
           55.38847206158908],
-    zoom: 7
+    zoom: 7,
+    maxBounds: bbox
 });
+
 map.on('style.load', function () {
 
   map.addSource('diff', {
