@@ -51,7 +51,40 @@ html, body {
      border: 1px solid rgba(0,0,0,0.4);
      font-family: 'Open Sans', sans-serif;
  }
-
+ #legend {
+   padding-top: 0vh;
+   top: 2vh;
+   position: absolute;
+   left: 40vw;
+   background: #000;
+   border: 1px solid white;
+   color: white;
+   width: 20vw;
+   height: 5vh;
+   font-size: 1vh;
+   line-height: 5vh;
+   visibility: visible;
+ }
+ #grad {
+  display:inline-block;
+  vertical-align: middle;
+  height: 40%;
+  width: 10vw;
+  background: red; /* For browsers that do not support gradients */
+  /* For Safari 5.1 to 6.0 */
+  background: -webkit-linear-gradient(left,#313695,#4575b4,#74add1,#abd9e9,#e0f3f8,#ffffbf,#fee090,#fdae61,#f46d43,#d73027,#a50026);
+  /* For Opera 11.1 to 12.0 */
+  background: -o-linear-gradient(left,#313695,#4575b4,#74add1,#abd9e9,#e0f3f8,#ffffbf,#fee090,#fdae61,#f46d43,#d73027,#a50026);
+  /* For Fx 3.6 to 15 */
+  background: -moz-linear-gradient(left,#313695,#4575b4,#74add1,#abd9e9,#e0f3f8,#ffffbf,#fee090,#fdae61,#f46d43,#d73027,#a50026);
+  /* Standard syntax */
+  background: linear-gradient(to right,#313695,#4575b4,#74add1,#abd9e9,#e0f3f8,#ffffbf,#fee090,#fdae61,#f46d43,#d73027,#a50026);
+}
+#gradbuf {
+ display:inline-block;
+ height: 40%;
+ width: 1vw;
+ }
  #menu a {
      font-size: 13px;
      color: #404040;

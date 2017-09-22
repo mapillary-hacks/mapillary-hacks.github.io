@@ -12,6 +12,7 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
 
     link.onclick = function (e) {
         var clickedLayer = this.textContent;
+        
         try {
           map.removeLayer('selection');
           map.removeSource('selection');
