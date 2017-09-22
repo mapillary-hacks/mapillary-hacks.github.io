@@ -1,5 +1,5 @@
 var toggleableLayerIds = ['speed limit signs', 'speed zones', 'crosswalks', 'bridges', 'guard rails', 'traffic islands', 'buildings', 'tunnels', 'vegetation','water'];
-var colors = ['red', 'yellow', 'orange', 'brown', 'white', '#32cd32', 'pink', 'purple', 'magenta', 'green', '#a0f7ff'];
+var colors = ['red', 'yellow', 'orange', 'brown', 'white', '#32cd32', 'pink', 'purple', 'magenta', '#9ecc3b', '#a0f7ff'];
 
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];
