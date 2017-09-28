@@ -18,6 +18,6 @@ var challengeLat = 45.47959226728197; //center of the map
 var challengeZoom = 13; //zoom for desktop browser
 var mobileZoom = 11; //should be challengeZoom minus 2 usually
 
-var facebookShare = 'url.com'; //link for facebook sharing
-var twitterShare = 'url.com'; //link for twitter sharing
-var emailShare = 'mail.com'; //link for email sharing
+var facebookShare = 'http://www.facebook.com/sharer.php?u=https%3A%2F%2Fmapillary-hacks.github.io%2Fleaderboard%2Fmilano%2F&p[title]=Complete%20the%20Map%20Milano%20challenge%3A%20'; //link for facebook sharing
+var twitterShare = 'https://twitter.com/intent/tweet?text=Complete%20the%20Map%20Milano%20challenge%3A%20&url=https%3A%2F%2Fmapillary-hacks.github.io%2Fleaderboard%2Fmilano%2F'; //link for twitter sharing
+var emailShare = 'mailto:someone@example.com?Subject=Complete%20the%20Map%20Milano%20challenge%3A%20&body=https%3A%2F%2Fmapillary-hacks.github.io%2Fleaderboard%2Fmilano%2F'; //link for email sharing
