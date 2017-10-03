@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <script src=https://code.jquery.com/jquery-3.2.1.min.js></script>
+  </head>
+
+  <body>
+  <table id="table"></table>
+    <script>
+      $.ajax({
+      type: "get",
+      dataType: "json",
+      url: "https://a.mapillary.com/v3/leaderboard/images?usernames=chrisbeddow,gyllen,katrinhumal,quicksand&client_id=NzNRM2otQkR2SHJzaXJmNmdQWVQ0dzoxMGNiYjQ1MzFjMWMyYWI3&start_time=2017-04-01&end_time=2017-04-30",
+      success: function(data) {
+        for (i = 0; i < data.length; i++) {
+        $('#table').append('<tr><td>' + data[i]["username"] + '</td><td>' + data[i]["image_count"] + '</td><td>');
+        };
+      }
+    });
+    </script>
+  </body>
+
+</html>

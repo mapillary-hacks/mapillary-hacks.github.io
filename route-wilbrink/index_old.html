@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Route Wilbrink</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
+<style>
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  z-index: 1;
+}
+#mly {
+  position: absolute;
+  bottom: 1vh;
+  left: 1vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  width:25vw;
+  height:31vh;
+  border: 0px solid rgba(63, 127, 191);
+  z-index: 1;
+}
+html, body {
+   position:fixed;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+   background-color: black;
+}
+.btn {
+  padding: 0px;
+  cursor: pointer;
+  height: 2.6vh;
+  width: 100%;
+  background-color: rgba(237, 228, 217, 0.3);
+  color: white;
+  font-weight: none;
+  font-size: 1.4vh;
+  display: inline-block;
+  border: none;
+  margin-top: .4vh;
+  min-height: 2.4vh;
+}
+.btn:hover {
+  background-color: white;
+  color:  rgb(114, 87, 54);
+}
+.btnactive:hover {
+  background-color: white;
+  color: rgb(114, 87, 54);
+}
+.btnactive {
+  padding: 0px;
+  cursor: pointer;
+  height: 2.4vh;
+  width: 100%;
+  font-size: 1.4vh;
+  background-color: white;
+  color: rgb(114, 87, 54);
+  display: inline-block;
+  border: none;
+  border-radius: 3px;
+  margin-top: .4vh;
+}
+#logo {
+  padding: 0px;
+  display: inline-block;
+  position: absolute;
+  bottom: 1vh;
+  right: 1vh;
+  border-radius: 3px;
+  z-index: 2;
+}
+#menu {
+  position: absolute;
+  top: 1vh;
+  left: 1vh;
+  background-color: rgba(114, 87, 54, 0.85);
+  color: white;
+  width:25vw;
+  height:64vh;
+  border: 0px solid rgba(63, 127, 191);
+  z-index: 1;
+  padding: 0vh;
+  font-size: 0;
+}
+#mapkey {
+  min-width: 10vw;
+  padding: 2vh;
+}
+#locations {
+  min-width: 8vw;
+  padding-left: 3vh;
+  padding-right: 3vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+td {
+  height: 3vh;
+  font-size: .75vw;
+}
+</style>
+</head>
+
+<body>
+<div id='logo'>
+  <img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' style="width: 12vw"/>
+</div>
+
+<div id='map'></div>
+
+<div class='container flex' id='menu'>
+  <div class='row'>
+    <div class='col-xs-6' id='mapkey'>
+      <br>
+      <table>
+        <tr>
+        <td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td><div style='display:inline-block;width:2vw;height:.3vw;background-color:#FF6666;vertical-align:middle;'></td><td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td> Route Wilbrink</td>
+        </tr>
+        <tr>
+        <td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td><div style='display:inline-block;width:2vw;height:.3vw;background-color:#36AF6D;vertical-align:middle;'></td><td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td> Mapillary</td>
+        </tr>
+        <tr>
+        <td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td><div style='display:inline-block;width:2vw;vertical-align:middle;'><center><img src='location.png' / style='height:2.5vh'></center></td><td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td> Mapillary Location</td>
+        </tr>
+        <tr>
+        <td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td><center><div style='display:inline-block;width:1vw;height:1vw;padding-top:.5vw;background-color:#FF6666;vertical-align:middle;border-radius:50%;border:.1vw solid white'></center></td><td><div style='display:inline-block;width:1vw;height:.3vw;background-color:none;vertical-align:middle;'></td><td> Wilbrink Location</td>
+        </tr>
+
+      </table>
+    </div>
+    <div class='col-xs-6' id='locations'>
+      <button class="btn" onclick="fly(id);" id="netherlands">Netherlands</button>
+      <button class="btn" onclick="fly(id);" id="belgium">Belgium</button>
+      <button class="btn" onclick="fly(id);" id="france">France</button>
+      <button class="btn" onclick="fly(id);" id="spain">Spain</button>
+      <button class="btn" onclick="fly(id);" id="morocco">Morocco</button>
+      <button class="btn" onclick="fly(id);" id="mauritania">Mauritania</button>
+      <button class="btn" onclick="fly(id);" id="senegal">Senegal</button>
+      <button class="btn" onclick="fly(id);" id="guinea">Guinea</button>
+      <button class="btn" onclick="fly(id);" id="ivorycoast">Ivory Coast</button>
+      <button class="btn" onclick="fly(id);" id="ghana">Ghana</button>
+      <button class="btn" onclick="fly(id);" id="togo">Togo</button>
+      <button class="btn" onclick="fly(id);" id="benin">Benin</button>
+      <button class="btn" onclick="fly(id);" id="nigeria">Nigeria</button>
+      <button class="btn" onclick="fly(id);" id="cameroon">Cameroon</button>
+      <button class="btn" onclick="fly(id);" id="congo1">Rep. of the Congo</button>
+      <button class="btn" onclick="fly(id);" id="congo2">Dem. Rep. of the Congo</button>
+      <button class="btn" onclick="fly(id);" id="angola">Angola</button>
+      <button class="btn" onclick="fly(id);" id="zambia">Zambia</button>
+      <button class="btn" onclick="fly(id);" id="botswana">Botswana</button>
+      <button class="btn" onclick="fly(id);" id="zafrica">South Africa</button>
+    </div>
+  </div>
+</div>
+<div id='mly'>
+  <script>
+      var mly = new Mapillary.Viewer(
+          'mly',
+          'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
+          null,
+          {
+              component: {
+                  attribution: true,
+                  cover: false,
+                  imagePlane: {
+                      imageTiling: true
+                  },
+                  stats: true
+              },
+              renderMode: Mapillary.RenderMode.Fill
+          }
+      );
+
+  </script>
+  <center><div id='mjsinfo' style="display:inline-block;margin-top:16vh;position:relative;vertical-align: middle;">Click on the map to view nearby images</div></center>
+</div>
+<script>
+var currentLocation = ''
+function fly(id) {
+  var sequenceComponent = mly.getComponent("sequence");
+  sequenceComponent.stop();
+  try {
+    $("#" + currentLocation).removeClass('btnactive');
+    $("#" + currentLocation).addClass('btn');
+  } catch (err) {
+    //do nothing
+  }
+  $("#" + id).removeClass('btn');
+  $("#" + id).addClass('btnactive');
+
+  currentLocation = id;
+  switch(id) {
+    case 'netherlands':
+      map.fitBounds([[3.30944,50.7506675],[7.2309025,53.565815]]);
+      break;
+    case 'belgium':
+      map.fitBounds([[2.546011,49.497238],[6.406391,51.5048445]]);
+      break;
+    case 'france':
+      map.fitBounds([[-5.142222,41.338779],[9.561556,51.092804]]);
+      break;
+    case 'spain':
+      map.fitBounds([[-9.290778,35.937668],[4.315389,43.791721]]);
+      break;
+    case 'morocco':
+      map.fitBounds([[-17.013743,21.419971],[-1.031999,35.926519]]);
+      break;
+    case 'mauritania':
+      map.fitBounds([[-17.070134,14.721273],[-4.833334483,27.294444463]]);
+      break;
+    case 'senegal':
+      map.fitBounds([[-17.546278,12.307289],[-11.348607,16.693054]]);
+      break;
+    case 'guinea':
+      map.fitBounds([[-15.394583702,7.190909],[-7.637853,12.6745792]]);
+      break;
+    case 'ivorycoast':
+      map.fitBounds([[-8.602059,4.352833271],[-2.493031,10.740015]]);
+      break;
+    case 'ghana':
+      map.fitBounds([[-3.260676,4.735416889],[1.19947914281,11.166667]]);
+      break;
+    case 'togo':
+      map.fitBounds([[-0.144042,6.11228345355],[1.80905,11.139552264]]);
+      break;
+    case 'benin':
+      map.fitBounds([[0.776667,6.230061426],[3.843343,12.408552333]]);
+      break;
+    case 'nigeria':
+      map.fitBounds([[2.676932,4.275388718],[14.677982,13.885645]]);
+      break;
+    case 'cameroon':
+      map.fitBounds([[8.505056,1.654551],[16.207723,13.081141]]);
+      break;
+    case 'congo1':
+      map.fitBounds([[11.1532420114,-5.03138888],[18.643611,3.707791]]);
+      break;
+    case 'congo2':
+      map.fitBounds([[12.201992072,-13.459035],[31.314611,5.392003]]);
+      break;
+    case 'angola':
+      map.fitBounds([[11.674555779,-18.039104],[24.084445,-4.387944]]);
+      break;
+    case 'zambia':
+      map.fitBounds([[21.996388,-18.077418],[33.702222,-8.203284]]);
+      break;
+    case 'botswana':
+      map.fitBounds([[19.998903,-26.907545],[29.375304,-17.778158]]);
+      break;
+    case 'zafrica':
+      map.fitBounds([[13.47055,-34.965814],[29.978281,-24.126452]]);
+      break;
+  }
+
+}
+function caFind(num) {
+    var angles = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
+    var curr = angles[0];
+    var diff = Math.abs (num - curr);
+    for (var val = 0; val < angles.length; val++) {
+        var newdiff = Math.abs (num - angles[val]);
+        if (newdiff < diff) {
+            diff = newdiff;
+            curr = angles[val];
+        }
+    }
+    return curr;
+}
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'style.json',
+    center: [19,
+          14],
+    zoom: 2.5
+});
+
+map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
+
+map.on('style.load', function () {
+  var mapillarySource = {
+      type: 'vector',
+      tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+      minzoom: 0,
+      maxzoom: 14
+  };
+  var route = {
+            "type": "geojson",
+            "data": "route.geojson"
+  };
+
+  var jurglocation = 'https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/04nCWQ5X8n9yySPrvOS6PTjZLpqjXmXoa/message.json'
+  var jlon;
+  var jlat;
+  var jlayer;
+  $.ajax({
+	  url: jurglocation,
+	  dataType: 'json',
+	  async: false,
+	  success: function(data){
+  		var messages = data.response.feedMessageResponse.messages;
+      console.log(messages);
+      var latest = Object.values(messages)[0][0];
+      jlon = latest['longitude'];
+      jlat = latest['latitude'];
+      console.log(latest);
+      console.log('Current coordinates are: ' + latest['longitude'] + ', ' + latest['latitude']);
+      jlayer = {
+          "type": "FeatureCollection",
+          "features": [{
+              "type": "Feature",
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": [jlon, jlat]
+              }
+          }]
+      };
+      map.addSource('wilbrink', {
+      "type": "geojson",
+      "data": jlayer
+      });
+      map.addLayer({
+        "id": "wilbrink",
+        "type": "circle",
+        "source": "wilbrink",
+        "paint": {
+                "circle-color": '#FFF',
+                "circle-radius": 10,
+            },
+      },'route');
+      map.addLayer({
+        "id": "wilbrink2",
+        "type": "circle",
+        "source": "wilbrink",
+        "paint": {
+                "circle-color": '#FF6666',
+                "circle-radius": 8,
+                "circle-opacity": 1
+            },
+      },'mapillary');
+
+	  }
+	});
+  var filter = ['all',['==', 'userkey', '3sL-aXOWnD2h_x50934wbA']]
+  map.addSource('route', route);
+  map.addLayer({
+      'id': 'route',
+      'type': 'line',
+      'source': 'route',
+      'layout': {
+          'line-cap': 'round',
+          'line-join': 'round'
+      },
+      'paint': {
+          'line-opacity': 0.5,
+          'line-color':   '#FF6666',
+          'line-width':   3
+      }
+  },'mapillary');
+  map.addSource('mapillary', mapillarySource);
+  map.addSource('mapillary2', mapillarySource);
+  map.addLayer({
+      'id': 'mapillary2',
+      'type': 'line',
+      'source': 'mapillary2',
+      'source-layer': 'mapillary-sequences',
+      'layout': {
+          'line-cap': 'round',
+          'line-join': 'round'
+      },
+      'filter': filter,
+      'paint': {
+          'line-opacity': 0.5,
+          'line-color':   'rgb(53, 175, 109)',
+          'line-width':   5
+      }
+  }, 'waterway-label');
+  map.addLayer({
+      'id': 'mapillary-overview',
+      'type': 'circle',
+      'source': 'mapillary2',
+      'source-layer': 'mapillary-sequence-overview',
+      'filter': filter,
+      'paint': {
+          'circle-opacity': 0.5,
+          'circle-color':   'rgb(53, 175, 109)',
+          'circle-radius':   5
+      }
+  }, 'waterway-label');
+  map.addLayer({
+       'id': 'mapillary',
+       'type': 'circle',
+       'source': 'mapillary',
+       'source-layer': 'mapillary-images',
+       'layout': {
+           'visibility': 'visible'
+       },
+       'filter': filter,
+       'paint': {
+           'circle-opacity': 0.45,
+           'circle-radius': 6,
+           'circle-color':   'rgb(53, 175, 109)',
+       }
+   }, 'waterway-label');
+});
+
+var geojson;
+
+map.on('click', function (e) {
+  var lng = JSON.stringify(e.lngLat["lng"]);
+  var lat = JSON.stringify(e.lngLat["lat"]);
+  var sequenceComponent = mly.getComponent("sequence");
+  sequenceComponent.stop();
+  try {
+    $("#mjsinfo").hide();
+  } catch(err) {
+    //do nothing
+  }
+  map.flyTo({
+      center: [lng,lat],
+      zoom: 14,
+  });
+
+  var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&closeto="+ lng + "," + lat;
+
+  $.ajax({
+      dataType: "json",
+      url: url,
+      success: function(data) {
+        try {
+            map.removeLayer("point");
+            map.removeSource("point");
+        } catch (err) {
+            // Do nothing the layers just does not exists
+        }
+        console.log(url);
+        var imgkey = data.features[0]["properties"]["key"];
+        var ca = data.features[0]["properties"]["ca"];
+        lng = data.features[0]["geometry"]["coordinates"][0];
+        lat = data.features[0]["geometry"]["coordinates"][1];
+        var currCa = caFind(ca);
+        console.log("Camera angle " + ca + " converted to " + currCa);
+        console.log(imgkey);
+        mly.moveToKey(imgkey);
+        geojson = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [lng, lat]
+                },
+                "properties": {
+                          "angle": currCa
+                }
+            }]
+        };
+
+        map.addSource('point', {
+        "type": "geojson",
+        "data": geojson
+        });
+
+        map.addLayer({
+          "id": "point",
+          "type": "symbol",
+          "source": "point",
+          "layout": {
+              "icon-image": "cur-ca-{angle}"
+          }
+        }, 'mapillary');
+
+      }
+  });
+});
+
+map.on('mouseenter', 'mapillary', function () {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'mapillary', function () {
+    map.getCanvas().style.cursor = '';
+});
+
+mly.on('nodechanged', function (node) {
+    try {
+        map.removeLayer("point");
+        map.removeSource("point");
+    } catch (err) {
+        // Do nothing the layers just does not exists
+    }
+    var lng = node.originalLatLon.lon;
+    var lat = node.originalLatLon.lat;
+    var ca = node.ca;
+    var currCa = caFind(ca);
+    map.flyTo({
+        center: [lng, lat],
+        pitch: 0
+    });
+    var currCa = caFind(ca);
+
+    geojson = {
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [lng, lat]
+            },
+            "properties": {
+                      "angle": currCa
+            }
+        }]
+    };
+
+    map.addSource('point', {
+    "type": "geojson",
+    "data": geojson
+    });
+
+    map.addLayer({
+      "id": "point",
+      "type": "symbol",
+      "source": "point",
+      "layout": {
+          "icon-image": "cur-ca-{angle}"
+      }
+    });
+});
+
+mly.on(
+Mapillary.Viewer.bearingchanged,
+function(bearing) {
+    console.log('bearing changed:', bearing);
+    map.removeLayer("point");
+
+    var currCa = caFind(bearing);
+    console.log(currCa);
+
+    map.addLayer({
+      "id": "point",
+      "type": "symbol",
+      "source": "point",
+      "layout": {
+          "icon-image": "cur-ca-" + currCa
+      }
+    });
+});
+
+</script>
+</body>
+</html>

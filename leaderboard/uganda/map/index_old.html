@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Uganda Competition - Mapillary</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<style>
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  z-index: -1;
+}
+html, body {
+   position:fixed;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+   background-color: black;
+}
+.map-overlay {
+    font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    position: absolute;
+    width: 25%;
+    top: 0;
+    left: 0;
+    color: "#900";
+
+    font-weight: bold;
+}
+
+.map-overlay .map-overlay-inner {
+    background-color: #a9a9a9;
+    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+    border-radius: 3px;
+    padding: 5px;
+    width: 60%;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.map-overlay label {
+    display: block;
+    margin: 0 0 10px;
+}
+
+.map-overlay input {
+    background-color: transparent;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    cursor: ew-resize;
+}
+#menu {
+    position: absolute;
+    background: #a9a9a9;
+    width: 60%;
+    padding: 5px;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow:0;
+}
+input {
+    border: 0px solid;
+    padding: 0px;
+    font-weight: bold;
+}
+.btn {
+  padding: 5px;
+  cursor: pointer;
+}
+.mbtn {
+  padding: 5px;
+  cursor: pointer;
+}
+/*.btn:hover {
+  color: #FFF;
+  background: #333333;
+  cursor: pointer;
+}
+.mbtn:hover {
+  color: #FFF;
+  background: #9933ff;
+  cursor: pointer;
+} */
+#logo {
+  padding: 5px;
+  margin-bottom: 0px;
+  margin-left:0px;
+  border-radius: 3px;
+  background: 'white';
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class='map-overlay top'>
+  <div id='logo'>
+    <img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' width=62% style="margin-top:5px;">
+  </div>
+  <div id='logo'>
+    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Flag_of_Uganda.svg/1200px-Flag_of_Uganda.svg.png' width=62% height=62%>
+  </div>
+  <div class='map-overlay-inner'>
+      <label>Uganda Competition Progress: <br><span id='slider-value'> </span></label>
+      <input id='slider' type='range' min='1' max='' step='1' value='1' />
+      <script>
+      var days = (Date.now()-1490997600000)/86400000;
+      console.log(Date.now());
+      console.log(days);
+      document.getElementById('slider').max = days;
+      document.getElementById('slider').value = days;
+      document.getElementById('slider-value').innerHTML = Math.floor(days) + ' days since April 1st, 2017';
+
+      </script>
+  </div>
+
+  <div id='menu' class='map-overlay-inner'>
+    <div id='light' class='btn' style='background-color:#333333;color:#FFF;'>Basemap: light</div>
+    <div id='satellite' class='btn'>Basemap: satellite</div>
+    <div id='mly' class='mbtn'>Show all Mapillary sequences</div>
+  </div>
+</div>
+<div id='map'></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+var bounds = [
+  [ 12.06298828125,
+          42.01665183556825],
+  [  14.139404296875,
+          43.389081939117496]
+];
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v9',
+    center: [32.187,1.291],
+    zoom: 7
+});
+
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByClassName('btn');
+var count = 0
+
+var userjson = "usernames.json";
+var url;
+var users = [];
+var userkeys = [];
+$.ajax({
+  type: "get",
+  dataType: "json",
+  url: userjson,
+  async: false,
+  success: function(data) {
+      console.log(JSON.stringify(data));
+      for (var u = 0; u < data.usernames.length; u++) {
+        var user = data.usernames[u]["user"];
+        users.push(user);
+        url = "https://a.mapillary.com/v3/users/?usernames=" + user + "&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzphYTFkMGJiNWVlMmRjMDI5";
+        $.ajax({
+          type: "get",
+          dataType: "json",
+          url: url,
+          async: false,
+          success: function(data) {
+            var key = data[0]["key"];
+            userkeys.push(key);
+          }
+        });
+      }
+  }
+});
+console.log(users);
+console.log(userkeys);
+var myfilter = ["in", "userkey",...userkeys]
+console.log(myfilter);
+
+function mlyAdd() {
+    console.log(count);
+    switch (count) {
+      case 0:
+        mly.style.backgroundColor = "#9933ff";
+        mly.style.color = "#FFF";
+        count = 1;
+        map.addLayer({
+            'id': 'mapillary-all',
+            'type': 'circle',
+            'source': 'mapillary',
+            'source-layer': 'mapillary-sequence-overview',
+            'paint': {
+                'circle-opacity': 0.75,
+                'circle-color':   'magenta',
+                'circle-radius':   1
+            }
+        }, 'mapillary-o');
+        map.addLayer({
+           'id': 'mapillary-all2',
+           'type': 'line',
+           'source': 'mapillary',
+           'source-layer': 'mapillary-sequences',
+           'layout': {
+               'line-cap': 'round',
+               'line-join': 'round'
+           },
+           'paint': {
+               'line-opacity': 0.75,
+               'line-color':   'magenta',
+               'line-width':   1
+           }
+        }, 'mapillary');
+        break;
+      case 1:
+        mly.style.backgroundColor = "#a9a9a9";
+        mly.style.color = "#000";
+        count = 0;
+        map.removeLayer('mapillary-all');
+        map.removeLayer('mapillary-all2');
+        break;
+    };
+};
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+    switch (layerId) {
+      case 'light':
+        light.style.backgroundColor = "#333333";
+        light.style.color = "#FFF";
+        satellite.style.backgroundColor = "#a9a9a9";
+        satellite.style.color = "#000";
+        break;
+      case 'satellite':
+        satellite.style.backgroundColor = "#333333";
+        satellite.style.color = "#FFF";
+        light.style.backgroundColor = "#a9a9a9";
+        light.style.color = "#000";
+        break;
+    };
+};
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+
+var slider = document.getElementById('slider');
+var sliderValue = document.getElementById('slider-value');
+
+
+var maxdate = Date.now();
+var mindate = (1490997600000) //set to show Mapillary sequences from August 1, 2016 onward
+var last30 = (maxdate-(86400000 * 60))
+
+
+map.on('style.load', function () {
+  var mapillarySource = {
+      type: 'vector',
+      tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+      minzoom: 0,
+      maxzoom: 14,
+  };
+
+  map.addSource('mapillary', mapillarySource);
+  map.addLayer({
+      'id': 'mapillary-o',
+      'type': 'circle',
+      'source': 'mapillary',
+      'source-layer': 'mapillary-sequence-overview',
+      'filter': ['all',
+              myfilter,
+              ['>=', 'captured_at', mindate],
+              ['<=', 'captured_at', maxdate]],
+      'paint': {
+          'circle-opacity': 0.75,
+          'circle-color':   'rgb(53, 175, 109)',
+          'circle-radius':   2
+      }
+  });
+  map.addLayer({
+     'id': 'mapillary',
+     'type': 'line',
+     'source': 'mapillary',
+     'source-layer': 'mapillary-sequences',
+     'filter': ['all',
+             myfilter,
+             ['>=', 'captured_at', mindate],
+             ['<=', 'captured_at', maxdate]],
+     'layout': {
+         'line-cap': 'round',
+         'line-join': 'round'
+     },
+     'paint': {
+         'line-opacity': 0.75,
+         'line-color':   'rgb(53, 175, 109)',
+         'line-width':   2
+     }
+ });
+  mly.onclick = mlyAdd;
+
+  slider.addEventListener('input', function(e) {
+          var newDate = (maxdate-(86400000 * e.target.value))
+          map.removeLayer('mapillary','mapillary-o');
+          map.addLayer({
+              'id': 'mapillary-o',
+              'type': 'circle',
+              'source': 'mapillary',
+              'source-layer': 'mapillary-sequence-overview',
+              'filter': ['all',
+                      myfilter,
+                      ['>=', 'captured_at', newDate],
+                      ['<=', 'captured_at', maxdate]],
+              'paint': {
+                  'circle-opacity': 0.75,
+                  'circle-color':   'rgb(53, 175, 109)',
+                  'circle-radius':   2
+              }
+          },'exzona');
+          map.addLayer({
+               'id': 'mapillary',
+               'type': 'line',
+               'source': 'mapillary',
+               'source-layer': 'mapillary-sequences',
+               'filter': ['all',
+                       myfilter,
+                       ['>=', 'captured_at', newDate],
+                       ['<=', 'captured_at', maxdate]],
+               'layout': {
+                   'line-cap': 'round',
+                   'line-join': 'round'
+               },
+               'paint': {
+                   'line-opacity': 0.75,
+                   'line-color':   'rgb(53, 175, 109)',
+                   'line-width':   2
+               }
+           }, 'exzona');
+
+          // Value indicator
+          sliderValue.textContent = e.target.value + ' days since April 1st, 2017';
+
+      });
+
+  map.addSource('exzona', {
+      'type': 'geojson',
+      'data': 'exzona.geojson'
+  });
+  map.addLayer({
+      'id': 'exzona',
+      'type': 'fill',
+      'source': 'exzona',
+      'paint': {
+          'fill-color': '#474A4E',
+          'fill-opacity': .99
+      }
+  });
+
+});
+
+  map.addControl(new mapboxgl.Navigation());
+</script>
+</body>
+</html>
