@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>HERE Dashboard</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src='app.js'></script>
+    <script src='countrycalc.js'></script>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.png'>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js'></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <script src='table2CSV.js'></script>
+    <script src='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.js'></script>
+    <link href='https://unpkg.com/mapillary-js@2.5.0/dist/mapillary.min.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  </head>
+  <style>
+    html, body {
+       position:relative;
+       top:0;
+       bottom:0;
+       left:0;
+       right:0;
+       background-color: black;
+    }
+    #leaderboard {
+      background: #000;
+      font:bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      min-height: 99vh;
+      height:99vh;
+      min-width: 50vw;
+      max-width: 80vw;
+      color: gray;
+    }
+    .alt-grid [class*="col-"] {
+      padding-left:0;
+      padding-right:0;
+    }
+    .alt-grid .row {
+      margin-left:0;
+      margin-right:0;
+    }
+    /* container adjusted */
+    .alt-grid .container {
+      width:80vw;
+      max-width: 80vw;
+      padding:0;
+    }
+    countrytr {
+      height: 10vh;
+      width: 100%;
+      float: right;
+      padding: 10px;
+    }
+    subtr {
+      height: 5vh;
+      width: 18vw;
+      float: center;
+      padding: 1vw;
+    }
+    td {
+      padding: 1vw;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+      width: 18vw;
+      padding: 1vw;
+    }
+    th {
+      background-color: rgb(72,218,208);
+      color: rgb(56,60,69);
+      padding: 1vw;
+    }
+    tr:nth-child(odd) {
+      background-color: #d3d3d3;
+      width: 18vw;
+      padding: 1vw;
+    }
+    #table {
+      float: center;
+      border: 3;
+      border-color: white;
+      padding: 5vw;
+      width: 80vw;
+    }
+    #tableUsers {
+      float: center;
+      border: 3;
+      border-color: white;
+      padding: 5vw;
+      width: 60vw;
+    }
+    #totalTable {
+      float: center;
+      border: 3px rgb(56,60,69);
+      background-color: #000;
+      color: rgb(56,60,69);
+      padding: 1vw;
+    }
+    .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 0, 0, 0, .8 )
+                url('ajax-loader.gif')
+                50% 50%
+                no-repeat;
+    }
+    .modal2 {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        z-index: 1001;
+    }
+    .modal-content {
+        background-color: #000;
+        margin: 2vh auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #FFF;
+        width: 75vw; /* Could be more or less, depending on screen size */
+        z-index: 1002;
+    }
+    #close:hover,
+    #close:focus {
+        cursor: pointer;
+    }
+    body.loading {
+        overflow: hidden;
+    }
+    body.loading .modal {
+        display: block;
+    }
+    button {
+      background-color: rgb(72,218,208);
+      color: rgb(56,60,69);
+      height: 100%;
+      padding: 0 vh;
+      text-decoration: none;
+      display: inline-block;
+      border: 1px white;
+    }
+  </style>
+
+  <body>
+
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-xs-1'></div>
+      <div class='col-xs-10' id='top'>
+        <br>
+        <center><img src='HERE_logo.svg.png' height=10% width=10% /></center>
+        <br>
+      <div class='col-xs-1'></div>
+      </div>
+    </div>
+    <div class-'row'>
+      <div class='col-xs-1'></div>
+      <div class='col-xs-10' id='totals'>
+        <center><table id='totalTable'></table></center><br>
+      </div>
+      <div class='col-xs-1'></div>
+    </div>
+    <div class-'row'>
+      <div class='col-xs-1'></div>
+      <div class='col-xs-6 col-xs-offset-3' style='color:white;'>
+        <center id="updatedDate"></center><br>
+      </div>
+      <div class='col-xs-2'>
+        <a id='export'><button><b>Export CSV</b></button></a>
+      </div>
+      <div class='col-xs-1'></div>
+    </div>
+    <div class-'row' >
+      <div class='col-xs-2'></div>
+      <div class='col-xs-3 col-xs-offset-3' style='color:white;'>
+        From: <input type="date" id="start_date" style='color:black;' />
+     </div>
+     <div class='col-xs-3' style='color:white;'>
+        To: <input type="date" id="end_date" style='color:black;' />
+      </div>
+      <div class='col-xs-2'><button onclick='applyDates()'><b>Apply Date Filter</b></button></div>
+      <div class='col-xs-1' style='min-height:5vh;'></div>
+    </div>
+    <div class='row'>
+      <div class='col-xs-2'></div>
+      <div class='col-xs-10 col-xs-offset-1' id='leaderboard'>
+        <table id='table'></table>
+        <script>
+          $('#end_date').val(new Date().toISOString().substring(0,10));
+          console.log($('#end_date').val());
+          $body = $("body");
+          $(document).on({
+              ajaxStart: function() { $body.addClass("loading"); },
+              ajaxStop: function() { $body.removeClass("loading"); calculateTotals(); sortTable(0); }
+          });
+          getUsers();
+          loadTable();
+
+          function runAjax(a, b) {
+            $('#table').empty();
+            $('#table').append('<tr id="subtr"><th onclick="sortTable(0)"><h5><b>Country</h5></th><th onclick="sortTable2(1)"><h5><b>Images</h5></th><th onclick="sortTable2(2)"><h5><b>Kilometers</h5></th><th onclick="sortTable2(3)"><h5><b>UTM Users</h5></th><th onclick="sortTable2(4)"><h5><b>Non-UTM Users</h5></th></tr>');
+            var done = 53; // number of total requests
+            var sum = 0;
+            var from = a;
+            var to = b;
+            var N = countries.length;
+            var numbers = Array.apply(null, {length: N}).map(Number.call, Number);
+            $(numbers).each(function() {
+              var c = (this);
+              var currentCode = codes[c];
+              var currentCountry = countries[c];
+              var formatThousands = function(n, dp){
+                var s = ''+(Math.floor(n)), d = n % 1, i = s.length, r = '';
+                while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }
+                return s.substr(0, i + 3) + r +
+                  (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
+              };
+              var image_url = 'https://a.mapillary.com/v3/leaderboard/images?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + from + to;
+              $.post(
+                image_url,
+              {
+                userkeys: userkeys,
+                iso_countries: currentCode,
+              }).done(function (stats) {
+                sortTable(0);
+                if (stats.length > 0 && currentCode !== 'FO' && currentCode !== 'TF' && currentCode !== 'HM' && currentCode !== 'SJ' && currentCode !== 'SH' && currentCode !== 'GI') {
+                  var distance_url = 'https://a.mapillary.com/v3/leaderboard/mapping_distances?query&client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzoyZjRiNjZiODRlNTA2ZTU3&per_page=1000' + from + to;
+                  $.post(
+                    distance_url,
+                  {
+                    userkeys: userkeys,
+                    iso_countries: currentCode,
+                  }).done(function (stats2) {
+                    var kmTotal = 0;
+                    for (n = 0; n < stats2.length; n++) {
+                      var km = stats2[n]["total_distance"]/1000;
+                      kmTotal = kmTotal + km;
+                      kmGrandTotal = kmGrandTotal + parseInt(kmTotal);
+                    }
+                    $('#' + currentCode +'km').html(formatThousands(kmTotal));
+                  }).fail(function (xhr, status, error) {
+                    console.log('fail', status, error);
+                    console.log(currentCountry + " " + currentCode + " failed km test");
+                  });
+                  var UTMTotal = 0;
+                  var nonUTMTotal = 0;
+                  var imageTotal = 0;
+                  for (n = 0; n < stats.length; n++) {
+                    var user = stats[n]["username"];
+//                    console.log(user + " is in " + currentCountry);
+                    var imageCount = stats[n]["image_count"];
+                    imageTotal = imageTotal + imageCount;
+                    if ($.inArray(user, usersUTM) !== -1) {
+                      UTMTotal++;
+                    };
+                    if ($.inArray(user, usersNonUTM) !== -1) {
+                      nonUTMTotal++;
+                    };
+                  }
+                  imagesGrandTotal = imagesGrandTotal + imageTotal;
+                  $('#table').append('<tr id="subtr"><td id="' + currentCode + '">' + currentCountry + '</td><td>' + formatThousands(imageTotal) + '</td><td id="' + currentCode +'km">' + 0 + '</td><td>' + UTMTotal + '</td><td>' + nonUTMTotal + '</td></tr>');
+                }
+              }).fail(function (xhr, status, error) {
+                console.log('fail', status, error);
+                console.log(currentCountry + " " + currentCode + " failed image test");
+              });
+              sum++;
+              done -= 1;
+            });
+          }
+
+          $(document).ready(function () {
+              function exportTableToCSV($table, filename) {
+                  var $headers = $table.find('tr:has(th)')
+                      ,$rows = $table.find('tr:has(td)')
+                      ,tmpColDelim = String.fromCharCode(11) // vertical tab character
+                      ,tmpRowDelim = String.fromCharCode(0) // null character
+                      ,colDelim = '","'
+                      ,rowDelim = '"\r\n"';
+                  var csv = '"';
+                  csv += formatRows($headers.map(grabRow));
+                  csv += rowDelim;
+                  csv += formatRows($rows.map(grabRow)) + '"';
+                  var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+                  if (window.navigator.msSaveOrOpenBlob) {
+                      var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
+                          type: "text/csv;charset=utf-8;"
+                      });
+                      navigator.msSaveBlob(blob, filename);
+                  } else {
+                      $(this)
+                          .attr({
+                              'download': filename
+                              ,'href': csvData
+                              //,'target' : '_blank' //if you want it to open in a new window
+                      });
+                  }
+                  function formatRows(rows){
+                      return rows.get().join(tmpRowDelim)
+                          .split(tmpRowDelim).join(rowDelim)
+                          .split(tmpColDelim).join(colDelim);
+                  }
+                  function grabRow(i,row){
+                      var $row = $(row);
+                      var $cols = $row.find('td');
+                      if(!$cols.length) $cols = $row.find('th');
+
+                      return $cols.map(grabCol)
+                                  .get().join(tmpColDelim);
+                  }
+                  function grabCol(j,col){
+                      var $col = $(col),
+                          $text = $col.text();
+                      return $text.replace('"', '""'); // escape double quotes
+                  }
+              }
+              $("#export").click(function (event) {
+                  var today = new Date().toString();
+                  var outputFile = 'HERE_Mapillary_Users_' + $('#start_date').val() + '_through_' + $('#end_date').val();
+                  outputFile = outputFile.replace('.csv','') + '.csv'
+                  exportTableToCSV.apply(this, [$('#leaderboard > table'), outputFile]);
+              });
+              $("#export2").click(function (event) {
+                  var today = new Date().toString();
+                  var outputFile = 'HERE_Mapillary_Users_' + document.getElementById('countryName').innerHTML + '_' + $('#start_date').val() + '_through_' + $('#end_date').val();
+                  outputFile = outputFile.replace('.csv','') + '.csv'
+                  exportTableToCSV.apply(this, [$('#tableUsers'), outputFile]);
+              });
+          });
+        </script>
+      </div>
+      <div class='col-xs-1'></div>
+    </div>
+  </div>
+  <div class="modal"><!-- Place at bottom of page --></div>
+  <div id="byCountry" class="modal2">
+
+  <!-- Modal content -->
+  <div class="modal-content" id='modal-content'>
+    <img src='close.png' height=32 width=32 style='float:right;' id='close'/>
+    <br>
+    <div class='row'>
+      <div class='col-xs-3'></div>
+      <div class='col-xs-6'>
+        <center><h3 id='countryName' style='color:white;'></h3>
+        <p style='color:white;' id='countryDates'></p></center>
+      </div>
+      <div class='col-xs-3'>
+        <br>
+        <a id='export2'></a>
+      </div>
+    </div>
+    <div id='leaderboardByCountry'>
+      <center><table id='tableUsers'></table></center>
+    </div>
+  </div>
+
+</div>
+  </body>
+</html>
