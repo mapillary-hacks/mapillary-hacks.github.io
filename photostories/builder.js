@@ -33,16 +33,16 @@ function loadOutput() {
   var project_subtitle = "'" + document.getElementById("subtitle").value + "'";
   for (i=1; i <= currentSlideCount; i++) {
     images.push("'" + document.getElementById("key"+i).value + "'");
-    titles.push("'" + document.getElementById("title"+i).value + "'");
-    content.push("'" + document.getElementById("content"+i).value + "'");
+    titles.push('\"' + document.getElementById("title"+i).value + '\"');
+    content.push('\"' + document.getElementById("content"+i).value + '\"');
     xcoords.push("'" + document.getElementById("xcoord"+i).value + "'");
     ycoords.push("'" + document.getElementById("ycoord"+i).value + "'");
   };
   $("#outputForm").append("var project_title = " + project_title + ";\n");
   $("#outputForm").append("var project_subtitle = " + project_subtitle + ";\n");
   $("#outputForm").append("var images = [" + images + "];\n");
-  $("#outputForm").append("var titles = [" + titles + "];\n");
-  $("#outputForm").append("var content = [" + content + "];\n");
+  $("#outputForm").append("var titles = ['\"' + titles + '\"'];\n");
+  $("#outputForm").append("var content = ['\"' + content + '\"'];\n");
   $("#outputForm").append("var xcoords = [" + xcoords + "];\n");
   $("#outputForm").append("var ycoords = [" + ycoords + "];\n");
 };
