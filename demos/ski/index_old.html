@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Skiing with Mapillary</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.5.1/dist/mapillary.min.css' rel='stylesheet' />
+<style>
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  z-index: 1;
+}
+#mly {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  width:480px;
+  height:31vh;
+  border: 3px solid rgba(63, 127, 191);
+  z-index: 1;
+}
+#menu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(63, 127, 191, 0.85);
+  color: white;
+  width:460px;
+  height:62vh;
+  border: 3px solid rgba(63, 127, 191);
+  z-index: 1;
+  padding: 10px;
+}
+html, body {
+   position:fixed;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+   background-color: black;
+}
+.btn {
+  padding: 5px;
+  cursor: pointer;
+  height: 10%;
+  width: 100%;
+  background-color: rgba(71,74,78, 0.3);
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  border: none;
+  margin-top: 6px;
+}
+.btn:hover {
+  background-color: black;
+}
+.btnactive:hover {
+  background-color: black;
+}
+.btnactive {
+  padding: 5px;
+  cursor: pointer;
+  height: 10%;
+  width: 100%;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  border: none;
+  margin-top: 6px;
+}
+#logo {
+  padding: 10px;
+  display: inline-block;
+  position: absolute;
+  bottom: 20px;
+  right: -680px;
+  border-radius: 3px;
+  z-index: 2;
+}
+</style>
+</head>
+
+<body>
+<div id='logo'>
+  <img src='https://d3rqg5ndc8pbid.cloudfront.net/original/1X/77b14c662df42f71f8a7f0775d1873f686a58788.png' style="width: 35%;"/>
+</div>
+
+<div id='map'></div>
+
+<div id='menu'>
+  <button class="btnactive" onclick="fly(id);" id="PU_wVUZuYWBJ5VE-FV4Ldg">Red Lodge Mountain, Montana, USA</button>
+  <button class="btn" onclick="fly(id);" id="aYAQVrBZ9gjHblpEYOeDJQ">Schatzalp Mountain Resort, Davos, Switzerland</button>
+  <button class="btn" onclick="fly(id);" id="xRxDTd0BRHoqI1PbBibjVA">Skei, Oppland, Norway</button>
+  <button class="btn" onclick="fly(id);" id="iAHcu-5lvi3F80JyDqEVqw">Lindvallen, Sälen, Sweden</button>
+  <button class="btn" onclick="fly(id);" id="7jVP4MbNL7pqzxmrFFZyRQ">Les Karellis, Montricher-Albanne, France</button>
+  <button class="btn" onclick="fly(id);" id="KqvYP1k4qpX6H2pYhZCwpw">Sapporo Teine, Hokkaido, Japan</button>
+  <button class="btn" onclick="fly(id);" id="qU4udQXg7fJ2MXyVAwpjgA">Parc National de Toubkal, Atlas Mountains, Morocco</button>
+  <button class="btn" onclick="fly(id);" id="DSKnY6zuzOp8MnuOfuzUFg">Copper Mountain, Colorado, USA</button>
+  <button class="btn" onclick="fly(id);" id="dDj3NIg7mKRnDwrspQrPBQ">Indrahar Pass, Himachal Pradesh, India</button>
+</div>
+<div id='mly'><script>
+      var mly = new Mapillary.Viewer(
+          'mly',
+          'UTZhSnNFdGpxSEFFREUwb01GYzlXZzozODY3MmU4M2M4OGU0MjIw',
+          'PU_wVUZuYWBJ5VE-FV4Ldg',
+          {
+              component: {
+                  attribution: true,
+                  cover: false,
+                  imagePlane: {
+                      imageTiling: true
+                  },
+                  stats: true
+              },
+              renderMode: Mapillary.RenderMode.Fill
+          }
+      );
+  </script></div>
+<script>
+var currentLocation = 'PU_wVUZuYWBJ5VE-FV4Ldg'
+function fly(id) {
+  mly.moveToKey(id);
+  var sequenceComponent = mly.getComponent("sequence");
+  sequenceComponent.stop();
+  $("#" + currentLocation).removeClass('btnactive');
+  $("#" + currentLocation).addClass('btn');
+  $("#" + id).removeClass('btn');
+  $("#" + id).addClass('btnactive');
+  currentLocation = id;
+}
+function caFind(num) {
+    var angles = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
+    var curr = angles[0];
+    var diff = Math.abs (num - curr);
+    for (var val = 0; val < angles.length; val++) {
+        var newdiff = Math.abs (num - angles[val]);
+        if (newdiff < diff) {
+            diff = newdiff;
+            curr = angles[val];
+        }
+    }
+    return curr;
+}
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'cij1zoclj002y8rkkdjl69psd.json',
+    center: [-109.237486,
+          45.086037],
+    zoom: 15
+});
+
+map.addControl(new mapboxgl.Navigation({position: 'top-right'}));
+
+map.on('style.load', function () {
+  var mapillarySource = {
+      type: 'vector',
+      tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+      minzoom: 0,
+      maxzoom: 14
+  };
+  map.addSource('mapillary', mapillarySource);
+  map.addSource('mapillary2', mapillarySource);
+  map.addLayer({
+      'id': 'mapillary2',
+      'type': 'line',
+      'source': 'mapillary2',
+      'source-layer': 'mapillary-sequences',
+      'layout': {
+          'line-cap': 'round',
+          'line-join': 'round'
+      },
+      'paint': {
+          'line-opacity': 0.6,
+          'line-color':   'rgb(53, 175, 109)',
+          'line-width':   2
+      }
+  });
+  map.addLayer({
+       'id': 'mapillary',
+       'type': 'circle',
+       'source': 'mapillary',
+       'source-layer': 'mapillary-images',
+       'layout': {
+           'visibility': 'visible'
+       },
+       'paint': {
+           'circle-opacity': 0.45,
+           'circle-radius': 5,
+           'circle-color':   'rgb(53, 175, 109)',
+       }
+   });
+});
+
+var geojson;
+
+map.on('click', function (e) {
+  var lng = JSON.stringify(e.lngLat["lng"]);
+  var lat = JSON.stringify(e.lngLat["lat"]);
+  var sequenceComponent = mly.getComponent("sequence");
+  sequenceComponent.stop();
+  map.flyTo({
+      center: [lng,lat],
+      zoom: 15,
+  });
+
+  var url ="https://a.mapillary.com/v3/images?client_id=MkJKbDA0bnZuZlcxeTJHTmFqN3g1dzplMGFjODhmMzBjNjNiOWZi&closeto="+ lng + "," + lat;
+
+  $.ajax({
+      dataType: "json",
+      url: url,
+      success: function(data) {
+        try {
+            map.removeLayer("point");
+            map.removeSource("point");
+        } catch (err) {
+            // Do nothing the layers just does not exists
+        }
+        console.log(url);
+        var imgkey = data.features[0]["properties"]["key"];
+        var ca = data.features[0]["properties"]["ca"];
+        lng = data.features[0]["geometry"]["coordinates"][0];
+        lat = data.features[0]["geometry"]["coordinates"][1];
+        var currCa = caFind(ca);
+        console.log("Camera angle " + ca + " converted to " + currCa);
+        console.log(imgkey);
+        mly.moveToKey(imgkey);
+        geojson = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [lng, lat]
+                },
+                "properties": {
+                          "angle": currCa
+                }
+            }]
+        };
+
+        map.addSource('point', {
+        "type": "geojson",
+        "data": geojson
+        });
+
+        map.addLayer({
+          "id": "point",
+          "type": "symbol",
+          "source": "point",
+          "layout": {
+              "icon-image": "cur-ca-{angle}"
+          }
+        });
+
+      }
+  });
+});
+
+map.on('mouseenter', 'mapillary', function () {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'mapillary', function () {
+    map.getCanvas().style.cursor = '';
+});
+
+mly.on('nodechanged', function (node) {
+    try {
+        map.removeLayer("point");
+        map.removeSource("point");
+    } catch (err) {
+        // Do nothing the layers just does not exists
+    }
+    var lng = node.originalLatLon.lon;
+    var lat = node.originalLatLon.lat;
+    var ca = node.ca;
+    var currCa = caFind(ca);
+    map.flyTo({
+        center: [lng, lat],
+        pitch: 0
+    });
+    var currCa = caFind(ca);
+
+    geojson = {
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [lng, lat]
+            },
+            "properties": {
+                      "angle": currCa
+            }
+        }]
+    };
+
+    map.addSource('point', {
+    "type": "geojson",
+    "data": geojson
+    });
+
+    map.addLayer({
+      "id": "point",
+      "type": "symbol",
+      "source": "point",
+      "layout": {
+          "icon-image": "cur-ca-{angle}"
+      }
+    });
+});
+
+mly.on(
+Mapillary.Viewer.bearingchanged,
+function(bearing) {
+    console.log('bearing changed:', bearing);
+    map.removeLayer("point");
+
+    var currCa = caFind(bearing);
+    console.log(currCa);
+
+    map.addLayer({
+      "id": "point",
+      "type": "symbol",
+      "source": "point",
+      "layout": {
+          "icon-image": "cur-ca-" + currCa
+      }
+    });
+});
+
+</script>
+</body>
+</html>

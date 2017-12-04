@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Lithuania Roads - Mapillary</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+  <link href='style.css' rel='stylesheet' />
+  <script src='https://unpkg.com/mapillary-js@2.6.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.6.0/dist/mapillary.min.css' rel='stylesheet' />
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+</head>
+
+<body>
+
+<div id='map'></div>
+<div id='title'><h1>Passing Through: Lithuania</h1></div>
+<nav id='menu'></nav>
+<div id='mly'><script src='mly.js'></script></div>
+<center>
+  <div id='legend'>
+    10 kmph<div id='gradbuf'></div><div id='grad'></div><div id='gradbuf'></div>110 kmph
+  </div>
+</center>
+
+<script src='toggle.js'></script>
+<script>
+var bbox;
+var ltu;
+//bbox to lock panning
+$.ajax({
+  dataType: "json",
+  async: false, // Makes sure to wait for load
+  url: 'diff.geojson',
+  success: function (square) {
+    bbox = turf.bbox(square);
+    ltu = square;
+    console.log('There are ' + ltu.features.length + ' features');
+  }
+});
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2JlZGRvdyIsImEiOiI5Q09YRG1RIn0.Izu6OPJ4CEEaSSpGuys3Xg';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v9',
+    center: [24.10400390625,
+          55.38847206158908],
+    zoom: 7,
+    maxBounds: bbox
+});
+
+map.on('style.load', function () {
+
+  map.addSource('diff', {
+      'type': 'geojson',
+      'data': 'diff.geojson'
+  });
+  map.addLayer({
+      'id': 'diff',
+      'type': 'fill',
+      'source': 'diff',
+      'paint': {
+          'fill-opacity': 0.85,
+          'fill-color': '#000'
+      },
+      'layout' : {
+        'visibility' : 'visible'
+      }
+  });
+
+  map.addSource('speed limit signs', {
+      'type': 'geojson',
+      'data': 'speed.geojson'
+  });
+  map.addLayer({
+      'id': 'speed limit signs',
+      'type': 'circle',
+      'source': 'speed limit signs',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': {
+                property: 'value',
+                type: 'categorical',
+                stops: [
+                    ['regulatory--maximum-speed-limit-10--g1', '#313695'],
+                    ['regulatory--maximum-speed-limit-20--g1', '#4575b4'],
+                    ['regulatory--maximum-speed-limit-30--g1', '#74add1'],
+                    ['regulatory--maximum-speed-limit-40--g1', '#abd9e9'],
+                    ['regulatory--maximum-speed-limit-50--g1', '#e0f3f8'],
+                    ['regulatory--maximum-speed-limit-60--g1', '#ffffbf'],
+                    ['regulatory--maximum-speed-limit-70--g1', '#fee090'],
+                    ['regulatory--maximum-speed-limit-80--g1', '#fdae61'],
+                    ['regulatory--maximum-speed-limit-90--g1', '#f46d43'],
+                    ['regulatory--maximum-speed-limit-100--g1', '#d73027'],
+                    ['regulatory--maximum-speed-limit-110--g1', '#a50026']]
+            }
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('speed zones', {
+      'type': 'geojson',
+      'data': 'speed_zones.geojson'
+  });
+  map.addLayer({
+      'id': 'speed zones',
+      'type': 'fill',
+      'source': 'speed zones',
+      'paint': {
+          'fill-opacity': 0.7,
+          'fill-color':{
+                property: 'value',
+                type: 'categorical',
+                stops: [
+                    ['regulatory--maximum-speed-limit-10--g1', '#313695'],
+                    ['regulatory--maximum-speed-limit-20--g1', '#4575b4'],
+                    ['regulatory--maximum-speed-limit-30--g1', '#74add1'],
+                    ['regulatory--maximum-speed-limit-40--g1', '#abd9e9'],
+                    ['regulatory--maximum-speed-limit-50--g1', '#e0f3f8'],
+                    ['regulatory--maximum-speed-limit-60--g1', '#ffffbf'],
+                    ['regulatory--maximum-speed-limit-70--g1', '#fee090'],
+                    ['regulatory--maximum-speed-limit-80--g1', '#fdae61'],
+                    ['regulatory--maximum-speed-limit-90--g1', '#f46d43'],
+                    ['regulatory--maximum-speed-limit-100--g1', '#d73027'],
+                    ['regulatory--maximum-speed-limit-110--g1', '#a50026']]
+            }
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('crosswalks', {
+      'type': 'geojson',
+      'data': 'crosswalks.geojson'
+  });
+  map.addLayer({
+      'id': 'crosswalks',
+      'type': 'circle',
+      'source': 'crosswalks',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[2]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('bridges', {
+      'type': 'geojson',
+      'data': 'bridges.geojson'
+  });
+  map.addLayer({
+      'id': 'bridges',
+      'type': 'circle',
+      'source': 'bridges',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[3]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('guard rails', {
+      'type': 'geojson',
+      'data': 'guard_rails.geojson'
+  });
+  map.addLayer({
+      'id': 'guard rails',
+      'type': 'circle',
+      'source': 'guard rails',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[4]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('traffic islands', {
+      'type': 'geojson',
+      'data': 'traffic_islands.geojson'
+  });
+  map.addLayer({
+      'id': 'traffic islands',
+      'type': 'circle',
+      'source': 'traffic islands',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[5]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('hydrants', {
+      'type': 'geojson',
+      'data': 'ams_hydrants.geojson'
+  });
+  map.addLayer({
+      'id': 'hydrants',
+      'type': 'circle',
+      'source': 'hydrants',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[6]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('buildings', {
+      'type': 'geojson',
+      'data': 'buildings.geojson'
+  });
+  map.addLayer({
+      'id': 'buildings',
+      'type': 'circle',
+      'source': 'buildings',
+      'paint': {
+          'circle-opacity': 0.3,
+          'circle-radius': 5,
+          'circle-color': colors[7]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('tunnels', {
+      'type': 'geojson',
+      'data': 'tunnels.geojson'
+  });
+  map.addLayer({
+      'id': 'tunnels',
+      'type': 'circle',
+      'source': 'tunnels',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[8]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('vegetation', {
+      'type': 'geojson',
+      'data': 'vegetation.geojson'
+  });
+  map.addLayer({
+      'id': 'vegetation',
+      'type': 'circle',
+      'source': 'vegetation',
+      'paint': {
+          'circle-opacity': 0.3,
+          'circle-radius': 5,
+          'circle-color': colors[9]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  map.addSource('water', {
+      'type': 'geojson',
+      'data': 'water.geojson'
+  });
+  map.addLayer({
+      'id': 'water',
+      'type': 'circle',
+      'source': 'water',
+      'paint': {
+          'circle-opacity': 0.6,
+          'circle-radius': 5,
+          'circle-color': colors[10]
+      },
+      'layout' : {
+        'visibility' : 'none'
+      }
+  });
+  var popup = new mapboxgl.Popup({offset:[0, -20]});
+  map.on('click', function (e) {
+      var location;
+      var extra = '';
+      var features = map.queryRenderedFeatures(e.point);
+      console.log(features);
+      var feature = features[0];
+      if (feature.properties.key) {
+        lng = feature.geometry.coordinates[0];
+        lat = feature.geometry.coordinates[1];
+        map.flyTo({
+            center: [lng,lat],
+        });
+        imgkey = feature.properties["key"];
+        mly.moveToKey(imgkey)
+        console.log(imgkey);
+        try {
+          map.removeLayer('selection');
+          map.removeSource('selection');
+          popup.remove();
+        } catch (error) {
+          //do nothing
+        }
+        try {
+          var selection = {
+              "type": "FeatureCollection",
+              "features": [{
+                  "type": "Feature",
+                  "geometry": {
+                      "type": "Point",
+                      "coordinates": [lng, lat]
+                  }
+              }]
+          };
+          map.addSource('selection', {
+          "type": "geojson",
+          "data": selection
+          });
+          map.addLayer({
+            "id": "selection",
+            "type": "circle",
+            "source": "selection",
+            "paint": {
+                "circle-color": 'white',
+                "circle-opacity": .3,
+                "circle-radius": 15
+            }
+          }, map.getLayer(features));
+        } catch (error) {
+          //do nothing
+        }
+        location = feature.geometry.coordinates;
+      }
+      if (!feature.properties.key && feature.properties.geometries) {
+        console.log("No image key");
+        var first_key = JSON.parse(feature.properties.geometries)[0];
+        var img_key = Object.values(first_key)[0];
+        console.log(img_key);
+        mly.moveToKey(img_key);
+        var lng = e.lngLat.lng;
+        var lat = e.lngLat.lat;
+        location = e.lngLat;
+        extra = ' ' + feature.properties.speed + ' kmph';
+        var url = 'https://a.mapillary.com/v3/images?client_id=UTZhSnNFdGpxSEFFREUwb01GYzlXZzpmOWU2ODEwNTM2YmUyZWVk&'
+      }
+      var detection = map.getLayer(e);
+      popup = new mapboxgl.Popup({offset:[0, -20]});
+      popup.setLngLat(location).setHTML("Looking at: <b>"+ feature.layer.id + extra + "</b>").addTo(map);
+  });
+
+  map.on('mousemove', function (e) {
+      var features = map.queryRenderedFeatures(e.point, { layers: ['speed limit signs', 'speed zones', 'crosswalks', 'bridges', 'crosswalks', 'curbs', 'hydrants', 'trash bins', 'tunnels', 'vegetation','water'] });
+      map.getCanvas().style.cursor = 'pointer';
+  });
+});
+</script>
+</body>
+</html>
